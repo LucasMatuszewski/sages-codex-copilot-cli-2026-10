@@ -1022,6 +1022,14 @@ td code { font-size: 0.82em; padding: 1px 4px; }
   var THEME_KEY = 'developer-course-theme';
   var CHECK_KEY = 'cl-';
 
+  function readStored(key) {
+    try { return localStorage.getItem(key); } catch (_) { return null; }
+  }
+
+  function writeStored(key, value) {
+    try { localStorage.setItem(key, value); } catch (_) {}
+  }
+
   function applyTheme(theme) {
     document.body.dataset.theme = theme === 'light' ? 'light' : 'dark';
     document.body.classList.toggle('light', theme === 'light');
@@ -1030,7 +1038,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
   function toggleTheme() {
     var isLight = document.body.classList.contains('light');
     var next = isLight ? 'dark' : 'light';
-    localStorage.setItem(THEME_KEY, next);
+    writeStored(THEME_KEY, next);
     applyTheme(next);
     updateToggleIcon();
   }
@@ -1046,7 +1054,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
   }
 
   function initTheme() {
-    var theme = localStorage.getItem(THEME_KEY);
+    var theme = readStored(THEME_KEY);
     if (!theme) {
       theme = 'dark';
     }
@@ -1056,7 +1064,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
 
   var currentTab = 'harness';
 
-  function showTab(tab) {
+  function showTab(tab, preserveHash) {
     currentTab = tab;
     var panes = document.querySelectorAll('.tab-pane');
     for (var i = 0; i < panes.length; i++) {
@@ -1069,7 +1077,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
     for (var j = 0; j < buttons.length; j++) {
       buttons[j].classList.toggle('active', buttons[j].dataset.tab === tab);
     }
-    if (location.hash !== '#' + tab) {
+    if (!preserveHash && location.hash !== '#' + tab) {
       history.replaceState(null, '', '#' + tab);
     }
   }
@@ -1086,11 +1094,25 @@ td code { font-size: 0.82em; padding: 1px 4px; }
     }
 
     function fromHash() {
-      var h = location.hash.replace('#', '');
+      var h;
+      try { h = decodeURIComponent(location.hash.slice(1)); } catch (_) {
+        showTab('harness', true);
+        return;
+      }
       if (h === 'harness' || h === 'greenfield' || h === 'brownfield') {
-        showTab(h);
-      } else {
-        showTab('harness');
+        showTab(h, true);
+        return;
+      }
+      var target = document.getElementById(h);
+      var pane = target && target.closest('.tab-pane');
+      showTab(pane ? pane.dataset.tab : 'harness', true);
+      if (target) {
+        requestAnimationFrame(function() {
+          var topbar = document.querySelector('.topbar');
+          var headerHeight = topbar ? topbar.getBoundingClientRect().height : 0;
+          target.style.scrollMarginTop = (headerHeight + 16) + 'px';
+          target.scrollIntoView({ block: 'start' });
+        });
       }
     }
     window.addEventListener('hashchange', fromHash);
@@ -1099,7 +1121,6 @@ td code { font-size: 0.82em; padding: 1px 4px; }
       fromHash();
     } else {
       showTab('harness');
-      history.replaceState(null, '', '#harness');
     }
   }
 
@@ -1136,7 +1157,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
     for (var i = 0; i < cbs.length; i++) {
       (function(cb) {
         var id = cb.dataset.id;
-        var saved = localStorage.getItem(CHECK_KEY + id);
+        var saved = readStored(CHECK_KEY + id);
         if (saved === '1') {
           cb.checked = true;
           var li = cb.closest('li.task');
@@ -1144,7 +1165,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
         }
         cb.addEventListener('change', function() {
           var checked = cb.checked;
-          localStorage.setItem(CHECK_KEY + id, checked ? '1' : '0');
+          writeStored(CHECK_KEY + id, checked ? '1' : '0');
           var li = cb.closest('li.task');
           if (li) li.classList.toggle('done', checked);
           var tab = getTabForId(id);
@@ -1166,7 +1187,7 @@ td code { font-size: 0.82em; padding: 1px 4px; }
           var cbs = pane.querySelectorAll('input[type="checkbox"][data-id]');
           for (var k = 0; k < cbs.length; k++) {
             cbs[k].checked = false;
-            localStorage.setItem(CHECK_KEY + cbs[k].dataset.id, '0');
+            writeStored(CHECK_KEY + cbs[k].dataset.id, '0');
             var li = cbs[k].closest('li.task');
             if (li) li.classList.remove('done');
           }
