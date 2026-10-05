@@ -3,6 +3,6 @@
   <modelVersion>4.0.0</modelVersion>
   <parent><groupId>com.devpowers.course</groupId><artifactId>jftp-workshop</artifactId><version>1.0.0</version><relativePath>../../pom.xml</relativePath></parent>
   <artifactId>ftpapi-baseline</artifactId>
-  
+
   <build><sourceDirectory>${project.basedir}/../../ftpapi/src/main/java</sourceDirectory><resources><resource><directory>${project.basedir}/../../ftpapi/src/main/resources</directory></resource></resources></build>
 </project>
