@@ -13,7 +13,7 @@
 # is applied AFTER the selected profile, so an active `model` here would override the model of
 # every `codex --profile <name>`. Uncomment them only in your user-level ~/.codex/config.toml.
 # model = "gpt-6.1-sol"       # Default model. Even stronger (higher cost): codex --model gpt-6-astra
-model_provider = "openai"   # Can be set to provider from files: openrouter.config.toml
+# model_provider = "openai"   # Set only in user configuration; profiles select their own provider.
 # model_reasoning_effort = "high" # How much LLM should think before providing an answer
 
 # Open Router:
@@ -27,7 +27,7 @@ oss_provider = "ollama"          # works with `codex --oss` flag (uses GPT OSS m
 # on Free Ollama Account cloud models may NOT work via API (only in Ollama CLI and App)
 
 personality = "pragmatic"          # Style/tone preset (e.g., pragmatic/friendly/none depending on build).
-sandbox_mode = "workspace-write"   # Command/file access policy: workspace-read, workspace-write, danger-full-access
+sandbox_mode = "workspace-write"   # Sandbox modes: read-only, workspace-write, danger-full-access
 # Note: network access is configured per sandbox, see [sandbox_workspace_write] below.
 
 approvals_reviewer = "auto_review" # Who receives approval prompts. Could be "user" or "auto_review"
@@ -36,7 +36,7 @@ approval_policy = "on-request"
 # CLI override example:
 #   codex --config 'approval_policy="on-request"'
 #
-# approval_policy = "never"      # never ask (allow all). Other options: on-request or { granular = { ... } }
+# approval_policy = "never"      # Never ask; actions requiring approval are rejected, not automatically allowed.
 # "untrusted" is no longer supported as an approval_policy value (use "on-request" or "never").
 #
 # Example granular approval policy:
@@ -102,10 +102,10 @@ enabled = false
 # Context7 (docs context provider) - connect to remote server
 [mcp_servers.context7]
 url = "https://mcp.context7.com/mcp"
-env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" } # paste you API key from Contex7 or set env
+env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" } # Optional environment-variable header; never paste a key.
 startup_timeout_sec = 20
 tool_timeout_sec = 60
-enabled = true
+enabled = false # Optional integration; the course starts with local CLI tools.
 # Local MCP server with Context7 on your machine
 # [mcp_servers.context7]
 # command = "npx"
