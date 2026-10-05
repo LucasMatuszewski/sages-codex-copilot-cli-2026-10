@@ -1,6 +1,6 @@
 /* One course schedule source for every topic deck and the participant agenda.
    Set the date of each course day in `dates` before delivery; null keeps preview alarms quiet.
-   Proposed breaks stay quiet until the trainer sets confirmed:true after agreeing their times. */
+   Proposed breaks stay quiet until the trainer sets confirmed:true after agreeing their times and removes "(propozycja)" from label. */
 (() => {
   const common = {
     courseId:'sages-sygnity-2026-10',
