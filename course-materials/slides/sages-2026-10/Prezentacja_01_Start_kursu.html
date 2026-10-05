@@ -264,27 +264,27 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
 <section class="slide">
   <div class="slide-body">
     <div class="kicker">Moduł 1.1 | Weryfikacja środowiska</div>
-    <h2>Clone, kontrola środowiska i pierwszy start</h2>
+    <h2>Osobny klon aplikacji i kontrola środowiska</h2>
     <div class="two-col">
       <div>
         <h3 class="accent2">Kroki startowe (RAZEM)</h3>
         <ol class="feature-list">
           <li><strong>Clone</strong> publicznego repo kursowego do własnego katalogu roboczego</li>
-          <li>Sprawdź <strong>JDK 17</strong> i <strong>Maven 3.9.x</strong>; budujemy istniejące jFTP z katalogu głównego</li>
-          <li>Uruchom <strong>verify</strong>, a potem launcher; bez połączenia FTP</li>
+          <li>Sklonuj oryginalne <strong>jFTP</strong> do osobnego katalogu; sprawdź dostępne JDK i Maven</li>
+          <li>Ustal polecenie budowania z POM i README; zapisz pierwszy błąd, bez gotowej naprawy</li>
           <li>Przed zmianą utwórz <strong>lokalny branch roboczy</strong>. W dniu 3, przed pierwszym pushem, przygotuj własny fork i remotes</li>
           <li>Uruchom <span class="code-inline">codex</span> albo <span class="code-inline">copilot</span> w katalogu projektu</li>
         </ol>
-        <div class="note-box" style="margin-top:.6rem"><strong>Własny katalog:</strong> otwórz terminal w wybranym przez siebie folderze. Budowanie i start wykonuj w terminalu zgodnie z README; IDE służy do czytania i edycji. Import projektu do IDE wymaga osobnego sprawdzenia. Aktualizacje z repo trenera przeglądaj przed scaleniem. Fork w dniu 3 powstaje dla istniejącego klona: zachowaj lokalny branch i swoją pracę, bez resetu ani ponownego klonowania.</div>
+        <div class="note-box" style="margin-top:.6rem"><strong>Własny katalog:</strong> otwórz terminal w wybranym przez siebie folderze. Budowanie i start wykonuj w terminalu zgodnie z README; IDE służy do czytania i edycji. Import projektu do IDE wymaga osobnego sprawdzenia. Aktualizacje z repozytorium materiałów przeglądaj przed scaleniem. Fork w dniu 3 powstaje dla istniejącego klona: zachowaj lokalny branch i swoją pracę, bez resetu ani ponownego klonowania.</div>
       </div>
       <div>
         <h3 class="accent">Kluczowe komendy</h3>
         <div class="code-block">git clone https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10.git
-cd sages-codex-copilot-cli-2026-10
+git clone https://github.com/sai-pullabhotla/jftp.git
+cd jftp
 java -version
 mvn -v
-mvn -f app/pom.xml verify
-java -jar app/launcher/target/jftp-workshop.jar</div>
+git rev-parse HEAD</div>
         <p style="margin-top:.6rem;font-size:.95rem"><strong class="accent">Tożsamość Git</strong> <span style="font-size:.85rem;opacity:.7">- przed pierwszym commitem; publiczny clone nie wymaga logowania</span></p>
         <div class="code-block" style="margin-top:.2rem">git config --global user.name "Imię Nazwisko"
 git config --global user.email "twoj@email.com"
@@ -293,7 +293,7 @@ git config --global init.defaultBranch main</div>
         <p style="margin-top:.4rem;font-size:.85rem"><strong>Dzień 3 - przed pierwszym pushem:</strong> zaloguj się przez przeglądarkę, jeśli używasz GitHub CLI.</p><div class="code-block" style="margin-top:.4rem">gh auth login --hostname github.com --git-protocol https --web
 gh auth setup-git --hostname github.com</div>
         <div class="note-box" style="margin-top:.4rem">Alternatywa ręczna: klucz SSH (<span class="code-inline">ssh-keygen</span> + dodanie w GitHub Settings), wtedy remote jako <span class="code-inline">git@github.com:...</span></div>
-        <p style="margin-top:.4rem;font-size:.85rem"><strong>Dzień 3 - przed pierwszym pushem lub PR:</strong> przygotuj własny fork dla istniejącego klona i sprawdź remotes: <span class="code-inline">origin</span> to Twój fork, <span class="code-inline">upstream</span> to repo trenera. <a href="pytania.html#fork-pr">Pełne kroki fork, remotes i push</a>. Lokalny branch i zmiany zachowujesz w tym samym katalogu.</p>
+        <p style="margin-top:.4rem;font-size:.85rem"><strong>Dzień 3 - przed pierwszym pushem lub PR:</strong> przygotuj własny fork dla istniejącego klona i sprawdź remotes: <span class="code-inline">origin</span> to Twój fork, <span class="code-inline">upstream</span> to oryginalne repo jFTP. <a href="pytania.html#fork-pr">Pełne kroki fork, remotes i push</a>. Lokalny branch i zmiany zachowujesz w tym samym katalogu.</p>
       </div>
     </div>
   </div>

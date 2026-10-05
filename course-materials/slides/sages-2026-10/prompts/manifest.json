@@ -91,11 +91,10 @@
     },
     {
       "id": "P18-jftp-legacy",
-      "version": "3",
+      "version": "5",
       "source": "P18-jftp-legacy.md",
       "targets": [
-        "prompty.html",
-        "Prezentacja_07_Legacy.html"
+        "prompty.html"
       ]
     },
     {
@@ -105,6 +104,71 @@
       "targets": [
         "prompty.html",
         "Prezentacja_05_Implementacja.html"
+      ]
+    },
+    {
+      "id": "P20-legacy-inventory",
+      "version": "1",
+      "source": "P20-legacy-inventory.md",
+      "targets": [
+        "prompty.html"
+      ]
+    },
+    {
+      "id": "P21-legacy-context",
+      "version": "1",
+      "source": "P21-legacy-context.md",
+      "targets": [
+        "prompty.html"
+      ]
+    },
+    {
+      "id": "P22-legacy-workers",
+      "version": "1",
+      "source": "P22-legacy-workers.md",
+      "targets": [
+        "prompty.html"
+      ]
+    },
+    {
+      "id": "P23-legacy-api-cards",
+      "version": "1",
+      "source": "P23-legacy-api-cards.md",
+      "targets": [
+        "prompty.html"
+      ]
+    },
+    {
+      "id": "P24-legacy-skill-handoff",
+      "version": "1",
+      "source": "P24-legacy-skill-handoff.md",
+      "targets": [
+        "prompty.html"
+      ]
+    },
+    {
+      "id": "P25-legacy-tests-startup",
+      "version": "2",
+      "source": "P25-legacy-tests-startup.md",
+      "targets": [
+        "prompty.html"
+      ]
+    },
+    {
+      "id": "P26-legacy-feature",
+      "version": "1",
+      "source": "P26-legacy-feature.md",
+      "targets": [
+        "prompty.html",
+        "Prezentacja_05_Implementacja.html"
+      ]
+    },
+    {
+      "id": "P27-legacy-retrieval",
+      "version": "2",
+      "source": "P27-legacy-retrieval.md",
+      "targets": [
+        "prompty.html"
       ]
     }
   ]

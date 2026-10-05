@@ -1,57 +1,24 @@
 # Codex i GitHub Copilot CLI - warsztat Java (Sages / Sygnity)
 
-5-8 października 2026, 09:00-17:00 czasu polskiego, Zoom, własne komputery. Głównym narzędziem jest OpenAI Codex, drugim GitHub Copilot CLI. Pierwszego dnia analizujemy rzeczywisty projekt Java: [jFTP autorstwa Sai Pullabhotli](https://github.com/sai-pullabhotla/jftp), klient FTP/FTPS z interfejsem Swing. Kolejny projekt Java wybierzemy podczas dalszej części warsztatu.
+5-8 października 2026, 09:00-17:00 czasu polskiego, Zoom, własne komputery. Pracujemy przede wszystkim w OpenAI Codex, a wyniki porównujemy z GitHub Copilot CLI. Pierwszego dnia poznajemy [jFTP autorstwa Sai Pullabhotli](https://github.com/sai-pullabhotla/jftp), istniejący klient FTP/FTPS z interfejsem Swing. Na kolejnych dniach dokumentujemy ten sam kod, naprawiamy start i rozwijamy jedną uzgodnioną zmianę.
 
 - [Strona szkolenia i materiały](https://devpowers.com/szkolenia/sages/sygnity-05-10/)
-- [Pełna agenda](AGENDA.md), zachowany program źródłowy; starsze godziny 09:00-16:00 w tym pliku zastępuje potwierdzony termin 09:00-17:00 czasu polskiego.
+- [Pełna agenda](AGENDA.md) - zachowany program źródłowy; aktualne godziny to 09:00-17:00.
 - [Ćwiczenie jFTP](course-materials/java/README.md)
-- [Źródła, rewizje i licencje](app/UPSTREAM.md)
-- [Zakres przygotowania startera](docs/PRD.md)
+- [Slajdy i biblioteka promptów](course-materials/slides/README.md)
 
-## Start
+## Dwa repozytoria
 
-Potrzebujesz Git, **JDK 17** (`java` i `javac` w PATH), **Maven 3.9.x** (`mvn` w PATH) oraz graficznego pulpitu. JDK 17 jest sprawdzonym środowiskiem tego startera; obsługa innych wersji wymaga weryfikacji. Pierwsze budowanie pobiera zależności z Maven Central. Node.js służy narzędziom agentowym, nie aplikacji jFTP.
-
-Polecenia możesz wykonać w terminalu Linux/macOS i w natywnym PowerShell na Windows, bez WSL. [CI z publicznego checkoutu](https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/actions/runs/37265295119) potwierdziło na Ubuntu i natywnym Windows budowanie, testy, pakowanie, tryb headless oraz ponowne budowanie z cache bez sieci. GUI Windows i macOS pozostaje do sprawdzenia. Uruchamiaj polecenia kolejno:
+To repozytorium zawiera materiały kursowe i instrukcje. Kod aplikacji pobierz osobno, do sąsiedniego katalogu:
 
 ```bash
-git clone https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10.git
+git clone https://github.com/sai-pullabhotla/jftp.git
 ```
 
-```bash
-cd sages-codex-copilot-cli-2026-10
-```
+Pracuj w katalogu `jftp`, zgodnie z jego własnymi plikami i ustaleniami zespołu. Jeśli potrzebujesz odtwarzalnego punktu startowego, użyj rewizji `14e62ceba4e371c2a0b955604b10f065f46f4f7d`. Własny fork przyda się do wysyłania gałęzi i PR, ale nie jest warunkiem rozpoczęcia pracy lokalnej. PRD funkcji i ADR-y tworzycie w repozytorium aplikacji podczas warsztatu, po ustaleniu zakresu zmiany.
 
-```bash
-mvn -f app/pom.xml verify
-```
-
-```bash
-java -jar app/launcher/target/jftp-workshop.jar
-```
-
-Starter uruchamia oryginalny interfejs jFTP, zapisuje ustawienia w ignorowanym `app/.workshop-home/` i wyłącza automatyczne sprawdzanie aktualizacji przez istniejące API preferencji. Pozostaw FTP rozłączone. W panelu lokalnym możesz przeglądać syntetyczne pliki w `app/fixtures/local-files/`. Źródła i oryginalne POM-y zachowano bez zmian; budowanie obsługują osobne POM-y kursowe w `app/build-bridge/`.
-
-Jeśli korzystasz z firmowego proxy lub mirroru Maven, użyj swojej zatwierdzonej konfiguracji Maven. Repozytorium nie wymaga klucza API do uruchomienia aplikacji. [Dokładne wymagania i problemy z uruchomieniem](app/README.md).
-
-## Praca bez GUI i bez sieci
-
-Dwa testy dymne sprawdzają classpath i zasoby, bez otwierania okna oraz bez połączenia FTP:
-
-```bash
-mvn -f app/pom.xml test
-```
-
-Po pierwszym udanym `verify`, z zachowanym lokalnym cache Maven:
-
-```bash
-mvn -o -f app/pom.xml verify
-```
-
-Brak pulpitu nie blokuje analizy repozytorium, PRD, ADR ani testów jednostkowych. Uruchomienie GUI na takim komputerze kończy się komunikatem i kodem 2. Kompilacja i testy dymne nie potwierdzają transferów FTP ani pełnej poprawności aplikacji.
+Nie zakładaj, że projekt od razu się zbuduje lub uruchomi. Najpierw zbierz dowody o kodzie, zależnościach i środowisku; potem zaplanuj najmniejsze potrzebne kroki. Kompilacja, testy i uruchomienie okna Swing są osobnymi wynikami, które trzeba udokumentować. Do prób używaj wyłącznie lokalnych danych syntetycznych, bez połączenia z cudzym serwerem FTP i bez prawdziwych danych uwierzytelniających.
 
 ## Biblioteka dodatkowa
 
-Pełne `course-materials/`, konfiguracje innych agentów, prompty, skrypty, dane syntetyczne i archiwum wcześniejszych kursów zostały zachowane. Są opcjonalną biblioteką; bieżący kurs obejmuje Codex i Copilot CLI. [Slajdy](course-materials/slides/README.md), [konfiguracje agentów](course-materials/agent-configs/README.md), [pełne prompty historyczne](course-materials/Prompt%20examples/) i [przykłady code review w CI](course-materials/cicd-headless/README.md) wymagają sprawdzenia przed użyciem w konkretnym środowisku.
-
-Agent pracujący nad aplikacją otwiera materiały kursowe wyłącznie na wyraźną prośbę. Przykładowe PRD i ADR z biblioteki nie są wymaganiami jFTP. Do ćwiczeń używamy danych syntetycznych; przeglądaj diff, wyniki testów i zgody na narzędzia.
+`course-materials/` zawiera slajdy, prompty, konfiguracje narzędzi i archiwalne przykłady. Są pomocami do wyboru, nie wymaganiami aplikacji ani konfiguracją do automatycznego włączenia. Przykładowych PRD i ADR nie przenoś bez sprawdzenia do jFTP. Przed oddaniem pracy przejrzyj diff, wyniki poleceń i nierozstrzygnięte pytania.
