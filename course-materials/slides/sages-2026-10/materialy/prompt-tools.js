@@ -5,7 +5,7 @@
   const bodies = nodes.length ? nodes : [...document.querySelectorAll('.pbox')];
   if (!bodies.length) return;
   const entries = bodies.map((node, i) => {
-    const card = node.closest('.pcard, .ex, .tcard, .pl, .pbox') || node;
+    const card = node.closest('.pcard, .ex, .tcard, .pl') || node.closest('.pbox') || node;
     const clone = node.cloneNode(true);
     clone.querySelectorAll('button').forEach(button => button.remove());
     const category = node.closest('.panel')?.id || audience;
