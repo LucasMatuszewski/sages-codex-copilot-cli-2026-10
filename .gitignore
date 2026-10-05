@@ -13,3 +13,9 @@ skills-lock.json
 __pycache__/
 *.pyc
 .playwright-cli
+
+# Java build and isolated workshop runtime
+**/target/
+app/.workshop-home/
+.agent-briefs/
+*.class

@@ -1,2 +1,9 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
+# Preserve exact imported upstream bytes on every checkout, including Windows.
+app/jftp/** -text
+app/ftpapi/** -text
+*.sh text eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf

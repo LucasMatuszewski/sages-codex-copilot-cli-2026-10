@@ -1,6 +1,8 @@
-# Slides
+# Slajdy i materiały
 
-- [`COURSE-SLUG/`](COURSE-SLUG/index.html) - materials of this course: slide decks by topic, prompt library, exercises, glossary, checklists and the pre-course survey report. Open `index.html` in a browser. Published at <https://devpowers.com/szkolenia/COURSE-SITE/>.
-- [`claude-code-2026-07/`](claude-code-2026-07/) - archived decks from the July 2026 Claude Code course, kept as examples.
+- [sages-2026-10/](sages-2026-10/index.html): bieżące materiały kursu Sages / Sygnity, 5-8 października 2026. [Opublikowana strona](https://devpowers.com/szkolenia/sages/sygnity-05-10/).
+- [Pełna agenda](../../AGENDA.md): program szkolenia.
+- [Ćwiczenie jFTP Java](../java/README.md): praca z rzeczywistym istniejącym projektem.
+- [claude-code-2026-07/](claude-code-2026-07/): zachowane archiwum wcześniejszego kursu.
 
-The published site is the source of truth. `COURSE-SLUG/` is a copy of `szkolenia/COURSE-SITE/` from the DevPowers repository; update it by copying that folder again.
+Strona opublikowana jest źródłem bieżących materiałów. Pozostała biblioteka pozostaje dostępna do późniejszego wykorzystania; nie narzuca wymagań aplikacji ani dodatkowych narzędzi na ten warsztat.

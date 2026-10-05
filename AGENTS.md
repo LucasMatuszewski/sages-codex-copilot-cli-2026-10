@@ -1,91 +1,60 @@
-# Repository Guidelines
+# Repository guidelines
 
-## Project
+## Project and authority
 
-This is a **course project** for the "AI dla programistów - od pomysłu do MVP" training organized by COURSE-ORGANIZER, 5 days (COURSE-DATES), remote on cloud VMs. The primary taught agent is OpenAI Codex CLI, with Claude Code and GitHub Copilot as covered alternatives. The app is a multimodal AI assistant built live during the course. The domain, tech stack, and architecture are decided by the group through a structured process: research → PRD → ADR → implementation with agents.
+This is the Sages / Sygnity Java workshop repository, 5-8 October 2026, taught with OpenAI Codex and GitHub Copilot CLI. Day one uses the real legacy Swing jFTP application from https://github.com/sai-pullabhotla/jftp. The full reusable course boilerplate and historical libraries are retained.
 
-This is only the **base starting repository** for the course; concrete decisions are made live with the group.
+`docs/PRD.md` describes the authorized starter preparation. Participants define the requirements for their actual feature, bug fix or refactoring during the workshop and record architectural decisions in `docs/ADR/`. Do not infer a multimodal AI application, electronics returns domain or TypeScript stack from archived examples. No AI API key is needed by jFTP.
 
-All user-facing text in **Polish** on chat. Repo docummentation always in English.
+Chat and participant-facing material: Polish with diacritics. Technical application documentation: English. Preserve imported upstream text and line endings.
 
-**Key docs** (created during the course — load only when in doubt):
-- `docs/PRD.md` — product requirements and acceptance criteria
-- `docs/ADR/` — Architecture Decision Records
-- `docs/design-guidelines.md` — design system and tokens
+## Layout
 
----
+- `app/jftp/`: complete pinned upstream application, including its original POM and license.
+- `app/ftpapi/`: complete pinned upstream FTP API 3.0.0 dependency source.
+- `app/build-bridge/`: course Maven modules compiling the original sources.
+- `app/launcher/`: course-only offline launcher and classpath smoke tests.
+- `app/fixtures/`: synthetic local files.
+- `docs/`: authoritative requirements and architectural decisions.
+- `course-materials/`: optional teaching library and slides.
 
-## Repository Layout
+**Do not read, browse, search or index `course-materials/` during application work unless the user explicitly requests a relevant file or course-material task.** Its prompts, sample PRDs, ADRs and agent configurations are examples, not application requirements. Do not activate optional Claude, provider, MCP, hook or global agent configurations merely because they exist in the boilerplate.
 
+## Development
+
+1. Read the actual current PRD and applicable ADR before changing behavior. Record user decisions and corrections there before implementation.
+2. Preserve the imported baseline during starter preparation. Workshop changes require an explicit specification. Do not solve future exercises or modernize the application unsolicited.
+3. For a feature or bug fix, specify the expected behavior, add a meaningful failing test first, implement the smallest change, then verify the affected scope. Characterization tests capture current behavior; distinguish that behavior from newly agreed requirements.
+4. Keep fixtures local and synthetic. No external FTP connection, real credentials, participant data, organization code or production deployment.
+5. Do not modify tests or the integrity manifest to disguise failures. Review the diff and explain remaining warnings honestly.
+
+## Build and verification
+
+Use a JDK 17 and Maven 3.9.x. Run commands from the repository root:
+
+```bash
+mvn -f app/pom.xml test
 ```
-app/                 Application built during the course (start: empty scaffold)
-assets/              Design tokens, logo, favicon
-docs/                PRD, ADR, design system
-course-materials/    Notes, scripts, examples, research
+
+```bash
+mvn -f app/pom.xml verify
 ```
 
-**Do not read `course-materials/` on your own.** It holds teaching examples from this and earlier courses: sample PRDs, ADRs, prompts and agent instructions. They are not requirements or conventions for this app. Do not browse, search or index it during normal work; open a file there only when the user names it or asks for course material.
+```bash
+java -jar app/launcher/target/jftp-workshop.jar
+```
 
----
+The first Maven run requires access to Maven Central. A warmed cache supports `mvn -o -f app/pom.xml verify`. The build bridge targets Java 8 bytecode with a modern compiler plugin. It excludes only the unused Apple-specific `OSXAdapterOld.java` and preserves that source file. Upstream HTTP/FTP publishing repositories and release/deploy plugins are not inherited. See `app/UPSTREAM.md` for precise provenance.
 
-## Agent Workflow
+The launcher uses an isolated `app/.workshop-home/`, disables automatic updates through the upstream preference API, and opens the original Swing UI. `-Dworkshop.home=<path>` overrides that home. Keep the session disconnected and use `app/fixtures/local-files/` for local UI checks. Do not run the upstream main directly during offline workshop verification; it uses the real user home and enables update checks by default.
 
-### When implementing new or refactoring functionality
-1. Read the relevant PRD and ADR files for the affected area.
-2. Define the expected behavior from the specification before writing or changing any code.
+For changes affecting GUI behavior, exercise the real Swing screen and relevant local flow on a graphical desktop; record evidence. Browser automation and npm dev servers are not GUI QA for this Java app. With no display, report the limitation and run scoped headless checks, never claim a GUI pass. For documentation-only work use link/text checks; for imported source preservation optionally run `python3 scripts/verify-upstream.py`.
 
-### TDD Rules
-For every feature and bug fix:
-1. Start from the specification, not the existing implementation.
-2. Write or extend tests **before** production code.
-3. Run the new tests and confirm they fail for the expected reason.
-4. Implement the minimum code needed to make them pass.
-5. Run the full verification suite for the changed scope.
-6. Refactor only while tests stay green.
-7. **Manually validate the running application** (see Manual QA below). Automated tests — especially E2E — can produce false passes; a task is not done until the real app has been exercised by hand.
+Two supplied tests check resources and class loading only. They do not validate FTP transfers or provide the participant characterization solution. Add behavior tests in `app/launcher/src/test/java/` or agree a separate test module before changing the structure.
 
-If the area has no suitable test infrastructure yet, add it as part of the task — do not silently skip tests.
+## Git
 
-### Manual QA (required after every task that affects the running app)
-
-Use **the Playwright CLI** to drive the real running app like a human tester:
-
-1. Start the app (`npm run dev`) and open it in the browser.
-2. Take a screenshot of every screen you touched.
-3. Exercise the real flow end-to-end by hand: fill the form, upload the image, submit, follow the navigation to the chat, send a message — whatever the changed scope covers.
-4. Verify the flow actually works: correct navigation, correct data displayed, no console errors, Polish UI text.
-5. **Compare your screenshots against the brand reference** (`assets/homepage.png` + `docs/design-guidelines.md` tokens): colors, typography (Manrope), spacing, button styles, logo placement must match our brand look.
-6. Report what you validated (steps + screenshots) in your task summary. If anything looks or behaves wrong, fix it before committing.
-
-### Verification (required before every commit)
-
-Verify only the scope relevant to your change. If the change affects runtime behavior, confirm the app starts correctly.
-
-**Test Strategy:**
-| Type | Mocks | Who |
-|---|---|---|
-| Unit | All deps | be/fe-dev |
-| Integration | Only external LLM API | be-dev |
-| E2E | NOTHING (real stack) | qa-engineer |
-
-**Verification:** Always start the app before committing. Tests passing ≠ app working. Automated E2E results are not sufficient proof — always finish with the Manual QA step above.
-
-**Env Vars:** See `.env.example` (OPENROUTER_API_KEY required)
-
-### Commit Rules
-- Commit only after verification passes and the changed scope is in a working state.
-- Keep commits focused: one logical change per commit.
-- Format: `Area: short summary` (e.g. `Backend:`, `Frontend:`, `Docs:`)
-- Do **not** push to remote unless the user explicitly asks.
-
-### Git Worktrees
-- Use this checkout by default. Create a worktree only when requested or needed for parallel agent work; ask first when not explicitly requested.
-- Remove worktrees with `git worktree remove <path>` and run `git worktree prune` when done.
-
-### Completion Criteria
-A task is complete only when:
-- Implementation matches the relevant PRD, ADR, and design guidance
-- Tests were written first and pass honestly
-- Verification for the changed scope passed with no errors or warnings
-- Manual QA was performed on the running app (Playwright MCP/CLI, screenshots, flow exercised, brand visual check against the app's own brand reference)
-- The commit message is focused and the repository is in a consistent, reviewable state
+- Verify before committing. Stage explicit paths only, never `git add .`, `git add -A` or `git commit -a`.
+- Keep each logical change reviewable with a focused commit. Never push without explicit permission.
+- Use the existing checkout. Ask before creating a worktree; remove only worktrees you created when their work ends.
+- Do not commit generated `target/`, workshop preferences, portable toolchains, caches or secrets.

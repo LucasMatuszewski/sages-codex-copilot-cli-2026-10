@@ -1,60 +1,31 @@
-# App
+# jFTP Java starter
 
-This folder will contain the application built during the course.
+Build and launch from the repository root with JDK 17 and Maven 3.9.x:
 
-## How to start
+```bash
+mvn -f app/pom.xml verify
+```
 
-The app is scaffolded live during the course through a structured process:
+```bash
+java -jar app/launcher/target/jftp-workshop.jar
+```
 
-1. **Research** — use agents to research and validate the project idea
-2. **PRD** — generate a Product Requirements Document (`../docs/PRD.md`)
-3. **ADR** — generate Architecture Decision Records (`../docs/ADR/`) to choose the tech stack
-4. **Scaffold** — use the chosen boilerplate (`create-next-app`, AI SDK starter, Mastra, etc.)
-5. **Implement** — build features with agents using TDD
+The same commands work in native Windows PowerShell. Convenience entry points: `bash scripts/run-jftp.sh` or `./scripts/run-jftp.ps1` after packaging. If script execution is restricted by policy, use the direct Java command. The JAR must remain beside its generated `lib/` directory; it is not a fat JAR.
 
-## Checklist
+## Prerequisites and recovery
 
-Use this checklist during scaffolding. Some items are provided by the boilerplate (e.g. `create-next-app` ships `tsconfig.json`, ESLint config). Others you add explicitly.
+Check `java -version`, `javac -version` and `mvn -version` individually. Maven must report the intended JDK. Configure `JAVA_HOME` and PATH through your normal approved JDK/Maven setup if these commands are missing; reopen your terminal after installation. No JRE-only installation, global npm package, database, container, API key or WSL is required for the app.
 
-### Project setup
-- [ ] Choose framework (Next.js, Express+Vite, Mastra, other) — record in ADR
-- [ ] Initialize project (e.g. `npx create-next-app@latest` or equivalent)
-- [ ] TypeScript config (`tsconfig.json`)
-- [ ] Package manager chosen (npm / pnpm / bun)
+The first build needs Maven Central for JavaHelp 2.0.05, JUnit and Maven plugins. Use your approved Maven proxy or mirror settings where required. Do not build the historical `jftp/pom.xml` directly: its Java 5 target and old repository/release configuration are intentionally preserved as evidence. Build the separate `app/pom.xml` reactor.
 
-### Code quality
-- [ ] ESLint config (`eslint.config.js`)
-- [ ] Prettier config (`.prettierrc`, `.prettierignore`)
-- [ ] `.editorconfig` (optional but recommended)
+Once `verify` has succeeded, the same machine can run `mvn -o -f app/pom.xml verify` with its cached dependencies and plugins. A fresh machine without that cache is not an offline build environment.
 
-### Testing
-- [ ] Unit/integration test runner (Vitest / Jest)
-- [ ] E2E test runner (Playwright)
-- [ ] Test setup file (e.g. `test-setup.ts` with Testing Library matchers)
+A graphical desktop is needed for the Swing UI. In a headless environment the course launcher exits with code 2 and suggests headless tests. Continue repository analysis and tests with `mvn -f app/pom.xml test`; a trainer or participant with a desktop must verify the GUI. Modern macOS native integration and native Windows execution are not established by Linux QA.
 
-### Environment
-- [ ] `.env.example` with required env vars (API keys, ports)
-- [ ] `.env` created locally (gitignored)
-- [ ] `.gitignore` (node_modules, .env, build output, etc.)
+## Boundaries
 
-### AI integration
-- [ ] Vercel AI SDK (`ai` package) or equivalent
-- [ ] API route / endpoint for chat
-- [ ] Model configuration (provider, model name, API key from env)
+`jftp/` and `ftpapi/` are unchanged imported sources. [UPSTREAM.md](UPSTREAM.md) records revision, exact version discrepancies and Apache-2.0 attribution. `build-bridge/` compiles them using Java 8 API/bytecode compatibility on JDK 17. Only unused `OSXAdapterOld.java` is excluded from compilation, because its obsolete Apple API is absent in the current toolchain. Original files remain available for analysis.
 
-### Design
-- [ ] Design tokens (`../assets/design-tokens.json`)
-- [ ] Tailwind CSS or equivalent
-- [ ] Logo and favicon (`../assets/`)
-- [ ] Design system doc (`../docs/design-guidelines.md`)
+`launcher/` is course infrastructure: original GUI, isolated preferences, automatic update checks disabled, two headless resource/classpath smoke tests. It performs no FTP transfer and supplies no modernization solution. `fixtures/local-files/` contains synthetic files for local browsing. `app/.workshop-home/` is generated and ignored; `-Dworkshop.home=<path>` selects another isolated home.
 
-### Documentation
-- [ ] PRD (`../docs/PRD.md`)
-- [ ] ADRs (`../docs/ADR/`)
-- [ ] AGENTS.md in `app/` with stack-specific rules
-
-## Notes
-
-- Don't create config files manually if the boilerplate provides them — it leads to conflicts.
-- Let the agent research and recommend the right boilerplate based on the ADR decisions.
-- Keep this folder organized: separate routes, components, domain logic, and tests.
+The original application UI and documentation retain upstream languages. The full exercise is [in the course library](../course-materials/java/README.md); open it only when asked. Participants add their own characterization tests under `launcher/src/test/java/` and write a separate PRD/ADR for their agreed change.

@@ -1,0 +1,45 @@
+# jFTP course starter requirements
+
+## Purpose and authority
+
+Prepare the real Java jFTP legacy application for the Sages / Sygnity workshop on 5-8 October 2026. Codex is the primary agent and GitHub Copilot CLI is the second taught tool. The trainer explicitly selected https://github.com/sai-pullabhotla/jftp and requested the complete course boilerplate with minimal personalization. This PRD describes course preparation only; participants will write requirements and ADRs for their chosen changes during the workshop.
+
+## Scope
+
+- Preserve the canonical jFTP Java sources, resources, upstream POM, license and notices without behavior fixes or solved workshop tasks.
+- Pin and attribute upstream revisions. Retain the required FTP API dependency at its original 3.0.0 release from its canonical Apache-2.0 source if the historical binary repository is unavailable.
+- Add a separate Maven build bridge compatible with a current JDK, excluding only the unused Apple-specific `OSXAdapterOld.java` from compilation while preserving its file, without modifying vendored source or contacting the historical FTP deployment repository.
+- Provide a local, offline workshop launcher with an isolated application home and automatic update checks disabled through the existing preference API. This is an explicit launch configuration, not a change to upstream defaults.
+- Supply resource/classpath smoke verification, a local synthetic fixture, and an unsolved characterization exercise.
+- Document clean-clone setup for native Windows PowerShell and Linux/macOS. A JDK and Maven are local prerequisites; the first build downloads JavaHelp and build/test tooling, subsequent cached builds can run offline.
+- Preserve all optional and archived course libraries. Application agents read `course-materials/` only on an explicit request.
+
+## Course publication scope
+
+The authorized delivery includes the copied developer repository and topic-based HTML slide boilerplate, personalized for Sages as organizer and 11 Sygnity Java developers/DevOps. The confirmed timetable is 5-8 October 2026, 09:00-17:00 Europe/Warsaw, on Zoom with participants' own computers. The unchanged approved source agenda remains in `AGENDA.md`; the practical schedule uses the subsequently confirmed hours.
+
+Retain the rich optional library and existing slide structure. Teach Codex first, compare GitHub Copilot CLI throughout, and cover every approved module 1.1-4.4. Start with real jFTP on day one; the next Java project remains a later trainer decision. Publish the reviewed materials, aggregate survey report, glossary, prompts and agenda at `https://devpowers.com/szkolenia/sages/sygnity-05-10/` and the public personal-account repository. Raw survey data, private correspondence, diagnostics and trainer answers stay outside public content and history.
+
+Repository QA must verify the Java bridge from a clean Linux and native Windows checkout, including unchanged upstream hashes and packaged headless fallback. Git attributes preserve original upstream bytes on Windows. The copied optional Azure PR-Agent workflow must remain inactive until its owner explicitly configures and enables it; ordinary build QA requires no AI credentials. Independent local reviewers and cloud PR reviewers assess the final changes before production publication.
+
+## Acceptance criteria
+
+1. The public repository contains attributable and licensed real jFTP source, with an integrity manifest proving unchanged imported files.
+2. A clean participant checkout builds with documented commands and launches the actual Swing application when a graphical desktop is available.
+3. Offline smoke verification loads production classes and required resource bundles without connecting to a real FTP server.
+4. No modernization, new business domain, AI API application, or participant solution is supplied.
+5. Root instructions, setup and exercises describe the Java starter and current course, with links to the unchanged `AGENDA.md` and course website.
+6. QA distinguishes compile, test, GUI launch and manual exercise evidence; unavailable GUI verification is reported explicitly.
+
+## Constraints
+
+Use synthetic local files only. Never connect to an external FTP account, deploy upstream artifacts, read secrets, or claim a manual GUI test on compilation evidence. Preserve upstream line endings and bytes. No system/global tool installation is necessary for preparation QA.
+
+## Corrections Log
+
+| Date | ID | Before | Change | Reason |
+| --- | --- | --- | --- | --- |
+| 2026-10-05 | JAVA-001 | Generic multimodal MVP, TypeScript example and electronics returns domain in copied boilerplate. | Use the trainer-selected existing jFTP Java application; keep optional libraries, remove unrelated active app requirements. | Explicit user choice and current approved course brief before code preparation. |
+
+| 2026-10-05 | COURSE-002 | Starter-only requirements in this document. | Record the already authorized four-day course, copied slides, public destinations and review loop. | Keep the full publication agreement in the repository source of truth. |
+| 2026-10-05 | QA-003 | Linux-only local evidence; inherited Azure review workflow needs unconfigured credentials. | Add Linux/Windows build and integrity QA, preserve upstream checkout bytes, make Azure review explicitly opt-in. | A working public starter needs reproducible platform checks without inherited secret requirements. |

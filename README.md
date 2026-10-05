@@ -1,28 +1,57 @@
-# AI dla programistów - od pomysłu do MVP (COURSE-ORGANIZER)
+# Codex i GitHub Copilot CLI - warsztat Java (Sages / Sygnity)
 
-**Materiały szkoleniowe: [devpowers.com/szkolenia/COURSE-SITE](https://devpowers.com/szkolenia/COURSE-SITE/)**
+5-8 października 2026, 09:00-17:00 czasu polskiego, Zoom, własne komputery. Głównym narzędziem jest OpenAI Codex, drugim GitHub Copilot CLI. Pierwszego dnia analizujemy rzeczywisty projekt Java: [jFTP autorstwa Sai Pullabhotli](https://github.com/sai-pullabhotla/jftp), klient FTP/FTPS z interfejsem Swing. Kolejny projekt Java wybierzemy podczas dalszej części warsztatu.
 
-- [Agenda i wszystkie materiały](https://devpowers.com/szkolenia/COURSE-SITE/agenda.html)
-- [Slajdy](https://devpowers.com/szkolenia/COURSE-SITE/agenda.html#prezentacje)
-- [Biblioteka promptów](https://devpowers.com/szkolenia/COURSE-SITE/prompty.html) · [Ćwiczenia](https://devpowers.com/szkolenia/COURSE-SITE/cwiczenia.html) · [Checklisty](https://devpowers.com/szkolenia/COURSE-SITE/checklisty.html) · [Słownik AI](https://devpowers.com/szkolenia/COURSE-SITE/slownik-ai.html)
-- [Wyniki ankiety przed szkoleniem](https://devpowers.com/szkolenia/COURSE-SITE/raport-przed.html) · [Odpowiedzi na pytania z kursu](https://devpowers.com/szkolenia/COURSE-SITE/pytania.html) (uzupełniamy po każdym dniu)
+- [Strona szkolenia i materiały](https://devpowers.com/szkolenia/sages/sygnity-05-10/)
+- [Pełna agenda](AGENDA.md)
+- [Ćwiczenie jFTP](course-materials/java/README.md)
+- [Źródła, rewizje i licencje](app/UPSTREAM.md)
+- [Zakres przygotowania startera](docs/PRD.md)
 
-Repozytorium uczestnika szkolenia COURSE-ORGANIZER (COURSE-DATES, online, 09:00-16:00). Przez pięć dni przechodzimy pełny cykl wytwarzania oprogramowania z agentami AI: od pomysłu i wymagań (PRD), przez decyzje architektoniczne (ADR), plan, implementację i testy, po code review, bezpieczeństwo i CI/CD.
+## Start
 
-Głównym agentem warsztatu jest **OpenAI Codex CLI**, a te same koncepcje pokazujemy także w **Claude Code** i **GitHub Copilot**. Możesz pracować w swoim stosie (np. C# / .NET, Java, Python); przykład prowadzącego powstaje w TypeScript.
+Potrzebujesz Git, **JDK 17** (`java` i `javac` w PATH), **Maven 3.9.x** (`mvn` w PATH) oraz graficznego pulpitu. JDK 17 jest sprawdzonym środowiskiem tego startera; obsługa innych wersji wymaga weryfikacji. Pierwsze budowanie pobiera zależności z Maven Central. Node.js służy narzędziom agentowym, nie aplikacji jFTP.
 
-Głównym projektem grupy jest aplikacja do obsługi zwrotów i reklamacji elektroniki, rozwijana według PRD uzgodnionego podczas zajęć. Możesz też pracować nad własnym pomysłem, stosując ten sam proces. Po PRD omów architekturę i biblioteki, zapisz decyzje w ADR, ułóż plan i zależności zadań, a potem implementuj, testuj i przeglądaj zmiany przed utworzeniem PR. Przykładowy prompt PRD w `course-materials/` nie zastępuje dokumentu poprawionego z grupą.
+Polecenia działają w terminalu Linux/macOS i w natywnym PowerShell na Windows, bez WSL. Uruchamiaj je kolejno:
+
+```bash
+git clone https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10.git
+```
+
+```bash
+cd sages-codex-copilot-cli-2026-10
+```
+
+```bash
+mvn -f app/pom.xml verify
+```
+
+```bash
+java -jar app/launcher/target/jftp-workshop.jar
+```
+
+Starter uruchamia oryginalny interfejs jFTP, zapisuje ustawienia w ignorowanym `app/.workshop-home/` i wyłącza automatyczne sprawdzanie aktualizacji przez istniejące API preferencji. Pozostaw FTP rozłączone. W panelu lokalnym możesz przeglądać syntetyczne pliki w `app/fixtures/local-files/`. Źródła i oryginalne POM-y zachowano bez zmian; budowanie obsługują osobne POM-y kursowe w `app/build-bridge/`.
+
+Jeśli korzystasz z firmowego proxy lub mirroru Maven, użyj swojej zatwierdzonej konfiguracji Maven. Repozytorium nie wymaga klucza API do uruchomienia aplikacji. [Dokładne wymagania i problemy z uruchomieniem](app/README.md).
+
+## Praca bez GUI i bez sieci
+
+Dwa testy dymne sprawdzają classpath i zasoby, bez otwierania okna oraz bez połączenia FTP:
+
+```bash
+mvn -f app/pom.xml test
+```
+
+Po pierwszym udanym `verify`, z zachowanym lokalnym cache Maven:
+
+```bash
+mvn -o -f app/pom.xml verify
+```
+
+Brak pulpitu nie blokuje analizy repozytorium, PRD, ADR ani testów jednostkowych. Uruchomienie GUI na takim komputerze kończy się komunikatem i kodem 2. Kompilacja i testy dymne nie potwierdzają transferów FTP ani pełnej poprawności aplikacji.
 
 ## Biblioteka dodatkowa
 
-`course-materials/` zawiera szeroką bibliotekę pełnych promptów, danych syntetycznych, checklist, przykładów konfiguracji i materiałów o innych agentach. To zasób do późniejszego czytania, nie lista narzędzi wymaganych na warsztacie. [Pełne prompty historyczne](course-materials/Prompt%20examples/) zachowano bez skracania; starsze twierdzenia o produktach, licencjach i komendach wymagają ponownego sprawdzenia. Podczas pracy z wybraną aplikacją agent nie powinien sam przeszukiwać `course-materials/`: zawarte tam PRD, ADR i instrukcje są przykładami, a nie wymaganiami tego projektu. Otwórz konkretny materiał dopiero wtedy, gdy go o to poprosisz.
+Pełne `course-materials/`, konfiguracje innych agentów, prompty, skrypty, dane syntetyczne i archiwum wcześniejszych kursów zostały zachowane. Są opcjonalną biblioteką; bieżący kurs obejmuje Codex i Copilot CLI. [Slajdy](course-materials/slides/README.md), [konfiguracje agentów](course-materials/agent-configs/README.md), [pełne prompty historyczne](course-materials/Prompt%20examples/) i [przykłady code review w CI](course-materials/cicd-headless/README.md) wymagają sprawdzenia przed użyciem w konkretnym środowisku.
 
-W bibliotece znajdują się również **archiwalne materiały z wcześniejszego kursu o Claude Code**: [agenda](course-materials/course-agenda.md), [slajdy](course-materials/slides/claude-code-2026-07/), [notatki](course-materials/Course%20Notes%20-%20AI%20in%20Programming.md), [quiz](course-materials/quizzes/day-1-anonymous-ai-basics-quiz.md), [przykłady konfiguracji](course-materials/agent-configs/claude/) i [słownik PDF](course-materials/AI%20dla%20Programist%C3%B3w%20-%20S%C5%82ownik%20przed%20szkoleniem.pdf). Zachowano je jako źródła do ponownego wykorzystania, **nie jako aktualną agendę ani konfigurację tego warsztatu**. Przykłady ustawień i skrypty należy dostosować i sprawdzić przed użyciem. `course-materials/exercise-data/hidden-patterns.md` jest archiwalnym kluczem trenerskim do danych syntetycznych.
-
-Warto zacząć od: [promptu PRD](course-materials/Prompt%20examples/PRD-electronics-returns-complains-app.md) i [promptu ADR](course-materials/Prompt%20examples/ADR-generation-typescript-vercel-ai-sdk.md) z linkami do bibliotek (Chat SDK, OpenRouter Responses API, Vercel AI SDK), [jednego skryptu blokującego odczyt `.env`, kluczy SSH i `secrets/`](course-materials/hooks-example/) w Copilocie, Claude Code i Codex, oraz [agenta code review w CI/CD](course-materials/cicd-headless/agent-review/) - Azure Pipelines, GitLab CI, Bitbucket Pipelines, Jenkins i GitHub Actions, z wynikiem w komentarzu PR i zadaniu w Jira.
-
-## Granice
-
-Używaj wyłącznie danych syntetycznych. Przed przekazaniem kontekstu agentowi sprawdź politykę organizacji i zakres dostępu. Przejrzyj każdy diff, wynik testów i uprawnienia proponowanych narzędzi. Testów nie zmieniaj po to, by ukryć nieukończone zachowanie.
-
-Możliwość użycia agenta chmurowego, MCP, CLI i pul AI Credits zależy od planu oraz ustawień organizacji. Agent w IDE i agent chmurowy to osobne środowiska. Funkcje edytora mogą się różnić od CLI i od innych IDE. [Stan narzędzi i źródła](docs/tool-facts.md) wymagają ponownego sprawdzenia przed zajęciami.
+Agent pracujący nad aplikacją otwiera materiały kursowe wyłącznie na wyraźną prośbę. Przykładowe PRD i ADR z biblioteki nie są wymaganiami jFTP. Do ćwiczeń używamy danych syntetycznych; przeglądaj diff, wyniki testów i zgody na narzędzia.

@@ -1,8 +1,7 @@
-# Docs
+# Application documentation
 
-Project documentation created during the course:
+- [PRD.md](PRD.md): requirements for the authorized jFTP starter preparation, including the course-domain correction.
+- [course-architecture.md](course-architecture.md): imported source, Maven bridge and offline launch boundaries.
+- `ADR/`: decisions for participants' agreed changes, written during the workshop.
 
-- `PRD.md` — product requirements and acceptance criteria
-- `ADR/` — Architecture Decision Records
-- `design-guidelines.md` — design system and tokens
-- `plans/` — implementation plans
+Existing tool notes and examples are retained. An example does not authorize application behavior. A participant feature PRD should clearly separate observed legacy behavior from proposed requirements and name the exact change under review.
