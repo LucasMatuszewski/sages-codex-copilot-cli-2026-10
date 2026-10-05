@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Anonimizowany przykład raportu przedszkoleniowego dla zespołu programistycznego: wyniki ankiety, wykresy i decyzje o programie." />
+  <meta name="description" content="Raport przedszkoleniowy Sages / Sygnity: 10 rekordów odpowiedzi, wyniki zagregowane i decyzje o czterodniowym warsztacie Java z Codex i Copilot CLI." />
   <meta name="robots" content="noindex,nofollow,noarchive" />
-  <title>Raport przedszkoleniowy - AI dla programistów | Przykład anonimizowany</title>
+  <title>Raport przed szkoleniem | Sages / Sygnity - Codex i Copilot CLI</title>
   <script src="materialy/vendor/chart.js-4.4.7/chart.umd.js"></script>
   <style>
     :root {
@@ -206,7 +206,7 @@
     summary { cursor: pointer; list-style: none; padding: 15px 17px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     summary::-webkit-details-marker { display: none; }
     summary::after { content: "+"; color: var(--cyan); font-size: 1.3rem; }
-    details[open] summary::after { content: "−"; }
+    details[open] summary::after { content: "-"; }
     .details-body { padding: 0 17px 16px; color: var(--muted); }
     .details-body ul { margin: 0; padding-left: 19px; }
 
@@ -224,7 +224,7 @@
     .table-fallback { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.85rem; }
     .table-fallback th, .table-fallback td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
     .table-fallback th { color: var(--muted); }
-    .charts-ready .table-fallback { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .charts-ready .table-fallback { position: static; width:100%; height:auto; overflow:visible; clip:auto; white-space:normal; }
     .chart-fallback .chart-wrap { display: none; }
 
     @media (max-width: 900px) {
@@ -262,13 +262,27 @@
       details .details-body { display: block !important; }
       .gradient-text { color: #0d6677; background: none; }
     }
-  </style>
+
+    html[data-theme="light"] .gradient-text{background-image:linear-gradient(100deg,var(--cyan),var(--green) 42%,var(--violet));}
+    html[data-theme="light"]{--cyan:#08768d;--violet:#6842bb;--green:#08764a;--amber:#8a5200;--red:#aa2e43;}
+    a{color:var(--cyan);overflow-wrap:anywhere;}
+    .brand{color:var(--text);text-decoration:none;flex-shrink:0;}
+    .report-logo{width:112px;height:35px;object-fit:contain;}
+    .logo-dark{display:none;}html[data-theme="light"] .logo-dark{display:block;}html[data-theme="light"] .logo-white{display:none;}
+    .table-fallback caption{text-align:left;color:var(--muted);font-weight:700;padding:8px 0;}
+    .table-fallback td,.table-fallback th{overflow-wrap:anywhere;vertical-align:top;}
+    .table-scroll{overflow-x:auto;}.table-scroll table{min-width:580px;}
+    @media(max-width:640px){.brand-caption{display:none;}.report-logo{width:88px;height:29px;}.topbar-inner{gap:8px;}.actions{gap:5px;}.action-btn{padding:10px;}.section-head{display:block;}.priority{align-items:start;gap:8px;}.pill{max-width:105px;overflow-wrap:anywhere;}}
+    @media print{.chart-wrap{display:none;}.table-scroll{overflow:visible;}.table-scroll table{min-width:0;}.report-logo{display:none;}}
+
+  .table-fallback th{overflow-wrap:normal}
+</style>
 
 </head>
 <body data-course-audience="developer">
   <header class="topbar">
     <div class="shell topbar-inner">
-      <div class="brand"><span class="brand-mark">AI</span><span>DevPowers · materiały szkoleniowe</span></div>
+      <a class="brand" href="index.html" aria-label="Sages - materiały szkolenia Sygnity"><img class="report-logo logo-white" src="assets/sages-white.svg" alt="Sages"><img class="report-logo logo-dark" src="assets/sages-dark.svg" alt="Sages"><span class="brand-caption">Sygnity / raport</span></a>
       <div class="actions">
         <a class="action-btn" href="index.html" aria-label="Wróć do wszystkich materiałów" title="Wróć do wszystkich materiałów"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> <span>Materiały</span></a>
         <button class="action-btn" id="copyBtn" type="button" aria-label="Kopiuj listę rekomendacji"><svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> <span>Kopiuj rekomendacje</span></button>
@@ -280,22 +294,12 @@
 
   <main>
     <div class="shell">
-      <section class="hero" id="start">
-        <div class="eyebrow">Raport przedszkoleniowy · przykład anonimizowany</div>
-        <h1>AI dla programistów:<br><span class="gradient-text">od ankiety do programu warsztatu</span></h1>
-        <p class="lead">Historyczny, zanonimizowany raport z rzeczywistego dwudniowego kursu dla zespołu programistycznego. Pokazuje, jak wyniki ankiety i spotkania discovery prowadzą do decyzji o ćwiczeniach, środowisku i tempie pracy. Wszystkie liczby oraz opisy środowiska poniżej dotyczą tej poprzedniej grupy.</p>
-        <div class="badges">
-          <span class="badge"><strong>Poprzedni kurs</strong> · historyczne dane grupy</span>
-          <span class="badge"><strong>Dwa dni</strong> · warsztat online</span>
-          <span class="badge"><strong>8 unikalnych odpowiedzi</strong> · 1 duplikat scalony</span>
-          <span class="badge"><strong>Przykład decyzji</strong> · ćwiczenia na kodzie</span>
-        </div>
-      </section>
+      <section class="hero" id="start"><div class="eyebrow">Raport przed szkoleniem - 5 października 2026</div><h1>Java, Codex i Copilot CLI:<br><span class="gradient-text">od ankiety do praktyki</span></h1><p class="lead">Sages / Sygnity. Raport przedstawia wybrane agregaty z 10 rekordów odpowiedzi dla grupy 11 zaproszonych. Nie potwierdzono liczby różnych osób. Wyniki pomagają dopasować tempo i ćwiczenia czterodniowego warsztatu; decyzje programowe wskazujemy oddzielnie od ustaleń ankiety.</p><div class="badges"><span class="badge"><strong>5-8 października 2026</strong> - cztery dni</span><span class="badge"><strong>09:00-17:00</strong> - Europe/Warsaw, Zoom</span><span class="badge"><strong>10 rekordów / 11 zaproszonych</strong> - bez mapy tożsamości</span><span class="badge"><strong>Java i jFTP</strong> - własne komputery</span></div></section>
 
       <nav class="section-nav" aria-label="Sekcje raportu">
         <a class="nav-chip" href="#podsumowanie">Podsumowanie</a>
         <a class="nav-chip" href="#ankieta">Ankieta</a>
-        <a class="nav-chip" href="#discovery">Spotkanie</a>
+        <a class="nav-chip" href="#discovery">Interpretacja</a>
         <a class="nav-chip" href="#program">Kierunek programu</a>
         <a class="nav-chip" href="#srodowisko">Środowisko</a>
         <a class="nav-chip" href="#rekomendacje">Rekomendacje</a>
@@ -303,219 +307,46 @@
       </nav>
 
       <section id="podsumowanie">
-        <div class="section-head">
-          <div><div class="section-kicker">01 · Executive summary</div><h2>Najważniejsze sygnały</h2></div>
-        </div>
-        <div class="grid grid-4">
-          <article class="card metric cyan"><span class="label">Claude Code</span><span class="value">8/8</span><span class="label">deklarowany dostęp</span></article>
-          <article class="card metric violet"><span class="label">Kod generowany przez AI</span><span class="value">41,2%</span><span class="label">średnia w zespole</span></article>
-          <article class="card metric green"><span class="label">Wspólny język poprzedniej grupy</span><span class="value">100%</span><span class="label">uczestników wskazało ten sam język główny</span></article>
-          <article class="card metric amber"><span class="label">Dwa konteksty</span><span class="value">2</span><span class="label">legacy + rozwiązania wielousługowe</span></article>
-        </div>
-        <div class="grid grid-2" style="margin-top:16px">
-          <article class="card callout">
-            <h3>Wniosek przewodni</h3>
-            <p class="muted">Zespół nie potrzebuje kolejnego przeglądu narzędzi AI. Największą wartość da <strong style="color:var(--text)">wspólny, powtarzalny standard pracy</strong>: od kontekstu i specyfikacji, przez plan i implementację, po testy, wieloagentowy przegląd i akceptację człowieka.</p>
-          </article>
-          <article class="card callout amber">
-            <h3>Największe ryzyko organizacyjne</h3>
-            <p class="muted">W tym dwudniowym kursie dostęp administracyjny oraz instalacja Dockera, IDE i Claude Code wymagały sprawdzenia <strong style="color:var(--text)">przed szkoleniem</strong>. Dla nowej grupy plan środowiska wynika z jej własnego stosu i uprawnień.</p>
-          </article>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">01 - Podsumowanie</div><h2>Najważniejsze sygnały</h2></div></div><div class="grid grid-4">
+<article class="card metric cyan"><span class="label">Rekordy odpowiedzi</span><span class="value">10/11</span><span class="label">90,91% liczby zaproszonych; nie liczba zweryfikowanych osób</span></article>
+<article class="card metric violet"><span class="label">Podstawy AI - q03</span><span class="value">7/10</span><span class="label">deklaracje poziomu początkującego</span></article>
+<article class="card metric green"><span class="label">Java - q05</span><span class="value">9/10</span><span class="label">wskazania w pytaniu wielokrotnego wyboru</span></article>
+<article class="card metric amber"><span class="label">Desktop - q12</span><span class="value">6/9</span><span class="label">66,67%; jedna brakująca odpowiedź</span></article></div><div class="grid grid-2" style="margin-top:16px"><article class="card callout"><h3>Wniosek dla tempa</h3><p class="muted">Zaczynamy od prowadzonego ćwiczenia i wspólnego sprawdzenia podstaw. Podstawą jest q03: 7/10 deklaracji początkujących i 3/10 średnio zaawansowanych. Dodatkowe warianty zostają dostępne po wykonaniu podstawowego zadania.</p></article><article class="card callout amber"><h3>Dostęp wymaga sprawdzenia</h3><p class="muted">q08 zawiera 8/10 jednoznacznych potwierdzeń możliwości instalacji oraz 2/10 odpowiedzi wymagających doprecyzowania. Nie oznacza to dwóch potwierdzonych wymagań zgody administratora. Licencje i logowanie do obu CLI sprawdzamy osobno.</p></article></div>
+</section>
 
       <section id="ankieta">
-        <div class="section-head">
-          <div><div class="section-kicker">02 · Ankieta uczestników</div><h2>Zespół jest gotowy na praktykę</h2></div>
-          <p class="muted small">Wartości wielokrotnego wyboru mogą sumować się powyżej 8.</p>
-        </div>
-        <div class="grid grid-2">
-          <article class="card chart-card">
-            <h3>Poziom zaawansowania w AI</h3>
-            <p class="muted small">Grupa jest wyraźnie mieszana - potrzebne materiały z powtórzeniem podstaw.</p>
-            <div class="chart-wrap"><canvas id="maturityChart" role="img" aria-label="Poziom AI: 2 początkujących, 4 średnio zaawansowanych, 2 zaawansowanych"></canvas></div>
-            <table class="table-fallback"><tr><th>Poziom</th><th>Osoby</th></tr><tr><td>Początkujący</td><td>2</td></tr><tr><td>Średnio zaawansowani</td><td>4</td></tr><tr><td>Zaawansowani</td><td>2</td></tr></table>
-          </article>
-          <article class="card chart-card">
-            <h3>Języki wykorzystywane przez uczestników</h3>
-            <p class="muted small">Nazwę języka głównego ukryto, żeby przykład nie sugerował stosu technologicznego nowej grupy. Liczby pozostają historyczne.</p>
-            <div class="chart-wrap"><canvas id="languagesChart" role="img" aria-label="Języki poprzedniej grupy: język główny 8, JavaScript lub TypeScript 4, Python 4, SQL 3"></canvas></div>
-            <table class="table-fallback"><tr><th>Język</th><th>Osoby</th></tr><tr><td>Język główny (anonimizowany)</td><td>8</td></tr><tr><td>JavaScript / TypeScript</td><td>4</td></tr><tr><td>Python</td><td>4</td></tr><tr><td>SQL</td><td>3</td></tr></table>
-          </article>
-          <article class="card chart-card">
-            <h3>Obszary pracy</h3>
-            <p class="muted small">Backend dominuje; frontend powinien pozostać kontekstem, nie osobną ścieżką ćwiczeń.</p>
-            <div class="chart-wrap"><canvas id="rolesChart" role="img" aria-label="Role: backend 6, architektura 2, frontend 2, full stack 1"></canvas></div>
-            <table class="table-fallback"><tr><th>Obszar</th><th>Osoby</th></tr><tr><td>Back-end</td><td>6</td></tr><tr><td>Architektura</td><td>2</td></tr><tr><td>Front-end</td><td>2</td></tr><tr><td>Full-stack</td><td>1</td></tr></table>
-          </article>
-          <article class="card chart-card">
-            <h3>Aktualnie używane narzędzia AI</h3>
-            <p class="muted small">Jedno wspólne narzędzie pozwala uczyć standardu zamiast wielu interfejsów.</p>
-            <div class="chart-wrap"><canvas id="toolsChart" role="img" aria-label="Narzędzia AI: Claude Code 8, ChatGPT 3, Junie lub JetBrains AI 2, Codex 1, n8n 1"></canvas></div>
-            <table class="table-fallback"><tr><th>Narzędzie</th><th>Osoby</th></tr><tr><td>Claude Code</td><td>8</td></tr><tr><td>ChatGPT</td><td>3</td></tr><tr><td>Junie / JetBrains AI</td><td>2</td></tr><tr><td>Codex</td><td>1</td></tr><tr><td>n8n</td><td>1</td></tr></table>
-          </article>
-        </div>
-
-        <div class="grid grid-3" style="margin-top:16px">
-          <article class="card">
-            <h3>Środowisko pracy</h3>
-            <div class="stack"><span class="tag">Windows 8/8</span><span class="tag">IntelliJ IDEA 4</span><span class="tag">Inne IDE JetBrains 2</span><span class="tag">VS Code 1</span><span class="tag">Claude Code jako edytor 1</span></div>
-          </article>
-          <article class="card">
-            <h3>Dostarczenie oprogramowania</h3>
-            <div class="stack"><span class="tag">Bitbucket 8/8</span><span class="tag">Jira 5</span><span class="tag">Confluence 4</span><span class="tag">GitHub 2</span><span class="tag">Redmine 1</span></div>
-          </article>
-          <article class="card">
-            <h3>Adopcja AI</h3>
-            <div class="stack"><span class="tag">Regularne użycie 6</span><span class="tag">Start wdrożenia 2</span><span class="tag">Mediana deklarowanego kodu AI: 45%</span><span class="tag">odpowiedzi od 0% do 70%</span></div>
-          </article>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">02 - Ankieta przed szkoleniem</div><h2>Profil pracy i deklarowane użycie AI</h2></div></div><p class="muted small">Liczby dotyczą rekordów odpowiedzi. Udziały opcji liczymy względem odpowiedzi na dane pytanie. Wielokrotny wybór wykryto w eksporcie po separatorach; nie mamy definicji formularza. Pokazano wspólne kategorie, a pozostałe etykiety pominięto. Suma wskazań może przekraczać bazę i 100%.</p><div class="grid grid-2"><article class="card chart-card"><h3>Poziom zaawansowania w AI</h3><p class="muted small">q03: 10 odpowiedzi, 0 braków. Deklaracje służą do doboru tempa, nie do oceny umiejętności.</p><div class="chart-wrap"><canvas id="maturityChart" data-survey-question="q03" role="img" aria-label="Początkujący: 7 z 10; Średnio zaawansowani: 3 z 10. Braki: 0."></canvas></div><table class="table-fallback" data-survey-question="q03"><caption>q03 - baza: 10 odpowiedzi, 0 braków</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Początkujący</td><td>7/10</td><td>70%</td></tr><tr><td>Średnio zaawansowani</td><td>3/10</td><td>30%</td></tr></tbody></table></article><article class="card chart-card"><h3>Języki wykorzystywane w pracy</h3><p class="muted small">q05: wielokrotny wybór, 10 odpowiedzi, 0 braków. Pokazano wspólne języki; pozostałe etykiety pominięto.</p><div class="chart-wrap"><canvas id="languagesChart" data-survey-question="q05" role="img" aria-label="Java: 9 z 10; SQL: 7 z 10; JavaScript / TypeScript: 3 z 10. Braki: 0."></canvas></div><table class="table-fallback" data-survey-question="q05"><caption>q05 - baza: 10 odpowiedzi, 0 braków</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Java</td><td>9/10</td><td>90%</td></tr><tr><td>SQL</td><td>7/10</td><td>70%</td></tr><tr><td>JavaScript / TypeScript</td><td>3/10</td><td>30%</td></tr></tbody></table></article><article class="card chart-card"><h3>Główne obszary pracy</h3><p class="muted small">q04: wielokrotny wybór, 10 odpowiedzi, 0 braków. Obszary mogą się nakładać; nie tworzą rozłącznego podziału grupy.</p><div class="chart-wrap"><canvas id="rolesChart" data-survey-question="q04" role="img" aria-label="Full-stack: 6 z 10; Back-end: 5 z 10; DevOps: 3 z 10. Braki: 0."></canvas></div><table class="table-fallback" data-survey-question="q04"><caption>q04 - baza: 10 odpowiedzi, 0 braków</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Full-stack</td><td>6/10</td><td>60%</td></tr><tr><td>Back-end</td><td>5/10</td><td>50%</td></tr><tr><td>DevOps</td><td>3/10</td><td>30%</td></tr></tbody></table></article><article class="card chart-card"><h3>Deklarowane narzędzia AI</h3><p class="muted small">q14: wielokrotny wybór, 9 odpowiedzi, 1 brak. Używanie marki nie dowodzi dostępu do CLI, cloud ani konkretnego planu.</p><div class="chart-wrap"><canvas id="toolsChart" data-survey-question="q14" role="img" aria-label="Codex: 8 z 9; GitHub Copilot: 6 z 9; ChatGPT Chat/Work: 3 z 9. Braki: 1."></canvas></div><table class="table-fallback" data-survey-question="q14"><caption>q14 - baza: 9 odpowiedzi, 1 brak</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Codex</td><td>8/9</td><td>88,89%</td></tr><tr><td>GitHub Copilot</td><td>6/9</td><td>66,67%</td></tr><tr><td>ChatGPT Chat/Work</td><td>3/9</td><td>33,33%</td></tr></tbody></table></article></div><div class="grid grid-3" style="margin-top:16px"><article class="card "><h3>System i IDE</h3><p class="muted">q06: Windows wskazano w 9/10 odpowiedzi (90%); szczegółowej etykiety pozostałego systemu nie publikujemy. Zachowujemy własne IDE i uruchamiamy CLI obok edytora.</p><table class="table-fallback" data-survey-question="q07"><caption>q07 - baza: 10 odpowiedzi, 0 braków</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Eclipse</td><td>5/10</td><td>50%</td></tr><tr><td>IntelliJ IDEA</td><td>4/10</td><td>40%</td></tr><tr><td>Inne IDE</td><td>1/10</td><td>10%</td></tr></tbody></table></article><article class="card "><h3>Narzędzia dostarczania</h3><p class="muted">q09 to obserwowane pojedyncze odpowiedzi w eksporcie, nie pełna inwentaryzacja narzędzi zespołu. Nie wnioskujemy o wspólnym serwerze ani jego wersji. </p><table class="table-fallback" data-survey-question="q09"><caption>q09 - baza: 10 odpowiedzi, 0 braków</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Jira</td><td>4/10</td><td>40%</td></tr><tr><td>Bitbucket</td><td>3/10</td><td>30%</td></tr><tr><td>Pozostałe odpowiedzi</td><td>3/10</td><td>30%</td></tr></tbody></table></article><article class="card "><h3>Kod generowany przez AI</h3><p class="muted">q13: średnia deklarowanego udziału wynosi <strong>27%</strong>, mediana <strong>10%</strong>, baza <strong>10</strong>, braki <strong>0</strong>. To samoocena udziału kodu, nie pomiar produktywności, jakości ani oszczędzonego czasu. Rozkład wartości pominięto ze względu na prywatność.</p></article></div><div class="grid grid-2" style="margin-top:16px"><article class="card "><h3>Rodzaje projektów</h3><p class="muted">q12: wielokrotny wybór. Desktop stanowi istotny kontekst do ćwiczenia jFTP; nie twierdzimy, że każdy pracuje nad takim projektem. </p><table class="table-fallback" data-survey-question="q12"><caption>q12 - baza: 9 odpowiedzi, 1 brak</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Aplikacje desktopowe</td><td>6/9</td><td>66,67%</td></tr><tr><td>Narzędzia wewnętrzne</td><td>3/9</td><td>33,33%</td></tr></tbody></table></article><article class="card "><h3>Płatne narzędzia - odpowiedzi w ankiecie</h3><p class="muted">q16: szerokie nazwy produktów zastępują nazwy planów z formularza. To deklaracje z ankiety, nie aktualny cennik, potwierdzenie jednoczesnych subskrypcji ani uprawnień do obu CLI. </p><table class="table-fallback" data-survey-question="q16"><caption>q16 - baza: 9 odpowiedzi, 1 brak</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>ChatGPT - odpowiedź w ankiecie</td><td>7/9</td><td>77,78%</td></tr><tr><td>Copilot - odpowiedź w ankiecie</td><td>2/9</td><td>22,22%</td></tr></tbody></table></article><article class="card "><h3>Zastosowania AI</h3><p class="muted">q18: wielokrotny wybór, 9 odpowiedzi, 1 brak. Agent AI / generowanie kodu jest jedną kategorią odpowiedzi; nie rozdzielamy jej na dwa wyniki. Pozostałe etykiety pominięto. </p><table class="table-fallback" data-survey-question="q18"><caption>q18 - baza: 9 odpowiedzi, 1 brak</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Agent AI / generowanie kodu</td><td>5/9</td><td>55,56%</td></tr><tr><td>Research</td><td>5/9</td><td>55,56%</td></tr><tr><td>Przegląd kodu</td><td>4/9</td><td>44,44%</td></tr><tr><td>Podpowiedzi kodu</td><td>4/9</td><td>44,44%</td></tr><tr><td>Generowanie testów</td><td>3/9</td><td>33,33%</td></tr><tr><td>Automatyzacja pracy</td><td>3/9</td><td>33,33%</td></tr></tbody></table></article><article class="card "><h3>Instalacja, licencja i adopcja</h3><table class="table-fallback" data-survey-question="q08"><caption>q08 - baza: 10 odpowiedzi, 0 braków</caption><thead><tr><th scope="col">Kategoria</th><th scope="col">Wskazania / baza</th><th scope="col">Udział</th></tr></thead><tbody><tr><td>Jednoznaczne potwierdzenie</td><td>8/10</td><td>80%</td></tr><tr><td>Wymaga doprecyzowania</td><td>2/10</td><td>20%</td></tr></tbody></table><p class="muted">q17: w 10/10 odpowiedzi zadeklarowano licencję firmową; to nie weryfikacja polityki konta. q19: regularne użycie AI w firmie wskazano w 4/9 odpowiedzi (44,44%), przy 1 braku. Pozostałego szczegółowego rozkładu q19 nie publikujemy.</p></article></div><article class="card" style="margin-top:16px"><h3>Bazy wszystkich 24 pytań</h3><p class="muted small">W każdym wierszu odpowiedzi + braki = 10 rekordów. Brak odpowiedzi nie oznacza braku kompetencji ani braku narzędzia. Dla pytań otwartych nie publikujemy częstości tematów.</p><div class="table-scroll"><table class="table-fallback"><caption>Kompletność odpowiedzi; baza całego eksportu: 10 rekordów</caption><thead><tr><th scope="col">ID</th><th scope="col">Pytanie</th><th scope="col">Odpowiedzi</th><th scope="col">Braki</th><th scope="col">Wielokrotny wybór w eksporcie</th></tr></thead><tbody><tr data-survey-question="q01"><th scope="row">q01</th><td>Czy zapoznałeś(-aś) się z programem szkolenia?</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q02"><th scope="row">q02</th><td>Proszę określić swoją rolę w firmie i doświadczenie zawodowe.</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q03"><th scope="row">q03</th><td>Jak oceniasz swój poziom zaawansowania w AI?</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q04"><th scope="row">q04</th><td>Główny obszar Twojej pracy:</td><td>10</td><td>0</td><td>tak</td></tr><tr data-survey-question="q05"><th scope="row">q05</th><td>Języki z jakimi najczęściej pracujesz:</td><td>10</td><td>0</td><td>tak</td></tr><tr data-survey-question="q06"><th scope="row">q06</th><td>Główny system operacyjny, na którym pracujesz:</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q07"><th scope="row">q07</th><td>Główny IDE / edytor kodu, z którego najczęściej korzystasz (wybierz jeden)</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q08"><th scope="row">q08</th><td>Czy możesz instalować oprogramowanie na swoim komputerze?</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q09"><th scope="row">q09</th><td>Główne narzędzia CI/CD, Repozytoria kodu, Task management itp.</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q10"><th scope="row">q10</th><td>Czy któreś z tych narzędzi są on premises / self hosting? Jeśli tak, wymień które + wersja.</td><td>3</td><td>7</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q11"><th scope="row">q11</th><td>Z której chmury najczęściej korzystasz w pracy?</td><td>3</td><td>7</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q12"><th scope="row">q12</th><td>Rodzaj projektów z jakimi najczęściej pracujesz:</td><td>9</td><td>1</td><td>tak</td></tr><tr data-survey-question="q13"><th scope="row">q13</th><td>Jaki procent Twojego kodu jest obecnie generowany przez agentów AI?</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q14"><th scope="row">q14</th><td>Z jakich narzędzi AI korzystasz?</td><td>9</td><td>1</td><td>tak</td></tr><tr data-survey-question="q15"><th scope="row">q15</th><td>Które z tych narzędzi chcesz lepiej poznać na szkoleniu?</td><td>7</td><td>3</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q16"><th scope="row">q16</th><td>Które narzędzia AI posiadasz w wersji płatnej? (subskrypcje)</td><td>9</td><td>1</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q17"><th scope="row">q17</th><td>Jaki rodzaj licencji posiadasz?</td><td>10</td><td>0</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q18"><th scope="row">q18</th><td>W jakich zastosowaniach używasz AI?</td><td>9</td><td>1</td><td>tak</td></tr><tr data-survey-question="q19"><th scope="row">q19</th><td>Czy Twoja firma korzysta z AI?</td><td>9</td><td>1</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q20"><th scope="row">q20</th><td>Jaki konkretny rezultat byłby dla Ciebie najbardziej wartościowy?</td><td>5</td><td>5</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q21"><th scope="row">q21</th><td>Czy masz konkretne problemy lub procesy, które chcesz usprawnić?</td><td>3</td><td>7</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q22"><th scope="row">q22</th><td>Jakie zadania zajmują Ci najwięcej czasu lub/i ich nie lubisz?</td><td>4</td><td>6</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q23"><th scope="row">q23</th><td>Proszę wskazać tematy, które są dla Ciebie szczególnie ważne lub interesujące z programu szkolenia.</td><td>2</td><td>8</td><td>nie zaobserwowano</td></tr><tr data-survey-question="q24"><th scope="row">q24</th><td>Jakie są Twoje oczekiwania wobec szkolenia?</td><td>3</td><td>7</td><td>nie zaobserwowano</td></tr></tbody></table></div></article>
+</section>
 
       <section id="discovery">
-        <div class="section-head"><div><div class="section-kicker">03 · Spotkanie discovery i notatki</div><h2>Rzeczywisty kontekst techniczny</h2></div></div>
-        <div class="grid grid-2">
-          <article class="card">
-            <ul class="insight-list">
-              <li><span class="insight-icon">01</span><div><strong>Dwa światy systemowe</strong><span>Starsze rozwiązania legacy oraz nowsze produkty oparte na wielu usługach i repozytoriach.</span></div></li>
-              <li><span class="insight-icon">02</span><div><strong>Architektura rozproszona</strong><span>Warstwa API/gateway, wiele usług backendowych i repozytoriów oraz rozwiązania w więcej niż jednym języku.</span></div></li>
-              <li><span class="insight-icon">03</span><div><strong>Kontekst jest rozproszony</strong><span>PRD i dokumentacja biznesowa w Confluence, zadania w Jira, Swagger i szczegóły techniczne w repozytoriach Bitbucket.</span></div></li>
-              <li><span class="insight-icon">04</span><div><strong>Backend-first</strong><span>Vue istnieje w stosie, ale główną potrzebą są przepływy backendowe, debugowanie, optymalizacja i praca między usługami.</span></div></li>
-            </ul>
-          </article>
-          <article class="card">
-            <ul class="insight-list">
-              <li><span class="insight-icon">05</span><div><strong>Duży potencjał w automatyzacji jakości</strong><span>W poprzednim zespole pipeline zawierał głównie healthcheck (HTTP 200), a testów automatycznych praktycznie nie było. Test-first, kryteria akceptacji i automatyczne bramki jakości stały się priorytetem.</span></div></li>
-              <li><span class="insight-icon">06</span><div><strong>Wspólny agent, różny poziom praktyki</strong><span>W poprzednim kursie Claude Code było dostępne, lecz doświadczenie zespołu rozciągało się od podstaw do zaawansowanych workflow.</span></div></li>
-              <li><span class="insight-icon">07</span><div><strong>Środowisko lokalne ma znaczenie</strong><span>Windows + Docker Desktop z backendem WSL2 + JetBrains odpowiadały sposobowi pracy poprzedniej grupy. Osobna dystrybucja Ubuntu była opcjonalna.</span></div></li>
-              <li><span class="insight-icon">08</span><div><strong>Domena ćwiczeń</strong><span>Przykłady oparto na zanonimizowanym procesie bliskim specjalizacji poprzedniego klienta.</span></div></li>
-            </ul>
-          </article>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">03 - Dane i granice interpretacji</div><h2>Co wiemy i czego nie ustalamy</h2></div></div><div class="grid grid-2"><article class="card"><ul class="insight-list"><li><span class="insight-icon">01</span><div><strong>Liczba rekordów, nie tożsamości</strong><span>Eksport zawiera 10 odpowiedzi przy 11 zaproszonych. Nie ma mapy tożsamości; nie potwierdzamy 10 różnych osób ani jednej osoby, która nie odpowiedziała.</span></div></li><li><span class="insight-icon">02</span><div><strong>Bazy zależą od pytania</strong><span>q12, q14, q16, q18 i q19 mają po 9 odpowiedzi i 1 brak. Większość pytań otwartych ma mniejsze bazy; pełna tabela pokazuje każdy brak.</span></div></li><li><span class="insight-icon">03</span><div><strong>Brak źródła discovery</strong><span>Nie dostarczono notatek ani transkrypcji spotkania discovery. Nie przypisujemy zespołowi konkretnej architektury, wersji narzędzi, stanu testów ani wypowiedzi ze spotkania.</span></div></li><li><span class="insight-icon">04</span><div><strong>Dane nie ustalają programu samodzielnie</strong><span>Czterodniowy program, Codex jako główne narzędzie, porównanie Copilot CLI i dzień 4 poświęcony Copilotowi wynikają z zatwierdzonego zamówienia i agendy.</span></div></li></ul></article><article class="card"><ul class="insight-list"><li><span class="insight-icon">05</span><div><strong>Scalone oczekiwania</strong><span>Pytania otwarte wskazują ogólnie na praktyczne usprawnienie pracy z oprogramowaniem, kontrolę jakości i powtarzalny sposób pracy z AI. To interpretacja całości; nie publikujemy cytatów ani liczebności tematów.</span></div></li><li><span class="insight-icon">06</span><div><strong>Nazwy produktów nie są uprawnieniami</strong><span>q14 i q16 opisują deklaracje. Dostęp do modelu, CLI, chmury i funkcji eksperymentalnych zależy od konta oraz polityki organizacji.</span></div></li><li><span class="insight-icon">07</span><div><strong>Prywatność małej grupy</strong><span>Nie publikujemy rzadkich szczegółowych etykiet, stażu, identyfikatorów, dat odpowiedzi ani powiązań między pytaniami. Nie rekonstruujemy profili uczestników.</span></div></li><li><span class="insight-icon">08</span><div><strong>Wynik ankiety to punkt wejścia</strong><span>Wnioski pomagają wybrać pierwszy krok i pytania kontrolne. Rzeczywiste umiejętności, dostęp i wyniki testów sprawdzamy podczas ćwiczeń.</span></div></li></ul></article></div>
+</section>
 
       <section id="program">
-        <div class="section-head"><div><div class="section-kicker">04 · Przykład decyzji programowych</div><h2>Jeden przepływ end-to-end</h2></div></div>
-        <div class="grid grid-2">
-          <article class="card">
-            <div class="timeline">
-              <div class="timeline-step"><span class="timeline-number">1</span><div class="timeline-content"><strong>PRD</strong><span>Analiza dokumentacji, wywiad, Q&amp;A, persony, przepływy, założenia nietechniczne od strony użytkownika.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">2</span><div class="timeline-content"><strong>ADR</strong><span>Research techniczny na podstawie PRD; decyzje zapisane w ADR z uzasadnieniem.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">3</span><div class="timeline-content"><strong>Plan</strong><span>Szczegółowy opis zadań dla agentów: zależności (dependency matrix), przypisanie do subagentów, decyzja co równoległe a co blokujące, wbudowane kroki QA.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">4</span><div class="timeline-content"><strong>Akceptacja</strong><span>Sprawdzenie planu przez człowieka przed realizacją; poprawki.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">5</span><div class="timeline-content"><strong>Wdrożenie z TDD</strong><span>Najpierw testy (fail), potem wdrożenie i pass; oddelegowane do subagentów.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">6</span><div class="timeline-content"><strong>QA z AI</strong><span>Główny agent koordynuje i kontroluje jakość przez cały czas wdrożenia: code review, akceptacja, poprawki.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">7</span><div class="timeline-content"><strong>Końcowe QA</strong><span>Końcowe lokalne code review przez AI i człowieka, debugging i poprawki; testy E2E i "manualne" wykonywane przez AI.</span></div></div>
-              <div class="timeline-step"><span class="timeline-number">8</span><div class="timeline-content"><strong>CI/CD</strong><span>PR, testy, analiza statyczna i AI Code Review w chmurze, poprawki.</span></div></div>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Priorytety w dwóch dniach</h3>
-            <div class="priority"><div class="priority-copy"><strong>Standard pracy zespołu z agentem</strong><span>Instrukcje repozytorium, planowanie, checkpointy i ślady decyzji</span></div><span class="pill high">krytyczne</span></div>
-            <div class="priority"><div class="priority-copy"><strong>Testy przed zmianą kodu legacy</strong><span>Charakterystyka zachowania, regresja i bezpieczny refactoring</span></div><span class="pill high">krytyczne</span></div>
-            <div class="priority"><div class="priority-copy"><strong>Kontekst wielu usług i repozytoriów</strong><span>Mapa zależności, kontrakty API, ograniczanie kontekstu</span></div><span class="pill core">rdzeń</span></div>
-            <div class="priority"><div class="priority-copy"><strong>Multi-agent review</strong><span>Spec, QA, security i code review z finalną decyzją człowieka</span></div><span class="pill core">rdzeń</span></div>
-            <div class="priority"><div class="priority-copy"><strong>CI/CD z agentem</strong><span>Bezpieczny przykład syntetyczny i roadmapa, bez wdrażania do produkcji</span></div><span class="pill next">następny krok</span></div>
-            <div class="priority"><div class="priority-copy"><strong>Teoria LLM i porównanie narzędzi</strong><span>Krótki pre-work zamiast czasu warsztatowego</span></div><span class="pill next">pre-work</span></div>
-          </article>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">04 - Decyzje programowe</div><h2>Cztery dni, jeden sprawdzany przepływ</h2></div></div><p class="muted">5-8 października 2026, 09:00-17:00 Europe/Warsaw. <a href="agenda.html">Zatwierdzony przebieg modułów</a> łączy ankietę z decyzjami organizatora i prowadzącego.</p><div class="grid grid-2"><article class="card"><div class="timeline"><div class="timeline-step"><span class="timeline-number">1</span><div class="timeline-content"><strong>Analiza jFTP</strong><span>Dzień 1: mapa istniejącego kodu, źródła twierdzeń, root Maven bridge i faktyczny wynik uruchomienia. Wybór projektu jest zatwierdzoną decyzją kursową; q05 Java 9/10 i q12 desktop 6/9 wspierają jego dopasowanie.</span></div></div><div class="timeline-step"><span class="timeline-number">2</span><div class="timeline-content"><strong>PRD i ADR małej zmiany</strong><span>Zapisz zakres, AC i decyzję techniczną przed kodem. Program modułów 1.4/2.1/2.2; pytania otwarte wspierają praktyczny cel, bez rankingu tematów.</span></div></div><div class="timeline-step"><span class="timeline-number">3</span><div class="timeline-content"><strong>Plan i role</strong><span>Dzień 2: zależności, właściciele plików, małe briefy. Referencyjne role dopasuj do własnego zadania; program 2.3/2.4.</span></div></div><div class="timeline-step"><span class="timeline-number">4</span><div class="timeline-content"><strong>Akceptacja zakresu</strong><span>Człowiek czyta plan i potwierdza wynik oczekiwany przed implementacją. To bramka uzgodnionego procesu, nie ustalenie o obecnych praktykach firmy.</span></div></div><div class="timeline-step"><span class="timeline-number">5</span><div class="timeline-content"><strong>Test i mała implementacja</strong><span>Test charakterystyki lub test ujawniający problem, najmniejsza zmiana, ponowna walidacja. q18: generowanie testów 3/9 i przegląd kodu 4/9; program 2.4/3.2.</span></div></div><div class="timeline-step"><span class="timeline-number">6</span><div class="timeline-content"><strong>Walidacja i review</strong><span>Dzień 3: rzeczywiste testy Java, scenariusz odpowiedni do aplikacji, niezależny przegląd i decyzje po uwagach. Program 3.1/3.2, bez założenia stanu testów w firmie.</span></div></div><div class="timeline-step"><span class="timeline-number">7</span><div class="timeline-content"><strong>Pull request i dostępny cloud</strong><span>Opis PR związany z AC, testami i ryzykiem; cloud tylko z zatwierdzonym dostępem. q09 Jira 4/10 i Bitbucket 3/10 są kontekstem porównania; program 3.3/4.3.</span></div></div><div class="timeline-step"><span class="timeline-number">8</span><div class="timeline-content"><strong>Copilot CLI i standard zespołu</strong><span>Dzień 4: ten sam kod, własna mała rola, skill, bezpieczny hook, dostępny plugin i wspólne reguły obu agentów. Zatwierdzone moduły 4.1-4.4; q14 Codex 8/9 i Copilot 6/9 wspierają porównanie.</span></div></div></div></article><article class="card"><h3>Priorytety i podstawa wyboru</h3><div class="priority"><div class="priority-copy"><strong>Podstawy z prowadzonym ćwiczeniem</strong><span>q03: początkujący 7/10; nie pomijamy fundamentów.</span></div><span class="pill high">podstawa</span></div><div class="priority"><div class="priority-copy"><strong>Java i desktop jako pierwszy kontekst</strong><span>q05: Java 9/10; q12: desktop 6/9, braki 1.</span></div><span class="pill high">dzień 1</span></div><div class="priority"><div class="priority-copy"><strong>Własne IDE, CLI obok edytora</strong><span>q07: Eclipse 5/10, IntelliJ 4/10; zatwierdzone własne komputery.</span></div><span class="pill core">środowisko</span></div><div class="priority"><div class="priority-copy"><strong>Testy i przegląd małego diffu</strong><span>q18: przegląd kodu 4/9, generowanie testów 3/9; program 2.4/3.2.</span></div><span class="pill core">jakość</span></div><div class="priority"><div class="priority-copy"><strong>Cloud i integracje z kontrolą dostępu</strong><span>Program 3.3/4.3; q09 nie potwierdza uprawnień do integracji.</span></div><span class="pill next">dostęp</span></div><div class="priority"><div class="priority-copy"><strong>Standard obu narzędzi</strong><span>Zatwierdzony dzień 4 i scalone ogólne oczekiwania z pytań otwartych.</span></div><span class="pill next">dzień 4</span></div></article></div>
+</section>
 
       <section id="srodowisko">
-        <div class="section-head"><div><div class="section-kicker">05 · Środowisko poprzedniej grupy</div><h2>Jedna ścieżka dla całej grupy</h2></div></div>
-        <article class="card">
-          <div class="decision">
-            <div class="decision-option recommended">
-              <span class="pill core">rekomendowane</span>
-              <h3 style="margin-top:12px">Własne stacje robocze</h3>
-              <p class="muted">Największa szansa, że wypracowany sposób pracy zostanie z zespołem po szkoleniu. Do sprawdzenia, czy każdy może zainstalować:</p>
-              <ul><li>Windows + Docker Desktop z backendem WSL2</li><li>Obrazy testowe uruchamiane wspólnie na początku kursu</li><li>Git for Windows</li><li>Node.js LTS - dla narzędzi agentowych/MCP opartych na npm lub npx oraz awaryjnej pracy z frontendem</li><li>Claude Code CLI zainstalowany natywnie w Windows</li><li>IDE zgodne ze stosem poprzedniej grupy</li><li>Testowa organizacja Bitbucket z repozytorium</li></ul>
-            </div>
-            <div class="decision-arrow">LUB</div>
-            <div class="decision-option">
-              <span class="pill next">fallback</span>
-              <h3 style="margin-top:12px">Maszyny VM - dla wszystkich</h3>
-              <p class="muted">W poprzednim planie VM stanowiły wspólną ścieżkę awaryjną, z przygotowanym środowiskiem i połączeniem przez Pulpit Zdalny Windows. <strong style="color:var(--text)">Grupa nie dzieli się</strong> - albo VM dla wszystkich, albo dla nikogo.</p>
-              <ul><li>Wszystko zainstalowane i sprawdzone (IDE, oprogramowanie)</li><li>Dostępne do 17:00 w dniach kursu</li><li>Uczestnicy muszą odtwarzyć środowisko na swoich maszynach po kursie</li></ul>
-            </div>
-          </div>
-        </article>
-        <div class="grid grid-2" style="margin-top:16px">
-          <article class="card callout green"><h3>Dlaczego laptopy wygrywają</h3><p class="muted">Uczestnicy uczą się w środowisku, którego będą używać później. To usuwa dodatkowy krok migracji z jednorazowej maszyny i zwiększa szansę wdrożenia praktyk po kursie.</p></article>
-          <article class="card callout amber"><h3>Warunek powodzenia</h3><p class="muted">W poprzednim kursie uczestnicy sprawdzali instalację Dockera i Claude Code przed szkoleniem. Repozytorium oraz obrazy aplikacji uruchamiano wspólnie na początku warsztatu.</p></article>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">05 - Środowisko warsztatu</div><h2>Własny komputer, sprawdzony terminal</h2></div></div><article class="card"><div class="decision"><div class="decision-option recommended"><span class="pill core">ścieżka kursu</span><h3 style="margin-top:12px">Własne środowisko</h3><p class="muted">Zatwierdzona decyzja organizacyjna: Zoom i własne komputery. q06 Windows 9/10 oraz q07 Eclipse 5/10 i IntelliJ 4/10 uzasadniają zachowanie istniejącego edytora.</p><ul><li>JDK 17 i Maven 3.9.x do jFTP; Git.</li><li>Node.js 22+ dla narzędzi CLI instalowanych przez npm.</li><li>Codex CLI i GitHub Copilot CLI: wersja, logowanie, dostęp i zgody.</li><li>Build z katalogu głównego: <code>mvn -f app/pom.xml verify</code>.</li><li>Start: <code>java -jar app/launcher/target/jftp-workshop.jar</code>.</li><li>IDE do czytania i edycji; import wymaga osobnego sprawdzenia.</li><li>jFTP bez połączenia FTP, na lokalnych danych syntetycznych.</li></ul></div><div class="decision-arrow">LUB</div><div class="decision-option"><span class="pill next">przy blokadzie</span><h3 style="margin-top:12px">Mniejszy, uczciwy checkpoint</h3><p class="muted">q08: 2/10 odpowiedzi wymagają doprecyzowania możliwości instalacji. Zgłoś konkretny błąd; nie omijaj zasad firmy. Nie planujemy wspólnych VM.</p><ul><li>Brak GUI: analiza repo i testy headless; jawnie zapisz brak sprawdzenia UI.</li><li>Brak licencji lub logowania: czytanie kodu, plan i przegląd dostępnego diffu.</li><li>Brak cloud/integracji: zadanie lokalne i opis dalszego kroku.</li><li>Pomoc organizacyjna według rzeczywistej blokady, bez zgadywania uprawnień.</li></ul></div></div></article><div class="grid grid-2" style="margin-top:16px"><article class="card callout green"><h3>Co sprawdzamy przed startem</h3><p class="muted">Wersje JDK/Maven, repozytorium, obie komendy CLI i analiza README bez edycji. Podstawa: zatwierdzone wymagania środowiska oraz q08. <a href="preflight.html">Pełna lista przygotowania</a>.</p></article><article class="card callout amber"><h3>Czego ankieta nie potwierdza</h3><p class="muted">Deklaracja używania narzędzia albo licencji firmowej (q14/q16/q17) nie potwierdza bieżącego logowania, dostępu do sieci, uprawnień administratora ani dostępu do chmury. Sprawdź je, nie wklejając tokenów do notatek ani raportu.</p></article></div>
+</section>
 
       <section id="rekomendacje">
-        <div class="section-head"><div><div class="section-kicker">06 · Przykładowe rekomendacje z poprzedniego kursu</div><h2>Co ustalono przed tamtym szkoleniem</h2></div></div>
-        <div class="grid grid-2" id="recommendationText">
-          <article class="card">
-            <h3>1. Potwierdzić politykę instalacji i AI</h3>
-            <p class="muted">Ustalić prawa administratora, możliwość użycia WSL2/Dockera/Claude Code oraz zasady przekazywania kodu i dokumentacji do modelu. To blokuje wybór środowiska i zakres realnych przykładów.</p>
-          </article>
-          <article class="card">
-            <h3>2. Wybrać ścieżkę środowiskową - dla całej grupy</h3>
-            <p class="muted">W poprzednim planie wybrano jedną ścieżkę dla całej grupy: własne laptopy albo VM. Weryfikacja obejmowała Docker Desktop z Compose i backendem WSL2, Git for Windows, Node.js LTS, Claude Code CLI oraz IDE odpowiednie dla stosu. Osobna dystrybucja Ubuntu w WSL2 pozostawała opcjonalna. Obrazy testowe i repozytorium uruchamiano wspólnie na początku kursu.</p>
-          </article>
-          <article class="card">
-            <h3>3. Rozesłać instrukcję instalacji i weryfikację</h3>
-            <p class="muted">Dla poprzedniej grupy przygotowano listę wersji narzędzi i krótką kontrolę działania środowiska. Osobno sprawdzono backend WSL2 i czas na pomoc zespołu IT. Dostęp do repozytorium kursu oraz obrazy aplikacji uruchomiono razem na początku szkolenia.</p>
-          </article>
-          <article class="card">
-            <h3>4. Otrzymać zanonimizowane artefakty</h3>
-            <p class="muted">Przykład PRD/specyfikacji, ADR, fragment OpenAPI/Swagger, mapa usług, przykładowy pipeline i obecna checklista testów - bez danych klientów, sekretów i kodu produkcyjnego.</p>
-          </article>
-          <article class="card">
-            <h3>5. Uzgodnić jeden syntetyczny przypadek</h3>
-            <p class="muted">Dla poprzedniego kursu wybrano uproszczony, całkowicie syntetyczny proces bliski pracy uczestników: warstwę API i 1-2 usługi, z rolami, audytem i błędami do diagnozy.</p>
-          </article>
-          <article class="card">
-            <h3>6. Przygotować dwie ścieżki ćwiczeń</h3>
-            <p class="muted">Nowa funkcja w usługach oraz diagnostyka/refactoring legacy z testami charakteryzacyjnymi. Wspólny standard, inne punkty wejścia.</p>
-          </article>
-          <article class="card">
-            <h3>7. Dostarczyć pre-work</h3>
-            <p class="muted">Krótki słownik pojęć, zasady kontekstu i bezpieczeństwa oraz 20-30 minut obowiązkowego przygotowania. Teoria nie powinna zabierać czasu na szkoleniu.</p>
-          </article>
-          <article class="card">
-            <h3>8. Dostarczyć instrukcje instalacji i testowe repozytorium</h3>
-            <p class="muted">Osobny plik z wersjami narzędzi oraz dostęp do testowego repozytorium na platformie używanej przez poprzednią grupę.</p>
-          </article>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">06 - Rekomendacje z podstawą wyboru</div><h2>Od danych do sposobu prowadzenia</h2></div></div><div class="grid grid-2" id="recommendationText"><article class="card "><h3>1. Zacząć od podstaw i wspólnego zadania</h3><p class="muted">q03: 7/10 deklaracji początkujących, 3/10 średnio zaawansowanych. Prowadzone ćwiczenie przed dodatkowymi wariantami.</p></article><article class="card "><h3>2. Pracować na istniejącym kodzie Java</h3><p class="muted">q05 Java 9/10 i q12 desktop 6/9 wspierają jFTP jako zatwierdzony pierwszy projekt. Nie przygotowujemy gotowej modernizacji za uczestników.</p></article><article class="card "><h3>3. Zachować IDE i sprawdzić instalację</h3><p class="muted">q07 Eclipse 5/10, IntelliJ 4/10; q08 potwierdzenie 8/10 i doprecyzowanie 2/10. CLI działa obok edytora, terminal jest podstawą budowania.</p></article><article class="card "><h3>4. Zweryfikować oba konta, zamiast zakładać dostęp</h3><p class="muted">q14 Codex 8/9, Copilot 6/9; q16: 9 odpowiedzi, q17 deklaracja firmowa 10/10. Przed labem osobno sprawdź logowanie, plan i politykę każdej funkcji.</p></article><article class="card "><h3>5. Porównać agentów na tym samym zadaniu</h3><p class="muted">Zatwierdzona agenda: Codex główny w dniach 1-3, Copilot CLI w porównaniach i w dniu 4. Ten sam kod, AC, granice i dowody wyniku.</p></article><article class="card "><h3>6. Planować role i zależności przed edycją</h3><p class="muted">Zatwierdzone moduły 2.3/3.1: małe role, briefy, własność plików i integracja. Wzory w repo są materiałem do adaptacji, nie rozwiązaniem zadania.</p></article><article class="card "><h3>7. Wymagać testu i niezależnego review</h3><p class="muted">q18: przegląd kodu 4/9, generowanie testów 3/9; zatwierdzone moduły 2.4/3.2. Sprawdzony test, diff i ręczny scenariusz odpowiedni do Java, zamiast deklaracji agenta.</p></article><article class="card "><h3>8. Zostawić powtarzalny standard zespołu</h3><p class="muted">Zatwierdzone moduły 4.1-4.4 oraz scalone ogólne oczekiwania z pytań otwartych: instrukcje repo, skill, rola, granice uprawnień, odbiór wyniku. Bez przypisywania częstości oczekiwaniom.</p></article></div>
+</section>
 
       <section id="pytania">
-        <div class="section-head"><div><div class="section-kicker">07 · Przykładowe pytania do potwierdzenia</div><h2>Informacje potrzebne do finalizacji</h2></div></div>
-        <div class="grid grid-2 question-grid">
-          <article class="card question"><h3>Instalacja i sprzęt</h3><p class="muted">Czy uczestnicy mogą zainstalować wymagane narzędzia i IDE? Czy mają lokalne uprawnienia administratora, odpowiedni sprzęt oraz działającą wirtualizację, jeśli ćwiczenia jej wymagają? Czy wszyscy mogą pracować w tej samej ścieżce środowiskowej?</p></article>
-          <article class="card question"><h3>Sieć i dostęp</h3><p class="muted">Czy proxy, VPN, EDR lub firewall ograniczają pobieranie zależności, logowanie do narzędzia AI albo klonowanie repozytorium warsztatowego?</p></article>
-          <article class="card question"><h3>Wersje stosu</h3><p class="muted">Jakie języki, frameworki i wersje narzędzi będą używane w ćwiczeniach? Jak lokalnie uruchomić przykładową aplikację i jej zależności?</p></article>
-          <article class="card question"><h3>Dokumentacja i przykład</h3><p class="muted">Czy możecie przesłać zanonimizowane szablony PRD/specyfikacji, ADR, fragment kontraktu API, uproszczoną mapę zależności oraz jeden proces lub ticket, który może zainspirować ćwiczenie?</p></article>
-          <article class="card question"><h3>Testy i krytyczne funkcjonalności</h3><p class="muted">Jakie testy i bramki jakości ma dziś zespół? Które funkcjonalności są krytyczne i wymagają pokrycia jednostkowego, integracyjnego lub E2E? Co jest testowane manualnie i mogłoby zostać zautomatyzowane?</p></article>
-          <article class="card question"><h3>Zakres architektury</h3><p class="muted">Które 1-2 usługi oraz fragment warstwy API najlepiej reprezentują typowe zależności, bez odwzorowywania całego środowiska? Które narzędzia pomocnicze są tylko kontekstem, a które mają być aktywnym tematem?</p></article>
-          <article class="card question"><h3>Organizacja grupy</h3><p class="muted">Ilu uczestników weźmie udział w kursie, a ilu odpowiedziało na ankietę? Jakie są ich role i poziomy doświadczenia? Czy konta oraz licencje do narzędzi szkoleniowych będą aktywne przed rozpoczęciem?</p></article>
-          <article class="card question"><h3>Efekt po szkoleniu</h3><p class="muted">Które artefakty mają największy priorytet: instrukcje repozytorium, szablon specyfikacji/ADR, role agentów, zasady MCP, checklisty testów/review czy przykład pipeline?</p></article>
-        </div>
-
-        <div class="card" style="margin-top:16px">
-          <h3>Zakres danych do bezpiecznego udostępnienia</h3>
-          <details open><summary>Materiały szczególnie pomocne</summary><div class="details-body"><ul><li>zanonimizowany PRD lub specyfikacja;</li><li>przykładowy ADR i fragment OpenAPI/Swagger;</li><li>uproszczona mapa monolitu, gateway i usług;</li><li>zanonimizowany ticket/problem utrzymaniowy;</li><li>syntetyczna lub oczyszczona konfiguracja pipeline CI;</li><li>obecna checklista manualnego testowania i code review.</li></ul></div></details>
-          <details><summary>Czego nie przesyłać</summary><div class="details-body"><ul><li>danych klientów, dostawców ani użytkowników;</li><li>sekretów, tokenów, kluczy, adresów wewnętrznych i konfiguracji produkcyjnej;</li><li>pełnych repozytoriów lub dokumentów bez wcześniejszej anonimizacji;</li><li>logów zawierających dane osobowe lub informacje poufne.</li></ul></div></details>
-        </div>
-      </section>
+<div class="section-head"><div><div class="section-kicker">07 - Do sprawdzenia podczas warsztatu</div><h2>Pytania kontrolne przed kolejnym krokiem</h2></div></div><div class="grid grid-2 question-grid"><article class="card question"><h3>Instalacja i sprzęt</h3><p class="muted">Czy JDK 17, Maven 3.9.x, Node.js 22+, Git i oba CLI działają? Doprecyzuj blokady z q08: 2 z 10 odpowiedzi nie dają jednoznacznego potwierdzenia.</p></article><article class="card question"><h3>Sieć i logowanie</h3><p class="muted">Czy zatwierdzona sieć pozwala sklonować publiczne repo, pobrać zależności z Maven Central i zalogować oba CLI? To kontrola wymaganych narzędzi, nie ustalenie z ankiety.</p></article><article class="card question"><h3>Własny edytor</h3><p class="muted">Czy potrafisz otworzyć źródła i terminal w swoim IDE? q07 wspiera zachowanie Eclipse/IntelliJ; nie zakładamy sprawdzonego importu Maven do każdego IDE.</p></article><article class="card question"><h3>Zakres zmiany Java</h3><p class="muted">Który mały fragment jFTP albo późniejszego projektu ma AC możliwe do sprawdzenia? Program 1.4/2.1 wymaga własnego PRD przed kodem.</p></article><article class="card question"><h3>Test i dowód</h3><p class="muted">Jaki test ujawnia problem, jaki opisuje baseline, a czego nie sprawdzono? Program 2.4/3.2 i q18 uzasadniają kontrolę jakości, nie twierdzenie o obecnym pokryciu testami w firmie.</p></article><article class="card question"><h3>Cloud i integracje</h3><p class="muted">Czy konto pozwala na konkretną funkcję cloud albo repozytorium PR? Program 3.3/4.3 daje lokalny fallback. Jira 4/10 i Bitbucket 3/10 z q09 są kontekstem, nie zgodą na integrację.</p></article><article class="card question"><h3>Tempo i checkpoint</h3><p class="muted">Czy podstawowe zadanie jest jasne i jaki etap został rzeczywiście zakończony? q03 uzasadnia prowadzone wejście; kolejne dni zaczynamy od realnych plików i testów.</p></article><article class="card question"><h3>Efekt po warsztacie</h3><p class="muted">Którą instrukcję, rolę, skill lub checklistę można zastosować do własnego zadania? To zatwierdzony cel dnia 4 oraz ogólny wniosek z pytań otwartych, bez rankingu osób.</p></article></div><div class="card" style="margin-top:16px"><h3>Zakres bezpiecznych materiałów</h3><details open><summary>Materiały do własnego ćwiczenia</summary><div class="details-body"><ul><li>publiczny kod jFTP i jego pochodzenie;</li><li>własny PRD/ADR małej zmiany, bez danych firmy;</li><li>syntetyczne pliki i izolowane testy;</li><li>diff oraz dokładne polecenia z rzeczywistymi wynikami;</li><li>krótka lista pytań i ograniczeń dostępu.</li></ul></div></details><details><summary>Czego nie udostępniać</summary><div class="details-body"><ul><li>odpowiedzi indywidualnych z ankiety, dat zgłoszeń i identyfikatorów;</li><li>danych klientów i pracowników, cytatów pozwalających rozpoznać osobę;</li><li>tokenów, haseł, adresów wewnętrznych i konfiguracji produkcyjnej;</li><li>prywatnych repozytoriów lub dokumentów bez uprawnienia do użycia.</li></ul></div></details></div>
+</section>
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="shell footer-grid">
-      <div class="privacy"><strong style="color:var(--text)">Metodologia i prywatność.</strong> Ten przykład zachowuje zagregowane wyniki ankiety z rzeczywistego kursu (9 zgłoszeń, 8 unikalnych osób po scaleniu duplikatu) oraz zanonimizowane wnioski ze spotkania discovery. Przed publikacją dla nowej grupy trzeba zastąpić wyniki i wnioski jej własnymi danymi. Nie zawiera nazwisk, odpowiedzi indywidualnych, danych kontaktowych, kodu, dokumentów ani szczegółów pozwalających odtworzyć środowisko produkcyjne. Strona ma ustawienie <code>noindex</code>. Dane wielokrotnego wyboru nie sumują się do 100%.</div>
-      <div class="small">Opracowanie: <strong style="color:var(--text)">DevPowers</strong><br>Anonimizowany przykład raportu z poprzedniego kursu dla programistów</div>
-    </div>
-  </footer>
+  <footer class="footer"><div class="shell footer-grid"><div class="privacy"><strong style="color:var(--text)">Metodologia i prywatność.</strong> Baza: 10 niepustych rekordów odpowiedzi przy 11 zaproszonych; 10/11 = 90,91% jest stosunkiem rekordów do zaproszeń, nie zweryfikowanym odsetkiem osób. Zachowano wszystkie rekordy; nie łączono ich na podstawie podobieństwa. Mianownik opcji to liczba odpowiedzi na dane pytanie. Wielokrotny wybór wykryto w eksporcie; definicji formularza nie dostarczono. Pokazano wspólne kategorie i szerokie grupy, pominięto rzadkie etykiety, szczegóły ról, staż, cytaty, daty i powiązania odpowiedzi. Średnia i mediana q13 wynikają z deklarowanych wartości. Wnioski z pytań otwartych są scaloną interpretacją bez częstości tematów. Nie dostarczono źródła discovery. <a href="materialy/survey-public.json">Wybrane publiczne agregaty JSON</a>. <code>noindex</code> ogranicza indeksowanie, nie zastępuje ochrony danych.</div><div class="small"><strong style="color:var(--text)">Sages / Sygnity</strong><br>Raport z 5 października 2026<br>Codex i GitHub Copilot CLI<br>5-8 października, 09:00-17:00</div></div></footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite">Skopiowano rekomendacje</div>
 
+  <script type="application/json" id="survey-data">{"schema_version":1,"report_date":"2026-10-05","release_scope":"Publiczne, wybrane agregaty zatwierdzonego raportu kursowego; bez odpowiedzi indywidualnych.","invited":11,"response_records":10,"verified_unique_respondents":null,"response_records_percentage_of_invited":90.91,"context":{"organizer":"Sages","client":"Sygnity","course_dates":["2026-10-05","2026-10-06","2026-10-07","2026-10-08"],"hours":"09:00-17:00","time_zone":"Europe/Warsaw"},"privacy_policy":{"multi_select_categories":"Pokazano wyłącznie wspólne kategorie z co najmniej trzema wskazaniami; pozostałe etykiety pominięto, bez wyliczania liczby różnych osób.","single_select_categories":"Wybrane pytania mają tylko szerokie grupy albo wspólne kategorie; rzadkich szczegółowych etykiet nie publikujemy.","open_answers":"Wyłącznie scalone ogólne wnioski, bez cytatów, częstości tematów i powiązań między pytaniami.","q13":"Wyłącznie średnia, mediana i baza; bez rozkładu umożliwiającego odtworzenie rzadkiej wartości."},"questions":[{"id":"q01","label":"Czy zapoznałeś(-aś) się z programem szkolenia?","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"tak","count":10,"percentage":100.0}],"option_details_complete":true},{"id":"q02","label":"Proszę określić swoją rolę w firmie i doświadczenie zawodowe.","answered":10,"missing":0,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q03","label":"Jak oceniasz swój poziom zaawansowania w AI?","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"Początkujący","count":7,"percentage":70.0},{"label":"Średnio zaawansowani","count":3,"percentage":30.0}],"option_details_complete":true},{"id":"q04","label":"Główny obszar Twojej pracy:","answered":10,"missing":0,"observed_multi_select":true,"options":[{"label":"Full-stack","count":6,"percentage":60.0},{"label":"Back-end","count":5,"percentage":50.0},{"label":"DevOps","count":3,"percentage":30.0}],"option_details_complete":false},{"id":"q05","label":"Języki z jakimi najczęściej pracujesz:","answered":10,"missing":0,"observed_multi_select":true,"options":[{"label":"Java","count":9,"percentage":90.0},{"label":"SQL","count":7,"percentage":70.0},{"label":"JavaScript / TypeScript","count":3,"percentage":30.0}],"option_details_complete":false},{"id":"q06","label":"Główny system operacyjny, na którym pracujesz:","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"Windows","count":9,"percentage":90.0}],"option_details_complete":false},{"id":"q07","label":"Główny IDE / edytor kodu, z którego najczęściej korzystasz (wybierz jeden)","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"Eclipse","count":5,"percentage":50.0},{"label":"IntelliJ IDEA","count":4,"percentage":40.0},{"label":"Inne IDE","count":1,"percentage":10.0}],"option_details_complete":true},{"id":"q08","label":"Czy możesz instalować oprogramowanie na swoim komputerze?","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"Jednoznaczne potwierdzenie","count":8,"percentage":80.0},{"label":"Wymaga doprecyzowania","count":2,"percentage":20.0}],"option_details_complete":true},{"id":"q09","label":"Główne narzędzia CI/CD, Repozytoria kodu, Task management itp.","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"Jira","count":4,"percentage":40.0},{"label":"Bitbucket","count":3,"percentage":30.0},{"label":"Pozostałe odpowiedzi","count":3,"percentage":30.0}],"option_details_complete":true},{"id":"q10","label":"Czy któreś z tych narzędzi są on premises / self hosting? Jeśli tak, wymień które + wersja.","answered":3,"missing":7,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q11","label":"Z której chmury najczęściej korzystasz w pracy?","answered":3,"missing":7,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q12","label":"Rodzaj projektów z jakimi najczęściej pracujesz:","answered":9,"missing":1,"observed_multi_select":true,"options":[{"label":"Aplikacje desktopowe","count":6,"percentage":66.67},{"label":"Narzędzia wewnętrzne","count":3,"percentage":33.33}],"option_details_complete":false},{"id":"q13","label":"Jaki procent Twojego kodu jest obecnie generowany przez agentów AI?","answered":10,"missing":0,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q14","label":"Z jakich narzędzi AI korzystasz?","answered":9,"missing":1,"observed_multi_select":true,"options":[{"label":"Codex","count":8,"percentage":88.89},{"label":"GitHub Copilot","count":6,"percentage":66.67},{"label":"ChatGPT Chat/Work","count":3,"percentage":33.33}],"option_details_complete":false},{"id":"q15","label":"Które z tych narzędzi chcesz lepiej poznać na szkoleniu?","answered":7,"missing":3,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q16","label":"Które narzędzia AI posiadasz w wersji płatnej? (subskrypcje)","answered":9,"missing":1,"observed_multi_select":false,"options":[{"label":"ChatGPT - odpowiedź w ankiecie","count":7,"percentage":77.78},{"label":"Copilot - odpowiedź w ankiecie","count":2,"percentage":22.22}],"option_details_complete":true},{"id":"q17","label":"Jaki rodzaj licencji posiadasz?","answered":10,"missing":0,"observed_multi_select":false,"options":[{"label":"Licencja firmowa - deklaracja","count":10,"percentage":100.0}],"option_details_complete":true},{"id":"q18","label":"W jakich zastosowaniach używasz AI?","answered":9,"missing":1,"observed_multi_select":true,"options":[{"label":"Agent AI / generowanie kodu","count":5,"percentage":55.56},{"label":"Research","count":5,"percentage":55.56},{"label":"Przegląd kodu","count":4,"percentage":44.44},{"label":"Podpowiedzi kodu","count":4,"percentage":44.44},{"label":"Generowanie testów","count":3,"percentage":33.33},{"label":"Automatyzacja pracy","count":3,"percentage":33.33}],"option_details_complete":false},{"id":"q19","label":"Czy Twoja firma korzysta z AI?","answered":9,"missing":1,"observed_multi_select":false,"options":[{"label":"Regularne użycie AI w firmie","count":4,"percentage":44.44}],"option_details_complete":false},{"id":"q20","label":"Jaki konkretny rezultat byłby dla Ciebie najbardziej wartościowy?","answered":5,"missing":5,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q21","label":"Czy masz konkretne problemy lub procesy, które chcesz usprawnić?","answered":3,"missing":7,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q22","label":"Jakie zadania zajmują Ci najwięcej czasu lub/i ich nie lubisz?","answered":4,"missing":6,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q23","label":"Proszę wskazać tematy, które są dla Ciebie szczególnie ważne lub interesujące z programu szkolenia.","answered":2,"missing":8,"observed_multi_select":false,"options":[],"option_details_complete":false},{"id":"q24","label":"Jakie są Twoje oczekiwania wobec szkolenia?","answered":3,"missing":7,"observed_multi_select":false,"options":[],"option_details_complete":false}],"q13_summary":{"mean_percent":27.0,"median_percent":10.0,"base":10},"qualitative_themes":["Praktyczne usprawnienie pracy z oprogramowaniem za pomocą agentów.","Kontrola jakości zmian i sprawdzenie działania kodu.","Uporządkowany i powtarzalny sposób pracy z AI."]}</script>
   <script>
+    const surveyData = JSON.parse(document.getElementById("survey-data").textContent);
     const palette = {
       cyan: '#25d9f8', violet: '#9d7bff', green: '#52e4a4', amber: '#ffc866', red: '#ff7b8b', muted: '#6f859d'
     };
@@ -527,18 +358,18 @@
     function gridColor() {
       return document.documentElement.dataset.theme === 'light' ? 'rgba(15,30,49,.10)' : 'rgba(148,163,184,.14)';
     }
-    function commonOptions(indexAxis = 'x') {
+    function commonOptions(indexAxis = 'x', base = 10) {
       return {
         responsive: true,
         maintainAspectRatio: false,
         indexAxis,
         animation: { duration: 750, easing: 'easeOutQuart' },
         plugins: {
-          legend: { labels: { color: chartTextColor(), usePointStyle: true, pointStyle: 'circle', padding: 18 } },
+          legend: { display: indexAxis !== 'y', labels: { color: chartTextColor(), usePointStyle: true, pointStyle: 'circle', padding: 18 } },
           tooltip: { backgroundColor: '#07111f', titleColor: '#fff', bodyColor: '#d7e8f7', padding: 12, cornerRadius: 10 }
         },
         scales: indexAxis === 'y' ? {
-          x: { beginAtZero: true, max: 8, ticks: { stepSize: 1, color: chartTextColor() }, grid: { color: gridColor() }, border: { display: false } },
+          x: { beginAtZero: true, max: base, ticks: { stepSize: 1, color: chartTextColor() }, grid: { color: gridColor() }, border: { display: false } },
           y: { ticks: { color: chartTextColor(), font: { weight: 700 } }, grid: { display: false }, border: { display: false } }
         } : undefined
       };
@@ -551,36 +382,23 @@
       }
       document.documentElement.classList.remove('chart-fallback');
       document.documentElement.classList.add('charts-ready');
+      Object.assign(palette, document.documentElement.dataset.theme === 'light' ? {cyan:'#08768d',violet:'#6842bb',green:'#08764a',amber:'#8a5200'} : {cyan:'#25d9f8',violet:'#9d7bff',green:'#52e4a4',amber:'#ffc866'});
       charts.forEach(chart => chart.destroy());
       charts = [];
 
-      charts.push(new Chart(document.getElementById('maturityChart'), {
-        type: 'doughnut',
-        data: { labels: ['Początkujący', 'Średnio zaawansowani', 'Zaawansowani'], datasets: [{ data: [2, 4, 2], backgroundColor: [palette.amber, palette.cyan, palette.violet], borderWidth: 0, hoverOffset: 8 }] },
-        options: { ...commonOptions(), cutout: '62%', plugins: { ...commonOptions().plugins, legend: { position: 'bottom', labels: { color: chartTextColor(), usePointStyle: true, padding: 18 } } } }
-      }));
-
-      charts.push(new Chart(document.getElementById('languagesChart'), {
-        type: 'bar',
-        data: { labels: ['Język główny', 'JavaScript / TypeScript', 'Python', 'SQL'], datasets: [{ label: 'liczba osób', data: [8, 4, 4, 3], backgroundColor: [palette.cyan, palette.violet, palette.green, palette.amber], borderRadius: 9, borderSkipped: false }] },
-        options: commonOptions('y')
-      }));
-
-      charts.push(new Chart(document.getElementById('rolesChart'), {
-        type: 'bar',
-        data: { labels: ['Back-end', 'Architektura', 'Front-end', 'Full-stack'], datasets: [{ label: 'liczba wskazań', data: [6, 2, 2, 1], backgroundColor: [palette.cyan, palette.violet, palette.green, palette.amber], borderRadius: 9, borderSkipped: false }] },
-        options: commonOptions('y')
-      }));
-
-      charts.push(new Chart(document.getElementById('toolsChart'), {
-        type: 'bar',
-        data: { labels: ['Claude Code', 'ChatGPT', 'Junie / JetBrains AI', 'Codex', 'n8n'], datasets: [{ label: 'liczba osób', data: [8, 3, 2, 1, 1], backgroundColor: [palette.cyan, palette.violet, palette.green, palette.amber, palette.red], borderRadius: 9, borderSkipped: false }] },
-        options: commonOptions('y')
-      }));
+      for (const [id, qid] of [['maturityChart','q03'],['languagesChart','q05'],['rolesChart','q04'],['toolsChart','q14']]) {
+        const q = surveyData.questions.find(item => item.id === qid);
+        const doughnut = id === 'maturityChart';
+        charts.push(new Chart(document.getElementById(id), {
+          type: doughnut ? 'doughnut' : 'bar',
+          data: { labels: q.options.map(item => item.label), datasets: [{ label: 'wskazania w rekordach odpowiedzi', data: q.options.map(item => item.count), backgroundColor: [palette.amber,palette.cyan,palette.violet,palette.green], borderRadius: doughnut ? 0 : 9, borderWidth: 0, hoverOffset: doughnut ? 8 : 0 }] },
+          options: doughnut ? { ...commonOptions(), cutout: '62%', plugins: { ...commonOptions().plugins, legend: { position:'bottom', labels:{ color:chartTextColor(), usePointStyle:true, padding:18 } } } } : commonOptions('y', q.answered)
+        }));
+      }
     }
 
     const themeBtn = document.getElementById('themeBtn');
-    const savedTheme = localStorage.getItem('developer-report-theme');
+    let savedTheme; try { savedTheme = localStorage.getItem('developer-course-theme'); } catch (_) {}
     if (savedTheme) document.documentElement.dataset.theme = savedTheme;
     const syncThemeLabel = () => {
       const light = document.documentElement.dataset.theme === 'light';
@@ -593,7 +411,7 @@
     themeBtn.addEventListener('click', () => {
       const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
       document.documentElement.dataset.theme = next;
-      localStorage.setItem('developer-report-theme', next);
+      try { localStorage.setItem('developer-course-theme', next); } catch (_) {}
       syncThemeLabel();
       buildCharts();
     });
@@ -613,18 +431,18 @@
     });
 
     const recommendations = [
-      'Potwierdzić uprawnienia, sprzęt i możliwość instalacji narzędzi wymaganych przez konkretny kurs.',
-      'Wybrać jedną ścieżkę środowiskową dla całej grupy — laptopy lub VM, bez dzielenia grupy.',
-      'Rozesłać instrukcję instalacji i weryfikacji narzędzi z terminem przed szkoleniem.',
-      'Przesłać zanonimizowane przykłady PRD/specyfikacji, ADR, kontraktu API, mapy zależności i pipeline.',
-      'Wybrać syntetyczny przypadek bliski pracy grupy, z niewielką liczbą usług i mierzalnym rezultatem.',
-      'Przygotować ścieżkę nowej funkcji oraz ścieżkę legacy z testami charakteryzacyjnymi.',
-      'Dostarczyć pre-work (słownik pojęć, zasady kontekstu i bezpieczeństwa, 20–30 min).',
-      'Dostarczyć instrukcje instalacji oraz dostęp do testowego repozytorium na platformie grupy.'
-    ];
+      "Zacząć od podstaw i wspólnego zadania. q03: 7/10 deklaracji początkujących, 3/10 średnio zaawansowanych. Prowadzone ćwiczenie przed dodatkowymi wariantami.",
+      "Pracować na istniejącym kodzie Java. q05 Java 9/10 i q12 desktop 6/9 wspierają jFTP jako zatwierdzony pierwszy projekt. Nie przygotowujemy gotowej modernizacji za uczestników.",
+      "Zachować IDE i sprawdzić instalację. q07 Eclipse 5/10, IntelliJ 4/10; q08 potwierdzenie 8/10 i doprecyzowanie 2/10. CLI działa obok edytora, terminal jest podstawą budowania.",
+      "Zweryfikować oba konta, zamiast zakładać dostęp. q14 Codex 8/9, Copilot 6/9; q16: 9 odpowiedzi, q17 deklaracja firmowa 10/10. Przed labem osobno sprawdź logowanie, plan i politykę każdej funkcji.",
+      "Porównać agentów na tym samym zadaniu. Zatwierdzona agenda: Codex główny w dniach 1-3, Copilot CLI w porównaniach i w dniu 4. Ten sam kod, AC, granice i dowody wyniku.",
+      "Planować role i zależności przed edycją. Zatwierdzone moduły 2.3/3.1: małe role, briefy, własność plików i integracja. Wzory w repo są materiałem do adaptacji, nie rozwiązaniem zadania.",
+      "Wymagać testu i niezależnego review. q18: przegląd kodu 4/9, generowanie testów 3/9; zatwierdzone moduły 2.4/3.2. Sprawdzony test, diff i ręczny scenariusz odpowiedni do Java, zamiast deklaracji agenta.",
+      "Zostawić powtarzalny standard zespołu. Zatwierdzone moduły 4.1-4.4 oraz scalone ogólne oczekiwania z pytań otwartych: instrukcje repo, skill, rola, granice uprawnień, odbiór wyniku. Bez przypisywania częstości oczekiwaniom."
+];
 
     document.getElementById('copyBtn').addEventListener('click', async () => {
-      const text = 'Historyczny przykład rekomendacji przed szkoleniem AI dla programistów (dopasuj do nowej grupy):\n\n' + recommendations.map((item, index) => `${index + 1}. ${item}`).join('\n');
+      const text = 'Rekomendacje - Sages / Sygnity, 5-8 października 2026, Codex i Copilot CLI:\n\n' + recommendations.map((item, index) => `${index + 1}. ${item}`).join('\n');
       try {
         await navigator.clipboard.writeText(text);
         const toast = document.getElementById('toast');
