@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run the actual course prompt runtime in Chrome, with Python stdlib only.
 
-Usage from any directory: python scripts/test-prompt-tools.py
+Usage from the repository root: python scripts/test-prompt-tools.py
 Requires an installed Chrome/Chromium executable. Set CHROME_BIN to its path if
 it is not on PATH. Missing Chrome is an error, not a skipped browser test.
 
