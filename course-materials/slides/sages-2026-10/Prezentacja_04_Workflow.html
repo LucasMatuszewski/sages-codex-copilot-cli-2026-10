@@ -1,4 +1,4 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workflow i harness | GitHub Copilot in Practice - from Completions to Agentic Workflows</title><style>
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workflow i harness | Codex i GitHub Copilot CLI - warsztat Java</title><style>
 :root{
   /* Slajdy tytulowe (granat/biel/zloto) - identyczne w obu motywach */
   --dark-bg:#0f172a;--dark-bg2:#1e293b;--dark-text:#f1f5f9;
@@ -226,39 +226,10 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
 .demo-flow .df-step{display:flex;gap:1rem;align-items:center}
 .df-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
 .df-text{font-size:clamp(.85rem,1.4vw,1rem)}
-</style><style>body{overflow:hidden}#deck{height:100vh}.slide{overflow:auto}.slide-body{padding-top:4.5rem;padding-bottom:5rem}.slide h2{max-width:100%}.prompt-full{width:100%;max-width:1000px;text-align:left}.prompt-full pre{max-height:45vh!important}.prompt-full h3{margin:.25rem 0}.prompt-full p{margin:.25rem 0 .5rem}.course-note{border-left:4px solid #e0af68;padding:1rem;background:rgba(224,175,104,.1);border-radius:6px}.recap-breaks{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem .8rem;margin-top:clamp(1.5rem,4vh,2.5rem);padding:.7rem .9rem;border-left:3px solid var(--accent);border-radius:6px;background:var(--accent-soft);font-size:clamp(.8rem,1.3vw,.95rem)}.recap-breaks-label{color:var(--muted);font-weight:600}.recap-breaks time{color:var(--heading);font-weight:700;font-variant-numeric:tabular-nums}#page-count{position:fixed;bottom:18px;right:18px;color:#d7dff8;z-index:101;background:#182334;padding:4px 9px;border-radius:6px}#deck .slide:not(.on){display:none}@media print{html,body[data-page-type="slides"]{overflow:visible!important;height:auto!important;background:#fff!important}body[data-page-type="slides"] #deck{position:static!important;width:auto!important;height:auto!important;overflow:visible!important}body[data-page-type="slides"] #deck .slide,body[data-page-type="slides"] #deck .slide:not(.on){display:block!important;position:relative!important;inset:auto!important;width:auto!important;height:auto!important;min-height:0!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;overflow:visible!important;break-after:page;page-break-after:always}body[data-page-type="slides"] #deck .slide-body{min-height:0!important;max-width:none!important;padding:1.2rem!important;display:block!important}body[data-page-type="slides"] #deck pre[data-prompt-id]{max-height:none!important;overflow:visible!important;white-space:pre-wrap!important;word-break:break-word!important}body[data-page-type="slides"] .course-tools,body[data-page-type="slides"] #hud,body[data-page-type="slides"] #num,body[data-page-type="slides"] #clock,body[data-page-type="slides"] #shortcut-hint,body[data-page-type="slides"] .nav-arrow,body[data-page-type="slides"] #breakbar,body[data-page-type="slides"] .copy-prompt{display:none!important}body[data-page-type="slides"] #deck .slide,body[data-page-type="slides"] #deck .slide.dark{background:#fff!important;color:#111!important}body[data-page-type="slides"] #deck .slide h1,body[data-page-type="slides"] #deck .slide h2,body[data-page-type="slides"] #deck .slide h3{color:#111!important}body[data-page-type="slides"] #deck pre,body[data-page-type="slides"] #deck .code-block{background:#f4f4f4!important;color:#111!important;border:1px solid #aaa!important}}.slide-body ol,.slide-body ul{margin-top:.5rem}.slide-body li{margin:.25rem 0}.slide-body a{color:#9dc8ff}</style><style>.course-tools{position:fixed;z-index:1000;right:16px;top:12px;display:flex;gap:8px;align-items:center}.course-tools a,.course-tools button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid #7890ac;border-radius:9px;background:#182334;color:#fff;text-decoration:none;font:600 14px system-ui;cursor:pointer}.course-tools button svg{width:20px;height:20px}.course-tools .icon-sun{display:none}[data-theme-toggle] .icon-sun,[data-theme-toggle] .icon-moon{width:20px;height:20px}body[data-theme="dark"] [data-theme-toggle] .icon-sun{display:block}body[data-theme="dark"] [data-theme-toggle] .icon-moon{display:none}body[data-theme="light"] [data-theme-toggle] .icon-sun{display:none}body[data-theme="light"] [data-theme-toggle] .icon-moon{display:block}.course-tools button:focus-visible,.course-tools a:focus-visible{outline:3px solid #f7c26d}body[data-course-audience="developer"] pre[data-prompt-id]{white-space:pre-wrap;overflow:auto;max-height:56vh;line-height:1.5;font-size:clamp(12px,1.1vw,15px);padding:1rem;background:#101827;color:#eff5ff;border:1px solid #61799b;border-radius:10px;text-align:left}.copy-prompt{padding:.55rem .9rem;border:1px solid #a9c8ee;border-radius:8px;background:#183252;color:white;font:700 14px system-ui;cursor:pointer}@media print{.course-tools,.copy-prompt{display:none!important}pre[data-prompt-id]{max-height:none!important}}</style><link rel="stylesheet" href="course.css?v=20260927-4"></head><body data-course-audience="developer" data-page-type="slides" data-theme="dark"><div class="course-tools"><a href="index.html">Strona główna</a><button type="button" data-theme-toggle aria-label="Przełącz na jasny motyw"><svg aria-hidden="true" class="icon-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><line x1="12" x2="12" y1="2" y2="4"></line><line x1="12" x2="12" y1="20" y2="22"></line><line x1="2" x2="4" y1="12" y2="12"></line><line x1="20" x2="22" y1="12" y2="12"></line><line x1="4.93" x2="6.34" y1="4.93" y2="6.34"></line><line x1="17.66" x2="19.07" y1="17.66" y2="19.07"></line><line x1="4.93" x2="6.34" y1="19.07" y2="17.66"></line><line x1="17.66" x2="19.07" y1="6.34" y2="4.93"></line></svg><svg aria-hidden="true" class="icon-moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></div><div id="hud"><div id="bar"></div></div><div id="num" aria-live="polite"></div><div id="clock"></div><div id="shortcut-hint">← → nawigacja · F pełny ekran · D motyw</div><button id="prev" class="nav-arrow nav-left" type="button" aria-label="Poprzedni slajd">‹</button><button id="next" class="nav-arrow nav-right" type="button" aria-label="Następny slajd">›</button><div id="breakbar" role="status"><div id="bb-t" class="bb-title"></div><div id="bb-s" class="bb-sub"></div><button id="bb-x" type="button" aria-label="Zamknij komunikat">×</button></div><div id="deck"><section class="slide"><div class="slide-body"><div class="kicker">Skills</div><h2>Skills w praktyce</h2><ul><li>Instalujemy skills z <a href="https://github.com/EdukeyTeam/agent-toolbox">publicznego repozytorium EdukeyTeam</a> i porównujemy dwie metody instalacji.</li><li>Skill do systemu wizualnego: agent czyta instrukcję, używa narzędzi i przygotowuje pliki do przeglądu.</li><li>Przy PRD skill dostarcza metodę, a prompt tylko opis naszej aplikacji.</li></ul></div></section>
+</style><style>body{overflow:hidden}#deck{height:100vh}.slide{overflow:auto}.slide-body{padding-top:4.5rem;padding-bottom:5rem}.slide h2{max-width:100%}.prompt-full{width:100%;max-width:1000px;text-align:left}.prompt-full pre{max-height:45vh!important}.prompt-full h3{margin:.25rem 0}.prompt-full p{margin:.25rem 0 .5rem}.course-note{border-left:4px solid #e0af68;padding:1rem;background:rgba(224,175,104,.1);border-radius:6px}.recap-breaks{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem .8rem;margin-top:clamp(1.5rem,4vh,2.5rem);padding:.7rem .9rem;border-left:3px solid var(--accent);border-radius:6px;background:var(--accent-soft);font-size:clamp(.8rem,1.3vw,.95rem)}.recap-breaks-label{color:var(--muted);font-weight:600}.recap-breaks time{color:var(--heading);font-weight:700;font-variant-numeric:tabular-nums}#page-count{position:fixed;bottom:18px;right:18px;color:#d7dff8;z-index:101;background:#182334;padding:4px 9px;border-radius:6px}#deck .slide:not(.on){display:none}@media print{html,body[data-page-type="slides"]{overflow:visible!important;height:auto!important;background:#fff!important}body[data-page-type="slides"] #deck{position:static!important;width:auto!important;height:auto!important;overflow:visible!important}body[data-page-type="slides"] #deck .slide,body[data-page-type="slides"] #deck .slide:not(.on){display:block!important;position:relative!important;inset:auto!important;width:auto!important;height:auto!important;min-height:0!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;overflow:visible!important;break-after:page;page-break-after:always}body[data-page-type="slides"] #deck .slide-body{min-height:0!important;max-width:none!important;padding:1.2rem!important;display:block!important}body[data-page-type="slides"] #deck pre[data-prompt-id]{max-height:none!important;overflow:visible!important;white-space:pre-wrap!important;word-break:break-word!important}body[data-page-type="slides"] .course-tools,body[data-page-type="slides"] #hud,body[data-page-type="slides"] #num,body[data-page-type="slides"] #clock,body[data-page-type="slides"] #shortcut-hint,body[data-page-type="slides"] .nav-arrow,body[data-page-type="slides"] #breakbar,body[data-page-type="slides"] .copy-prompt{display:none!important}body[data-page-type="slides"] #deck .slide,body[data-page-type="slides"] #deck .slide.dark{background:#fff!important;color:#111!important}body[data-page-type="slides"] #deck .slide h1,body[data-page-type="slides"] #deck .slide h2,body[data-page-type="slides"] #deck .slide h3{color:#111!important}body[data-page-type="slides"] #deck pre,body[data-page-type="slides"] #deck .code-block{background:#f4f4f4!important;color:#111!important;border:1px solid #aaa!important}}.slide-body ol,.slide-body ul{margin-top:.5rem}.slide-body li{margin:.25rem 0}.slide-body a{color:#9dc8ff}</style><style>.course-tools{position:fixed;z-index:1000;right:16px;top:12px;display:flex;gap:8px;align-items:center}.course-tools a,.course-tools button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid #7890ac;border-radius:9px;background:#182334;color:#fff;text-decoration:none;font:600 14px system-ui;cursor:pointer}.course-tools button svg{width:20px;height:20px}.course-tools .icon-sun{display:none}[data-theme-toggle] .icon-sun,[data-theme-toggle] .icon-moon{width:20px;height:20px}body[data-theme="dark"] [data-theme-toggle] .icon-sun{display:block}body[data-theme="dark"] [data-theme-toggle] .icon-moon{display:none}body[data-theme="light"] [data-theme-toggle] .icon-sun{display:none}body[data-theme="light"] [data-theme-toggle] .icon-moon{display:block}.course-tools button:focus-visible,.course-tools a:focus-visible{outline:3px solid #f7c26d}body[data-course-audience="developer"] pre[data-prompt-id]{white-space:pre-wrap;overflow:auto;max-height:56vh;line-height:1.5;font-size:clamp(12px,1.1vw,15px);padding:1rem;background:#101827;color:#eff5ff;border:1px solid #61799b;border-radius:10px;text-align:left}.copy-prompt{padding:.55rem .9rem;border:1px solid #a9c8ee;border-radius:8px;background:#183252;color:white;font:700 14px system-ui;cursor:pointer}@media print{.course-tools,.copy-prompt{display:none!important}pre[data-prompt-id]{max-height:none!important}}</style><link rel="stylesheet" href="course.css?v=20260927-4"></head><body data-course-audience="developer" data-page-type="slides" data-theme="dark"><a class="sages-course-brand" href="index.html" aria-label="Sages - materiały kursu"><img class="sages-logo sages-logo-white" src="assets/sages-white.svg" alt="Sages"><img class="sages-logo sages-logo-dark" src="assets/sages-dark.svg" alt="Sages"></a><div class="course-tools"><a href="index.html">Strona główna</a><button type="button" data-theme-toggle aria-label="Przełącz na jasny motyw"><svg aria-hidden="true" class="icon-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><line x1="12" x2="12" y1="2" y2="4"></line><line x1="12" x2="12" y1="20" y2="22"></line><line x1="2" x2="4" y1="12" y2="12"></line><line x1="20" x2="22" y1="12" y2="12"></line><line x1="4.93" x2="6.34" y1="4.93" y2="6.34"></line><line x1="17.66" x2="19.07" y1="17.66" y2="19.07"></line><line x1="4.93" x2="6.34" y1="19.07" y2="17.66"></line><line x1="17.66" x2="19.07" y1="6.34" y2="4.93"></line></svg><svg aria-hidden="true" class="icon-moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button></div><div id="hud"><div id="bar"></div></div><div id="num" aria-live="polite"></div><div id="clock"></div><div id="shortcut-hint">← → nawigacja · F pełny ekran · D motyw</div><button id="prev" class="nav-arrow nav-left" type="button" aria-label="Poprzedni slajd">‹</button><button id="next" class="nav-arrow nav-right" type="button" aria-label="Następny slajd">›</button><div id="breakbar" role="status"><div id="bb-t" class="bb-title"></div><div id="bb-s" class="bb-sub"></div><button id="bb-x" type="button" aria-label="Zamknij komunikat">×</button></div><div id="deck"><section class="slide"><div class="slide-body"><div class="kicker">Skills</div><h2>Skills w praktyce</h2><ul><li>Instalujemy skills z <a href="https://github.com/EdukeyTeam/agent-toolbox">publicznego repozytorium EdukeyTeam</a> i porównujemy dwie metody instalacji.</li><li>Skill do systemu wizualnego: agent czyta instrukcję, używa narzędzi i przygotowuje pliki do przeglądu.</li><li>Przy PRD skill dostarcza metodę, a prompt tylko opis naszej aplikacji.</li></ul></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Model pracy</div><h2>Dwie pętle: budowa i weryfikacja</h2><ol><li>Poproś o rozpoznanie i plan bez edycji.</li><li>Zatwierdź mały zakres.</li><li>Agent edytuje i pokazuje diff.</li><li>Uruchom testy oraz ocenę ręczną.</li><li>Zapisz decyzję i następny krok.</li></ol><p>Jeśli test nie przechodzi, wróć do obserwacji. Nie maskuj błędu zmianą testu bez uzasadnienia.</p></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Agenci / repozytorium</div><h2>Instrukcje repozytorium dla agenta</h2><div class="cards"><div class="card"><h3>Stałe fakty</h3><p>Cel projektu, mapa plików, komendy testów potwierdzone na starterze.</p></div><div class="card"><h3>Granice</h3><p>Nie edytuj testów tylko po to, by były zielone. Nie umieszczaj sekretów ani danych klientów.</p></div><div class="card"><h3>Weryfikacja</h3><p>Po zmianie pokaż diff, wynik testów i jedną rzecz nadal niepewną.</p></div></div><p>Plik: <code>AGENTS.md</code> w katalogu głównym repozytorium (Copilot: <code>.github/copilot-instructions.md</code>). W Codex polecenie <code>/init</code> tworzy szkic. Pełny prompt: zasady repozytorium (P03).</p></div></section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">Moduł 1.3</div>
-    <h2>CLAUDE.md i AGENTS.md - pamięć agenta</h2>
-    <div class="two-col">
-      <div>
-        <h3 class="accent2">CLAUDE.md</h3>
-        <div class="card ok"><p>Plik instrukcji dla <strong>Claude Code</strong>. Agent wczytuje go automatycznie przy starcie.</p>
-        <p style="margin-top:.5rem"><strong>Poziomy:</strong></p>
-        <ul class="feature-list">
-          <li><span class="code-inline">./CLAUDE.md</span> - poziom projektu</li>
-          <li><span class="code-inline">~/.claude/CLAUDE.md</span> - poziom globalny</li>
-        </ul></div>
-      </div>
-      <div>
-        <h3 class="accent">AGENTS.md</h3>
-        <div class="card amber"><p>Wspólny, otwarty standard dla <strong>wielu agentów</strong>: Codex, OpenCode, Antigravity, Cursor i inne.</p>
-        <p style="margin-top:.5rem">Claude Code nie czyta go automatycznie - ale wystarczy <strong>zaimportować go w CLAUDE.md</strong> (jak załącznik w mailu):</p>
-        <div class="code-block" style="margin-top:.5rem"># CLAUDE.md
-@AGENTS.md
-
-## Instrukcje tylko dla Claude Code
-- Używaj sub-agentów fe / be / qa</div>
-        <p style="margin-top:.5rem;font-size:.85rem">Jedno źródło prawdy w AGENTS.md, zero duplikacji - dokładnie tak jest skonfigurowane repo kursowe.</p></div>
-      </div>
-    </div>
-    <div class="note-box" style="margin-top:1rem"><strong>Co zawierają:</strong> konwencje kodu, opis stacku, zasady nazewnictwa, strukturę projektu, wytyczne testowe, rzeczy których agent ma unikać.</div>
-  </div>
-  
-</section>
+<section class="slide"><div class="slide-body"><div class="kicker">Context Engineering</div><h2>AGENTS.md - wspólne zasady projektu</h2><div class="two-col"><div><h3>Codex</h3><ul class="feature-list"><li>Globalne instrukcje i AGENTS.md projektu ustawiają trwałe zasady.</li><li>Instrukcje bliżej katalogu pracy uzupełniają lub zastępują ogólne reguły.</li><li>Uruchom agenta w danym katalogu i poproś o listę zastosowanych instrukcji.</li></ul></div><div><h3>Copilot CLI</h3><ul class="feature-list"><li>Użyj tego samego AGENTS.md do wspólnych zasad.</li><li>Rozszerzenia GitHuba: .github/copilot-instructions.md oraz instrukcje ścieżkowe z applyTo.</li><li>Sprawdź zachowanie obu narzędzi na tym samym zadaniu.</li></ul></div></div><p style="font-size:.8rem;margin-top:1rem">Stan: 05.10.2026 · <a href="https://developers.openai.com/codex/guides/agents-md/">Dokumentacja</a>. Sprawdź wersję i dostęp na swoim koncie.</p></div></section>
 <section class="slide">
   <div class="slide-body">
     <div class="kicker">Moduł 1.3</div>
@@ -266,81 +237,18 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     <p class="subtitle">Co składa się na to, co agent "wie" w danej chwili</p>
     <div class="cards">
       <div class="card"><div class="card-title">1. System prompt</div><p>Wbudowane instrukcje od dostawcy. Definiują zachowanie bazowe agenta.</p></div>
-      <div class="card"><div class="card-title">2. Konfiguracja</div><p>Model, uprawnienia (<span class="code-inline">permissions.allow</span> / <span class="code-inline">permissions.deny</span>), tryb bezpieczeństwa.</p></div>
-      <div class="card amber"><div class="card-title">3. CLAUDE.md / AGENTS.md</div><p>Trwała pamięć agenta. Konwencje, zasady, opis projektu.</p></div>
+      <div class="card"><div class="card-title">2. Konfiguracja</div><p>Model, sandbox, polityka zgód i konfiguracja narzędzi właściwa dla agenta.</p></div>
+      <div class="card amber"><div class="card-title">3. AGENTS.md i instrukcje narzędzia</div><p>Trwała pamięć agenta. Konwencje, zasady, opis projektu.</p></div>
       <div class="card"><div class="card-title">4. Historia sesji</div><p>Przebieg bieżącej rozmowy. Kompresowana przez <span class="code-inline">/compact</span>.</p></div>
       <div class="card"><div class="card-title">5. Aktywne pliki</div><p>Pliki otwarte, wzmiankowane lub edytowane w bieżącej sesji.</p></div>
       <div class="card warn"><div class="card-title">= Kontekst agenta</div><p>Suma wszystkich powyższych. Im lepszy kontekst, tym lepsze wyniki.</p></div>
     </div>
-    <div class="note-box" style="margin-top:.8rem">Użyj <span class="code-inline">/context</span>, aby zobaczyć aktualny stan kontekstu swojego agenta.</div>
+    <div class="note-box" style="margin-top:.8rem">W Codex sprawdź /status, a w Copilot CLI /context. Poproś agenta o wskazanie plików i instrukcji użytych do zadania.</div>
   </div>
   
 </section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">Moduł 1.3</div>
-    <h2>Path-based rules vs nested CLAUDE.md</h2>
-    <div class="two-col">
-      <div>
-        <h3 class="accent2">Nested CLAUDE.md</h3>
-        <div class="card"><p>Pliki <span class="code-inline">CLAUDE.md</span> w podkatalogach projektu.</p>
-        <p style="margin-top:.5rem">Gdy agent wchodzi do katalogu, czyta tamtejszy <span class="code-inline">CLAUDE.md</span>.</p>
-        <div class="code-block" style="margin-top:.5rem">projekt/
-  CLAUDE.md         # globalne reguły
-  frontend/
-    CLAUDE.md       # reguły dla FE
-  backend/
-    CLAUDE.md       # reguły dla BE</div></div>
-      </div>
-      <div>
-        <h3 class="accent">Path-based rules</h3>
-        <div class="card amber"><p>Reguły to pliki Markdown w <span class="code-inline">.claude/rules/</span> z polem <span class="code-inline">paths:</span> we frontmatter.</p>
-        <div class="code-block" style="margin-top:.5rem"># .claude/rules/frontend.md
----
-paths:
-  - "frontend/**/*"
----
-Używaj komponentów funkcyjnych React.</div></div>
-      </div>
-    </div>
-    <div class="note-box"><strong>Wybór:</strong> nested dla dużych projektów z wyraźnymi modułami. Path-based dla mniejszych projektów z specyficznymi regułami per katalog.</div>
-  </div>
-  
-</section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">Moduł 1.3</div>
-    <h2>Best practices: jak pisać CLAUDE.md</h2>
-    <div class="cards">
-      <div class="card ok"><div class="card-title">Krótko i konkretnie</div>
-        <p>Celuj w około 200 linii jako zalecenie kursowe, nie limit techniczny. Pełny CLAUDE.md jest ładowany niezależnie od długości.</p>
-      </div>
-      <div class="card amber"><div class="card-title">Konkretne reguły</div>
-        <p>Źle: "Pisz czysty kod". Dobrze: "Używaj TypeScript strict mode, wszystkie funkcje muszą mieć typy zwracane."</p>
-      </div>
-      <div class="card"><div class="card-title">Iteruj</div>
-        <p>Dodaj regułę za każdym razem, gdy agent popełni błąd. CLAUDE.md to żywy dokument.</p>
-      </div>
-      <div class="card"><div class="card-title">Wersjonuj w git</div>
-        <p>CLAUDE.md w repozytorium = cała drużyna ma te same reguły. Historia zmian widoczna.</p>
-      </div>
-    </div>
-    <div class="code-block" style="margin-top:.8rem"># CLAUDE.md - przykład
-
-## Stack
-TypeScript, Next.js, Tailwind CSS, PostgreSQL
-
-## Konwencje
-- Używaj TypeScript strict mode
-- Komponenty funkcyjne, nie class components
-- Nazwy plików: kebab-case
-
-## Testy
-- Testy PRZED implementacją (TDD)
-- Unit: mocki zależności; integracja: mock tylko zewnętrznego LLM; E2E: realny stos</div>
-  </div>
-  
-</section>
+<section class="slide"><div class="slide-body"><div class="kicker">Context Engineering</div><h2>Instrukcje zależą od katalogu i narzędzia</h2><ul class="feature-list"><li>W root AGENTS.md zapisz komendy uruchomienia, zasady testów oraz granice zmian.</li><li>W podkatalogu dodaj instrukcje specyficzne dla modułu Java; bez kopiowania całej instrukcji root.</li><li>W Copilot CLI porównaj AGENTS.md z plikami .github/instructions/*.instructions.md i applyTo.</li><li>Sprawdź źródła instrukcji i wykonanie jednej reguły. Sam plik nie dowodzi, że został użyty.</li></ul></div></section>
+<section class="slide"><div class="slide-body"><div class="kicker">Context Engineering</div><h2>Krótka instrukcja, sprawdzalne reguły</h2><ul class="feature-list"><li>Zapisz fakty o repozytorium: JDK, Maven/Gradle, moduły oraz rzeczywiste polecenia.</li><li>Rozdziel trwałe zasady od kryteriów pojedynczego zadania w PRD i planie.</li><li>Ustal granice: brak sekretów, danych klientów, połączeń produkcyjnych i zmian poza zakresem.</li><li>Zweryfikuj z agentem mały przykład; popraw regułę, gdy wynik pokazuje lukę.</li></ul></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Skills / ćwiczenie</div><h2>Zainstaluj publiczne skills ręcznie</h2><p>W katalogu projektu sprawdź listę w publicznym repozytorium:</p><pre>npx --yes skills@latest add EdukeyTeam/agent-toolbox --list</pre><p>Zweryfikowane nazwy w źródle: <code>write-prd</code> i <code>write-adr</code>. Potem wybierz jedną:</p><pre>npx --yes skills@latest add EdukeyTeam/agent-toolbox --skill write-prd</pre><p>Instalacja do projektu jest domyślna. Jeśli CLI pyta o miejsce, wybierz projekt. Sprawdź, czy skill trafił do <code>.agents/skills/</code> bieżącego projektu i został zapisany w <code>skills-lock.json</code>. Nie kopiuj folderu ręcznie.</p></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Zasady repo / pełny prompt</div><h2>Kontrakt jakości z agentem</h2><div class="prompt-full"><h3>Zasady repozytorium i jakości</h3><p>Skopiuj prompt poniżej lub otwórz go <a href="prompts/P03-zasady-repo-jakosc.md">jako plik Markdown</a> albo <a href="prompty.html#P03-zasady-repo-jakosc">w bibliotece promptów</a>.</p><div class="prompt-full"><button type="button" class="copy-prompt" data-copy-prompt="prompt-P03-zasady-repo-jakosc">Kopiuj prompt</button><pre id="prompt-P03-zasady-repo-jakosc" data-prompt-id="P03-zasady-repo-jakosc" data-prompt-version="2">Inspect this repository and propose a concise repo-level instruction file for the coding agent that the course actually uses. Define only rules justified by **this** scaffold; do not assume a language, test runner, package manager, user-level settings path, or agent syntax from a different course.
 
@@ -372,10 +280,10 @@ If frontend and backend truly have different commands or conventions, propose sm
   <li>Zapisz jako skill procedurę, którą powtarzasz w projekcie, np. przegląd zmian w jednej funkcji.</li>
   
 </ul>
-<p><a href="cwiczenia.html#copilot-custom">Ćwiczenie</a></p></div></section>
+<p><a href="cwiczenia.html#cw2">Ćwiczenie</a></p></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Moduł 2.1</div><h2>Czym jest MCP</h2><p class="subtitle">MCP łączy agenta z zewnętrznymi narzędziami.</p><div class="two-col"><div><h3 class="accent2">Jak działa</h3><div class="card"><ul class="feature-list"><li>Serwer udostępnia narzędzia; agent wywołuje je, gdy są potrzebne.</li><li>Dostęp i uprawnienia określa konfiguracja.</li></ul></div></div><div><h3 class="accent">Przykłady</h3><div class="card amber"><ul class="feature-list"><li>Dokumentacja bibliotek, przeglądarka, bazy danych i API.</li><li>Sprawdź, jakie dane trafiają do narzędzia.</li></ul></div></div></div></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Moduł 2.2</div><h2>Skills - umiejętności agenta</h2><div class="two-col"><div><h3 class="accent2">Czym jest skill</h3><div class="card ok"><ul class="feature-list"><li>Powtarzalna procedura dla agenta.</li><li>Łączy instrukcje ze skryptami i materiałami pomocniczymi.</li></ul></div></div><div><h3 class="accent">Co zawiera</h3><div class="card amber"><ul class="feature-list"><li><code>SKILL.md</code> opisuje, kiedy i jak go użyć.</li><li>Opcjonalnie: skrypty, szablony, przykłady.</li></ul></div></div></div></div></section>
-<section class="slide"><div class="slide-body"><div class="kicker">Moduł 2.2 / Harness</div><h2>Hooks - deterministyczne bramki jakości</h2><div class="two-col"><div><h3 class="accent2">Instrukcja</h3><div class="card"><ul class="feature-list"><li>Prosi agenta o działanie, np. uruchomienie testów.</li><li>Agent musi ją odczytać i zastosować.</li></ul></div></div><div><h3 class="accent">Hook</h3><div class="card amber"><ul class="feature-list"><li>Uruchamia akcję po określonym zdarzeniu.</li><li>Przykład: lint po edycji pliku przez narzędzie agenta.</li></ul></div></div></div><div class="note-box" style="margin-top:1rem">Hook może też zablokować wywołanie narzędzia, np. odczyt <code>.env</code>. <a href="https://github.com/EdukeyTeam/COURSE-REPO/tree/main/course-materials/hooks-example">Przykład dla Copilota, Claude Code i Codex</a>.</div></div></section>
+<section class="slide"><div class="slide-body"><div class="kicker">Moduł 2.2 / Harness</div><h2>Hooks - deterministyczne bramki jakości</h2><div class="two-col"><div><h3 class="accent2">Instrukcja</h3><div class="card"><ul class="feature-list"><li>Prosi agenta o działanie, np. uruchomienie testów.</li><li>Agent musi ją odczytać i zastosować.</li></ul></div></div><div><h3 class="accent">Hook</h3><div class="card amber"><ul class="feature-list"><li>Uruchamia akcję po określonym zdarzeniu.</li><li>Przykład: lint po edycji pliku przez narzędzie agenta.</li></ul></div></div></div><div class="note-box" style="margin-top:1rem">Hook może też zablokować wywołanie narzędzia, np. odczyt <code>.env</code>. <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/hooks-example">Przykłady hooków: konfiguracja wymaga testu w używanym CLI</a>.</div></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Agenci / kontekst</div><h2>Gdzie zapisać regułę, a gdzie prompt</h2><div class="cards"><div class="card"><h3>Instrukcja repozytorium</h3><p>Stałe reguły i komendy projektu.</p></div><div class="card"><h3>Prompt zadania</h3><p>Cel, zakres i kryteria dla jednej pracy.</p></div><div class="card"><h3>Skill</h3><p>Powtarzalny proces z instrukcjami i narzędziami.</p></div><div class="card"><h3>CI</h3><p>Testy uruchamiane niezależnie od agenta.</p></div></div></div></section>
 <section class="slide">
   <div class="slide-body">
@@ -383,7 +291,7 @@ If frontend and backend truly have different commands or conventions, propose sm
     <h2>Gdzie to umieścić? - mapa decyzyjna harnessu</h2>
     <div class="cards">
       <div class="card ok"><div class="card-title">Reguła projektowa</div>
-        <p><span class="code-inline">AGENTS.md</span> / <span class="code-inline">CLAUDE.md</span> - stałe konwencje projektu.</p>
+        <p><span class="code-inline">AGENTS.md</span> i instrukcje narzędzia - stałe konwencje projektu.</p>
       </div>
       <div class="card amber"><div class="card-title">Procedura</div>
         <p><strong>Skill</strong> - wielokrokowy workflow z instrukcjami i skryptami.</p>
@@ -415,10 +323,10 @@ If frontend and backend truly have different commands or conventions, propose sm
     <h2>CLI rośnie vs MCP</h2>
     <div class="two-col">
       <div>
-        <h3 class="accent2">Klasycznie: serwer MCP stale włączony</h3>
+        <h3 class="accent2">MCP: integracja przez klienta i serwer</h3>
         <div class="card"><ul class="feature-list cross">
-          <li>Serwer MCP działa cały czas, nawet gdy niepotrzebny</li>
-          <li>Narzut: proces, pamięć, konfiguracja utrzymania</li>
+          <li>Serwer MCP może być lokalnym procesem lub usługą zdalną; sposób uruchomienia zależy od klienta.</li>
+          <li>Koszt: konfiguracja, dostęp, narzędzia i ewentualne utrzymanie procesu.</li>
           
         </ul></div>
       </div>
@@ -464,42 +372,7 @@ If frontend and backend truly have different commands or conventions, propose sm
   </div>
   
 </section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">Moduł 2.1</div>
-    <h2>Konfiguracja MCP: .mcp.json i settings</h2>
-    <div class="two-col">
-      <div>
-        <h3 class="accent2">Plik .mcp.json</h3>
-        <div class="card"><p>Konfiguracja serwerów MCP w projekcie. Definiuje, które serwery są dostępne i jak je uruchomić.</p></div>
-        <div class="code-block" style="margin-top:.6rem">{
-  "mcpServers": {
-    "context7": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@upstash/context7-mcp@latest"]
-    },
-    "playwright": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@playwright/mcp@latest"]
-    }
-  }
-}</div>
-      </div>
-      <div>
-        <h3 class="accent">Poziomy konfiguracji</h3>
-        <div class="card amber">
-          <ul class="feature-list">
-            <li><span class="code-inline">.mcp.json</span> w katalogu projektu - per projekt</li>
-            <li>Settings globalne - dostępne w każdym projekcie</li>
-            <li>Agent wczytuje konfigurację przy starcie</li>
-          </ul>
-        </div>
-        <div class="note-box" style="margin-top:.6rem"><strong>Sprawdź:</strong> użyj komendy <span class="code-inline">/mcp</span> w CLI, aby zobaczyć aktywne serwery MCP i ich status - tak zweryfikujesz, że konfiguracja zadziałała.</div>
-      </div>
-    </div>
-  </div>
-  
-</section>
+<section class="slide"><div class="slide-body"><div class="kicker">Integracje / opcjonalnie</div><h2>Konfiguracja MCP należy do konkretnego agenta</h2><ul class="feature-list"><li>Preferuj dobre CLI do plików, Git i dokumentacji; dodaj MCP dopiero dla rzeczywistej potrzeby.</li><li>Codex przechowuje konfigurację MCP w config.toml; listę i składnię sprawdź przez codex mcp --help.</li><li>Copilot ma własną konfigurację serwerów i zgód. Nie kopiuj .mcp.json jako uniwersalnego formatu.</li><li>Najpierw odczyt dokumentacji, minimalny zakres dostępu i bezpieczny test bez danych firmowych.</li></ul><p style="font-size:.8rem;margin-top:1rem">Stan: 05.10.2026 · <a href="https://developers.openai.com/codex/mcp/">Dokumentacja</a>. Sprawdź wersję i dostęp na swoim koncie.</p></div></section>
 <section class="slide">
   <div class="slide-body">
     <div class="kicker">Moduł 2.1 | Narzędzia</div>
@@ -518,7 +391,7 @@ If frontend and backend truly have different commands or conventions, propose sm
         <h3 class="accent">Dlaczego ważne</h3>
         <div class="card amber">
           <p>Bez Context7 agent opiera się na <strong>wiedzy z treningu</strong>, która może być nieaktualna. Z Context7 agent ma dostęp do <strong>realnej, bieżącej dokumentacji</strong>.</p>
-          <p style="margin-top:.5rem">Idealne dla naszego projektu: dokumentacja Vercel AI SDK, React, TypeScript - wszystko aktualne.</p>
+          <p style="margin-top:.5rem">Dla projektu Java: dokumentacja JDK, Maven/Gradle i wybranych bibliotek. Sprawdź wersję indeksu oraz pierwotne źródło.</p>
         </div>
         <div class="note-box" style="margin-top:.6rem"><strong>Praktyka:</strong> gdy agent pisze kod z biblioteką, poproś go o sprawdzenie dokumentacji przez Context7.</div>
       </div>
@@ -540,8 +413,8 @@ If frontend and backend truly have different commands or conventions, propose sm
       <div class="card"><div class="card-title">Testy E2E</div>
         <p>Automatyczne testy end-to-end. Agent wchodzi na aplikację, klika, weryfikuje czy funkcja działa. Bez mockowania.</p>
       </div>
-      <div class="card warn"><div class="card-title">Manualne testy agenta</div>
-        <p>Agent testuje aplikację jak człowiek: otwiera, przechodzi przez flow i sprawdza rezultaty. W E2E używa realnego stosu, w tym prawdziwego LLM.</p>
+      <div class="card warn"><div class="card-title">Sprawdzenie scenariusza przez agenta</div>
+        <p>Agent testuje aplikację jak człowiek: otwiera, przechodzi przez flow i sprawdza rezultaty. W pełnym przepływie używa rzeczywistych komponentów projektu, wyłącznie w kontrolowanym środowisku.</p>
       </div>
     </div>
     <div class="note-box" style="margin-top:.8rem"><strong>W naszym procesie:</strong> Playwright MCP jest kluczowe na dwóch etapach - Design Guidelines (RAZEM 2.1) oraz testy manualne aplikacji.</div>
@@ -556,39 +429,7 @@ If frontend and backend truly have different commands or conventions, propose sm
 </ul><pre>npx --yes skills@latest add EdukeyTeam/agent-toolbox --list
 npx --yes skills@latest add EdukeyTeam/agent-toolbox --skill write-prd
 npx --yes skills@latest add EdukeyTeam/agent-toolbox --skill write-adr</pre></div></section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">Moduł 2.2</div>
-    <h2>Komendy i Skills - to samo pod spodem</h2>
-    <p class="subtitle">Custom slash commands zostały scalone ze skills - oba tworzą <span class="code-inline">/x</span></p>
-    <div class="two-col">
-      <div>
-        <h3 class="accent2">Jeden plik Markdown</h3>
-        <div class="card ok"><ul class="feature-list">
-          <li><span class="code-inline">.claude/commands/x.md</span> tworzy komendę <span class="code-inline">/x</span></li>
-          <li>To samo co <span class="code-inline">.claude/skills/x/SKILL.md</span> - oba tworzą <span class="code-inline">/x</span></li>
-          <li>Świadome, jawne wywołanie <span class="code-inline">/nazwa</span></li>
-          <li>Wspiera <span class="code-inline">$ARGUMENTS</span> (wstrzykiwanie argumentu)</li>
-          <li>Grupowanie w podfolderach tworzy namespace</li>
-        </ul></div>
-        <div class="note-box" style="margin-top:.6rem"><strong>Przykład:</strong> <span class="code-inline">.claude/commands/git/commit.md</span> wywołuje się jako <span class="code-inline">/git:commit</span>. Drugi przykład: <span class="code-inline">.claude/commands/git/diff.md</span> - <span class="code-inline">/git:diff</span>.</div>
-      </div>
-      <div>
-        <h3 class="accent">Skill wielo-plikowy</h3>
-        <div class="card amber"><ul class="feature-list">
-          <li>Katalog <span class="code-inline">.claude/skills/x/</span> z <span class="code-inline">SKILL.md</span> + skryptami</li>
-          <li>Agent <strong>sam dobiera skill</strong> z pola <span class="code-inline">description</span></li>
-          <li>Auto-trigger kontekstowy (heurystyka opisu)</li>
-          <li>Dołącza skrypty, assets i referencje</li>
-          <li>Metadane określające, kiedy się aktywuje</li>
-        </ul></div>
-        <div class="note-box" style="margin-top:.6rem"><strong>Kiedy skill wielo-plikowy:</strong> gdy agent ma SAM wykryć kontekst, gdy wiedza wymaga wielu plików, gdy potrzebne są dołączone skrypty i assets.</div>
-      </div>
-    </div>
-    <div class="note-box" style="margin-top:.8rem"><strong>Reguła:</strong> prosty, jednokrotny prompt = jeden plik Markdown wywoływany świadomie. Złożony workflow z auto-triggerem i skryptami = skill wielo-plikowy. Pod spodem to ten sam mechanizm - oba tworzą <span class="code-inline">/x</span>.</div>
-  </div>
-  
-</section>
+<section class="slide"><div class="slide-body"><div class="kicker">Skills / wywołanie</div><h2>Powtarzalny prompt i skill</h2><ul class="feature-list"><li>Krótki prompt opisuje jedno zadanie; skill dodaje procedurę, zasoby i narzędzia.</li><li>W Codex i Copilot CLI sprawdź wykrycie SKILL.md oraz sposób wywołania w swojej wersji.</li><li>Nie zakładaj zgodności katalogów slash commands pomiędzy narzędziami.</li><li>Ćwiczenie: zapisz sprawdzoną procedurę review Java jako skill; uruchom ją na małym diffie.</li></ul></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Narzędzia</div><h2>CLI, MCP i skill - kryteria wyboru</h2><ul>
   <li><strong>CLI:</strong> gdy narzędzie jest dostępne w powłoce, ma stabilne wyjście i łatwo je przetestować.</li>
   <li><strong>MCP:</strong> gdy integracja dostarcza agentowi narzędzia wymagające konfiguracji i kontroli uprawnień.</li>
@@ -596,13 +437,13 @@ npx --yes skills@latest add EdukeyTeam/agent-toolbox --skill write-adr</pre></di
 </ul></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Nowe trendy</div><h2>Skills przez MCP i WebMCP</h2><div class="two-col"><div><h3 class="accent2">Skills przez MCP</h3><ul>
   <li>Serwer MCP udostępnia skille, agent pobiera je na żądanie.</li>
-  <li>Zawsze aktualna wersja, bez ręcznej aktualizacji w każdym repozytorium.</li>
-  <li>Standard od 13.09.2026 (<a href="https://modelcontextprotocol.io/community/working-groups/skills-over-mcp">SEP-2640</a>); klienci dopiero go wdrażają.</li>
+  <li>Może udostępniać wersję zarządzaną centralnie; sprawdź aktualność i uprawnienia do zasobów.</li>
+  <li>Propozycja <a href="https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2640">SEP-2640</a>; status i obsługę konkretnego klienta sprawdź przed użyciem.</li>
 </ul></div><div><h3 class="accent">WebMCP</h3><ul>
   <li>Strona sama deklaruje narzędzia dla agenta: formularz HTML albo <code>navigator.modelContext.registerTool()</code>.</li>
   <li>Kilka wywołań narzędzi zamiast klikania i czytania DOM: szybciej, taniej, pewniej.</li>
-  <li>Chrome 149: origin trial, lokalnie flaga <code>chrome://flags/#enable-webmcp-testing</code> (<a href="https://developer.chrome.com/docs/ai/webmcp">dokumentacja</a>).</li>
-</ul></div></div><p>Przykład WebMCP: <a href="https://devpost.com/software/stack-underflow-your-ai-agent-plays-in-the-office">Stack Underflow</a>, gra z OpenAI WebMCP Challenge, w której agent przeglądarki gra jako współpracownik w biurze (<a href="https://play.devpowers.com">zagraj</a>).</p></div></section>
+  <li>Wersję Chrome i status eksperymentu sprawdź w dokumentacji; lokalnie flaga <code>chrome://flags/#enable-webmcp-testing</code> (<a href="https://developer.chrome.com/docs/ai/webmcp">dokumentacja</a>).</li>
+</ul></div></div><p>WebMCP jest dodatkowym kierunkiem rozwoju, poza główną ścieżką Java. Przed użyciem sprawdź status w dokumentacji przeglądarki.</p></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Moduł 2.4 / TDD</div><h2>TDD z agentem: Red-Green-Refactor</h2><div class="two-col"><div><h3 class="accent2">Cykl TDD</h3><div class="demo-flow"><div class="df-step"><div class="df-num" style="background:#ef4444">1</div><div class="df-text"><strong>Red:</strong> test ujawnia brak zachowania.</div></div><div class="df-step"><div class="df-num" style="background:#10b981">2</div><div class="df-text"><strong>Green:</strong> najmniejsza zmiana daje zielony test.</div></div><div class="df-step"><div class="df-num" style="background:#3b82f6">3</div><div class="df-text"><strong>Refactor:</strong> popraw kod bez zmiany zachowania.</div></div></div></div><div><h3 class="accent">Sprawdź z agentem</h3><div class="card ok"><ul class="feature-list check"><li>Test sprawdza wynik, nie sposób implementacji.</li><li>Uruchom test po każdym kroku.</li><li>Przed zmianą upewnij się, że test potrafi wykryć błąd.</li></ul></div></div></div></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Moduł 2.4 / wymóg</div><h2>Małe commity po sprawdzonych zmianach</h2><div class="two-col"><div><h3 class="accent2">Dobra historia</h3><div class="card ok"><ul class="feature-list check"><li>Jeden spójny, sprawdzony fragment na commit.</li><li>Test i kod mogą trafić do tego samego działającego commitu.</li></ul></div></div><div><h3 class="danger">Unikaj</h3><div class="card warn"><ul class="feature-list cross"><li>Jednego commitu ze wszystkim na koniec.</li><li>Łączenia niezależnych zmian.</li><li>Commitu bez uruchomionych testów.</li></ul></div></div></div></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Test ręczny</div><h2>Agent przechodzi przez rzeczywisty przepływ</h2><ul>
@@ -639,7 +480,7 @@ npx playwright test e2e/chat-flow.spec.ts</div>
           <ul class="feature-list cross">
             <li>Testują tylko to co zaplanowano - nie wykryją niespodziewanych zachowań</li>
             <li>Kruche - zmiana selektora CSS łamie test</li>
-            <li>Nie zastąpią testów manualnych ("czy to wygląda dobrze?")</li>
+            <li>Nie zastąpią sprawdzenia rzeczywistego scenariusza i oceny człowieka.</li>
           </ul>
         </div>
       </div>
@@ -647,65 +488,8 @@ npx playwright test e2e/chat-flow.spec.ts</div>
   </div>
   
 </section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">3.2 - strategia testów</div>
-    <h2>Mocki zależą od poziomu testu</h2>
-    <div class="card warn" style="border-left-width:6px;padding:1.5rem;">
-      <div class="card-title" style="font-size:1.2rem;">Dobieraj izolację do celu testu.</div>
-      <p style="font-size:1.05rem;">Strategia repozytorium rozróżnia trzy poziomy:</p>
-      <ul class="feature-list cross" style="margin-top:.5rem;">
-        <li><strong>Unit:</strong> mockuj wszystkie zależności</li>
-        <li><strong>Integracja:</strong> mockuj tylko zewnętrzny LLM</li>
-        <li><strong>E2E i manualne:</strong> nie używaj mocków; testuj realny stos</li>
-      </ul>
-      <ul class="feature-list check" style="margin-top:.5rem;">
-        <li><strong>E2E:</strong> prawdziwe wywołania modelu</li>
-        <li><strong>E2E:</strong> prawdziwa przeglądarka (Chrome/Chromium przez MCP)</li>
-        <li><strong>E2E:</strong> prawdziwe API, baza danych i odpowiedzi</li>
-      </ul>
-    </div>
-    <div class="note-box" style="margin-top:1rem;">
-      <strong>Dlaczego to ma znaczenie:</strong> szybkie testy jednostkowe izolują logikę, a E2E wyłapuje problemy integracji i rzeczywiste zachowanie modelu. Oba poziomy są potrzebne.
-    </div>
-  </div>
-  
-  
-</section>
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">3.2 - narzędzia</div>
-    <h2>Playwright MCP i Chrome DevTools</h2>
-    <div class="two-col">
-      <div>
-        <h3>Playwright MCP</h3>
-        <ul class="feature-list">
-          <li>Agent steruje przeglądarką przez Model Context Protocol</li>
-          <li>Może nawigować, klikać, wpisywać tekst, robić zrzuty ekranu</li>
-          <li>Weryfikuje czy elementy są widoczne, czy tekst się wyświetla</li>
-          <li>Testuje realne przepływy użytkownika krok po kroku</li>
-        </ul>
-        <div class="code-block">claude mcp add playwright -s project -- npx @playwright/mcp@latest
-# konfiguracja projektu ląduje w .mcp.json
-        </div>
-      </div>
-      <div>
-        <h3>Chrome DevTools MCP</h3>
-        <ul class="feature-list">
-          <li>Agent inspectuje DOM, konsolę, network requests</li>
-          <li>Może weryfikować czy nie ma błędów JavaScript</li>
-          <li>Sprawdza status kodów HTTP w network tab</li>
-          <li>Analizuje wydajność i czasy ładowania</li>
-        </ul>
-        <div class="note-box">
-          Obie ścieżki sterują <strong>prawdziwym silnikiem przeglądarki</strong>. Tryb może być headless lub headed; wiarygodność testu nie zależy od widocznego okna.
-        </div>
-      </div>
-    </div>
-    
-  </div>
-  
-</section>
+<section class="slide"><div class="slide-body"><div class="kicker">Jakość / Java</div><h2>Dobierz izolację do ryzyka testu</h2><ul class="feature-list"><li>Test jednostkowy: szybka kontrola reguły i wartości granicznych, bez sieci.</li><li>Test integracyjny: współpraca modułów, formatów i zależności w kontrolowanym środowisku.</li><li>Pełny scenariusz: rzeczywista ścieżka użytkownika w aplikacji Java; bez połączeń produkcyjnych.</li><li>LLM i przeglądarka są potrzebne tylko w projektach, które ich używają. Zapisz, co pozostało niesprawdzone.</li></ul></div></section>
+<section class="slide"><div class="slide-body"><div class="kicker">Jakość / opcjonalny interfejs</div><h2>Agent sprawdza UI, backend sprawdza API</h2><ul class="feature-list"><li>Dla aplikacji webowej agent może użyć Playwright lub Chrome DevTools do przepływu, DOM i konsoli.</li><li>Dla Java bez web UI sprawdź testy, CLI, wynik operacji i błędy zgodnie z README projektu.</li><li>Przeglądarka nie jest obowiązkową integracją tego kursu; nie potrzebujemy osobnego modułu testów manualnych.</li><li>MCP wybierz dopiero po sprawdzeniu konfiguracji i dostępu; pełne narzędzia zachowaj jako opcjonalną bibliotekę.</li></ul></div></section>
 <section class="slide"><div class="slide-body"><div class="kicker">Interfejs / pełny prompt</div><h2>Odtworzenie systemu wizualnego</h2><p>Skopiuj prompt poniżej lub otwórz <a href="prompts/P05-system-designu.md">plik Markdown</a> albo <a href="prompty.html#P05-system-designu">bibliotekę promptów</a>.</p><div class="prompt-full"><h3>System projektowy</h3><div class="prompt-full"><button type="button" class="copy-prompt" data-copy-prompt="prompt-P05-system-designu">Kopiuj prompt</button><pre id="prompt-P05-system-designu" data-prompt-id="P05-system-designu" data-prompt-version="2">Use a real browser automation tool available in this environment to inspect **one public reference page chosen by the learner** and document a reusable design system for a course UI. Do not assume a particular plugin name; first identify the actual browser surface and permissions.
 
 Capture a desktop and mobile screenshot of the chosen page. Inspect visible DOM and computed styles for the header, navigation, one primary action, one form field, a card/list item and the footer. Record concrete design tokens: colors (hex), type families/sizes/weights/line heights, spacing, border radius, borders, shadows and responsive breakpoints. Distinguish measured values from approximations. Record keyboard focus, contrast and error-state behavior where visible. Avoid inventing hidden components from a single screenshot.

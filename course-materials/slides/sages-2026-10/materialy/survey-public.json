@@ -1,0 +1,434 @@
+{
+  "schema_version": 1,
+  "report_date": "2026-10-05",
+  "release_scope": "Publiczne, wybrane agregaty zatwierdzonego raportu kursowego; bez odpowiedzi indywidualnych.",
+  "invited": 11,
+  "response_records": 10,
+  "verified_unique_respondents": null,
+  "response_records_percentage_of_invited": 90.91,
+  "context": {
+    "organizer": "Sages",
+    "client": "Sygnity",
+    "course_dates": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08"
+    ],
+    "hours": "09:00-17:00",
+    "time_zone": "Europe/Warsaw"
+  },
+  "privacy_policy": {
+    "multi_select_categories": "Pokazano wyłącznie wspólne kategorie z co najmniej trzema wskazaniami; pozostałe etykiety pominięto, bez wyliczania liczby różnych osób.",
+    "single_select_categories": "Wybrane pytania mają tylko szerokie grupy albo wspólne kategorie; rzadkich szczegółowych etykiet nie publikujemy.",
+    "open_answers": "Wyłącznie scalone ogólne wnioski, bez cytatów, częstości tematów i powiązań między pytaniami.",
+    "q13": "Wyłącznie średnia, mediana i baza; bez rozkładu umożliwiającego odtworzenie rzadkiej wartości."
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "label": "Czy zapoznałeś(-aś) się z programem szkolenia?",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "tak",
+          "count": 10,
+          "percentage": 100.0
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q02",
+      "label": "Proszę określić swoją rolę w firmie i doświadczenie zawodowe.",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q03",
+      "label": "Jak oceniasz swój poziom zaawansowania w AI?",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Początkujący",
+          "count": 7,
+          "percentage": 70.0
+        },
+        {
+          "label": "Średnio zaawansowani",
+          "count": 3,
+          "percentage": 30.0
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q04",
+      "label": "Główny obszar Twojej pracy:",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": true,
+      "options": [
+        {
+          "label": "Full-stack",
+          "count": 6,
+          "percentage": 60.0
+        },
+        {
+          "label": "Back-end",
+          "count": 5,
+          "percentage": 50.0
+        },
+        {
+          "label": "DevOps",
+          "count": 3,
+          "percentage": 30.0
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q05",
+      "label": "Języki z jakimi najczęściej pracujesz:",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": true,
+      "options": [
+        {
+          "label": "Java",
+          "count": 9,
+          "percentage": 90.0
+        },
+        {
+          "label": "SQL",
+          "count": 7,
+          "percentage": 70.0
+        },
+        {
+          "label": "JavaScript / TypeScript",
+          "count": 3,
+          "percentage": 30.0
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q06",
+      "label": "Główny system operacyjny, na którym pracujesz:",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Windows",
+          "count": 9,
+          "percentage": 90.0
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q07",
+      "label": "Główny IDE / edytor kodu, z którego najczęściej korzystasz (wybierz jeden)",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Eclipse",
+          "count": 5,
+          "percentage": 50.0
+        },
+        {
+          "label": "IntelliJ IDEA",
+          "count": 4,
+          "percentage": 40.0
+        },
+        {
+          "label": "Inne IDE",
+          "count": 1,
+          "percentage": 10.0
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q08",
+      "label": "Czy możesz instalować oprogramowanie na swoim komputerze?",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Jednoznaczne potwierdzenie",
+          "count": 8,
+          "percentage": 80.0
+        },
+        {
+          "label": "Wymaga doprecyzowania",
+          "count": 2,
+          "percentage": 20.0
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q09",
+      "label": "Główne narzędzia CI/CD, Repozytoria kodu, Task management itp.",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Jira",
+          "count": 4,
+          "percentage": 40.0
+        },
+        {
+          "label": "Bitbucket",
+          "count": 3,
+          "percentage": 30.0
+        },
+        {
+          "label": "Pozostałe odpowiedzi",
+          "count": 3,
+          "percentage": 30.0
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q10",
+      "label": "Czy któreś z tych narzędzi są on premises / self hosting? Jeśli tak, wymień które + wersja.",
+      "answered": 3,
+      "missing": 7,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q11",
+      "label": "Z której chmury najczęściej korzystasz w pracy?",
+      "answered": 3,
+      "missing": 7,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q12",
+      "label": "Rodzaj projektów z jakimi najczęściej pracujesz:",
+      "answered": 9,
+      "missing": 1,
+      "observed_multi_select": true,
+      "options": [
+        {
+          "label": "Aplikacje desktopowe",
+          "count": 6,
+          "percentage": 66.67
+        },
+        {
+          "label": "Narzędzia wewnętrzne",
+          "count": 3,
+          "percentage": 33.33
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q13",
+      "label": "Jaki procent Twojego kodu jest obecnie generowany przez agentów AI?",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q14",
+      "label": "Z jakich narzędzi AI korzystasz?",
+      "answered": 9,
+      "missing": 1,
+      "observed_multi_select": true,
+      "options": [
+        {
+          "label": "Codex",
+          "count": 8,
+          "percentage": 88.89
+        },
+        {
+          "label": "GitHub Copilot",
+          "count": 6,
+          "percentage": 66.67
+        },
+        {
+          "label": "ChatGPT Chat/Work",
+          "count": 3,
+          "percentage": 33.33
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q15",
+      "label": "Które z tych narzędzi chcesz lepiej poznać na szkoleniu?",
+      "answered": 7,
+      "missing": 3,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q16",
+      "label": "Które narzędzia AI posiadasz w wersji płatnej? (subskrypcje)",
+      "answered": 9,
+      "missing": 1,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "ChatGPT - odpowiedź w ankiecie",
+          "count": 7,
+          "percentage": 77.78
+        },
+        {
+          "label": "Copilot - odpowiedź w ankiecie",
+          "count": 2,
+          "percentage": 22.22
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q17",
+      "label": "Jaki rodzaj licencji posiadasz?",
+      "answered": 10,
+      "missing": 0,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Licencja firmowa - deklaracja",
+          "count": 10,
+          "percentage": 100.0
+        }
+      ],
+      "option_details_complete": true
+    },
+    {
+      "id": "q18",
+      "label": "W jakich zastosowaniach używasz AI?",
+      "answered": 9,
+      "missing": 1,
+      "observed_multi_select": true,
+      "options": [
+        {
+          "label": "Agent AI / generowanie kodu",
+          "count": 5,
+          "percentage": 55.56
+        },
+        {
+          "label": "Research",
+          "count": 5,
+          "percentage": 55.56
+        },
+        {
+          "label": "Przegląd kodu",
+          "count": 4,
+          "percentage": 44.44
+        },
+        {
+          "label": "Podpowiedzi kodu",
+          "count": 4,
+          "percentage": 44.44
+        },
+        {
+          "label": "Generowanie testów",
+          "count": 3,
+          "percentage": 33.33
+        },
+        {
+          "label": "Automatyzacja pracy",
+          "count": 3,
+          "percentage": 33.33
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q19",
+      "label": "Czy Twoja firma korzysta z AI?",
+      "answered": 9,
+      "missing": 1,
+      "observed_multi_select": false,
+      "options": [
+        {
+          "label": "Regularne użycie AI w firmie",
+          "count": 4,
+          "percentage": 44.44
+        }
+      ],
+      "option_details_complete": false
+    },
+    {
+      "id": "q20",
+      "label": "Jaki konkretny rezultat byłby dla Ciebie najbardziej wartościowy?",
+      "answered": 5,
+      "missing": 5,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q21",
+      "label": "Czy masz konkretne problemy lub procesy, które chcesz usprawnić?",
+      "answered": 3,
+      "missing": 7,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q22",
+      "label": "Jakie zadania zajmują Ci najwięcej czasu lub/i ich nie lubisz?",
+      "answered": 4,
+      "missing": 6,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q23",
+      "label": "Proszę wskazać tematy, które są dla Ciebie szczególnie ważne lub interesujące z programu szkolenia.",
+      "answered": 2,
+      "missing": 8,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    },
+    {
+      "id": "q24",
+      "label": "Jakie są Twoje oczekiwania wobec szkolenia?",
+      "answered": 3,
+      "missing": 7,
+      "observed_multi_select": false,
+      "options": [],
+      "option_details_complete": false
+    }
+  ],
+  "q13_summary": {
+    "mean_percent": 27.0,
+    "median_percent": 10.0,
+    "base": 10
+  },
+  "qualitative_themes": [
+    "Praktyczne usprawnienie pracy z oprogramowaniem za pomocą agentów.",
+    "Kontrola jakości zmian i sprawdzenie działania kodu.",
+    "Uporządkowany i powtarzalny sposób pracy z AI."
+  ]
+}

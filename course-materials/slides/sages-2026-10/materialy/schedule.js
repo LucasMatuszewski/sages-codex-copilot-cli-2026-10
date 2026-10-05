@@ -1,19 +1,20 @@
 /* One course schedule source for every topic deck and the participant agenda.
-   Set the date of each course day in `dates` before delivery; null keeps preview alarms quiet. */
+   Set the date of each course day in `dates` before delivery; null keeps preview alarms quiet.
+   Proposed breaks stay quiet until the trainer sets confirmed:true after agreeing their times and removes "(propozycja)" from label. */
 (() => {
   const common = {
-    courseId:'developer-ai-agent',
+    courseId:'sages-sygnity-2026-10',
     timeZone:'Europe/Warsaw',
     start:'09:00', end:'17:00',
     breaks:[
-      {time:'11:00', duration:15, label:'Przerwa poranna'},
-      {time:'13:00', duration:30, label:'Przerwa obiadowa'},
-      {time:null, duration:null, label:'Trzecia przerwa', optional:true}
+      {time:'10:45', duration:10, label:'Przerwa poranna (propozycja)', optional:true},
+      {time:'12:30', duration:40, label:'Przerwa obiadowa (propozycja)', optional:true},
+      {time:'14:45', duration:10, label:'Przerwa popołudniowa (propozycja)', optional:true}
     ]
   };
   // One date per course day, by day number; a day without a date raises no break reminders.
-  const dates = {1: null, 2: null};
-  window.COURSE_DAYS = [1,2].map(day => ({
+  const dates = {1:'2026-10-05',2:'2026-10-06',3:'2026-10-07',4:'2026-10-08'};
+  window.COURSE_DAYS = [1,2,3,4].map(day => ({
     ...common, day, date:dates[day], breaks:common.breaks.map(item => ({...item}))
   }));
   // A topic deck is shown on whichever day its topic comes up, so it follows the course day

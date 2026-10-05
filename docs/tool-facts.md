@@ -1,6 +1,6 @@
-# Stan narzędzi do sprawdzenia przed zajęciami
+# Wcześniejsza notatka biblioteczna o narzędziach
 
-Zweryfikowano 26.09.2026. Dostęp zależy od planu i polityki organizacji; ten plik nie potwierdza uprawnień uczestników.
+Zapis z 26.09.2026, zachowany jako biblioteka dodatkowa. Dla bieżącego kursu obowiązują materiały Codex i Copilot CLI z datą 05.10.2026 oraz polecenia sprawdzone w zainstalowanych wersjach narzędzi. Dostęp zależy od planu i polityki organizacji; ten plik nie potwierdza uprawnień uczestników.
 
 - GitHub Copilot cloud agent może pracować nad issue i przygotować pull request do przeglądu. W organizacjach Business dostęp do niego może wymagać włączenia przez administratora. Zobacz [cloud agent access](https://docs.github.com/en/copilot/concepts/enterprise/cloud-agent-access) i [użycie agentów](https://docs.github.com/en/copilot/how-tos/use-copilot-agents).
 - Instrukcje repozytorium `.github/copilot-instructions.md` są podstawą kontekstu tego ćwiczenia. Obsługa `AGENTS.md` i innych formatów zależy od powierzchni Copilot; [macierz obsługi instrukcji](https://docs.github.com/en/copilot/reference/custom-instructions-support) wymaga sprawdzenia dla VS Code, JetBrains, GitHub.com i CLI osobno.

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:,">
-<title>Pytania po pierwszym dniu | GitHub Copilot in Practice</title>
+<title>Pytania | Codex i GitHub Copilot CLI</title>
 <meta name="description" content="Sprawdzone odpowiedzi o przywracaniu zmian, uprawnieniach, skills, instrukcjach i historii sesji GitHub Copilot.">
 <script>(function(){try{var t=localStorage.getItem('developer-course-theme');if(t==='light')document.documentElement.dataset.theme='light'}catch(_){}})();</script>
 <link rel="stylesheet" href="course.css?v=20260927-4">
@@ -29,18 +29,18 @@
 </head>
 <body data-course-audience="developer" data-page-type="qa" data-theme="dark">
 <a class="hub-skip" href="#tresc">Przejdź do treści</a>
-<header class="hub-top"><div class="hub-container hub-top-in">
-  <a class="hub-brand" href="index.html" aria-label="Wróć do wszystkich materiałów">GitHub Copilot<span class="hub-brand-sub">/ pytania</span></a>
+<header class="hub-top"><div class="hub-container hub-top-in"><a class="sages-course-brand" href="index.html" aria-label="Sages - materiały kursu"><img class="sages-logo sages-logo-white" src="assets/sages-white.svg" alt="Sages"><img class="sages-logo sages-logo-dark" src="assets/sages-dark.svg" alt="Sages"></a>
+  <a class="hub-brand" href="index.html" aria-label="Wróć do wszystkich materiałów">Codex i Copilot CLI<span class="hub-brand-sub">/ pytania</span></a>
   <button class="qa-theme" id="themeToggle" type="button" aria-label="Przełącz motyw">Przełącz motyw</button>
 </div></header>
 <section class="qa-hero"><div class="hub-container">
-  <p class="qa-kicker">GitHub Copilot in Practice · pytania z kursu</p>
+  <p class="qa-kicker">Codex i Copilot CLI · pytania</p>
   <h1>Pytania o codzienną pracę z agentem</h1>
   <p class="qa-lead">Krótka ściąga na pokaz i do wykorzystania po zajęciach. Najpierw pracujemy nad własnym projektem; te odpowiedzi pomagają wtedy, gdy pojawia się konkretna decyzja.</p>
-  <p class="qa-meta">Stan dokumentacji: 28 września 2026 · sprawdź wersję narzędzia przed użyciem</p>
+  <p class="qa-meta">Stan odpowiedzi CLI: 5 października 2026 · sprawdź wersję narzędzia przed użyciem</p>
 </div></section>
 <main id="tresc" class="hub-container qa-main">
-<nav class="qa-nav" aria-label="Pytania"><a href="#cofanie">Cofanie</a><a href="#uprawnienia">Uprawnienia</a><a href="#skills">Skills w IDE</a><a href="#instrukcje">AGENTS.md</a><a href="#historia">Historia</a><a href="#organizacja">Organizacja i offline</a><a href="#indeks">Indeks kodu</a><a href="#harness">Agent Host i WSL</a><a href="#worktrees">Worktrees i pnpm</a><a href="#hooki">Hooki</a><a href="#cicd">CI/CD</a></nav>
+<nav class="qa-nav" aria-label="Pytania"><a href="#fork-pr">Fork i PR</a><a href="#cofanie">Cofanie</a><a href="#uprawnienia">Uprawnienia</a><a href="#skills">Skills w IDE</a><a href="#instrukcje">AGENTS.md</a><a href="#historia">Historia</a><a href="#organizacja">Organizacja i offline</a><a href="#indeks">Indeks kodu</a><a href="#harness">Agent Host i WSL</a><a href="#worktrees">Worktrees i pnpm</a><a href="#hooki">Hooki</a><a href="#cicd">CI/CD</a></nav>
 
 <article class="qa-card" id="cofanie"><h2>Jak cofnąć pracę agenta?</h2>
 <p>W Copilot CLI użyj <code>/undo</code> lub <code>/rewind</code> (alias), wybierz wcześniejszy prompt, a potem <code>Conversation only</code> albo <code>Conversation + files</code>. Pierwsza opcja cofa rozmowę; druga próbuje dodatkowo przywrócić pliki zmienione przez Copilota. W VS Code użyj <code>Restore Checkpoint</code>; interfejs oferuje też <code>Redo</code> i rozgałęzienie rozmowy.</p>
@@ -54,7 +54,7 @@
 <p>W VS Code oba tryby są eksperymentalne i każdy działa w innym harnessie. <strong>Assisted</strong> działa tylko w <a href="https://code.visualstudio.com/docs/agents/concepts/agent-host"><strong>Agent Host</strong></a> (włącz <code>chat.assistedPermissions.enabled</code>). <strong>Advanced Autopilot</strong> działa tylko w harnessie <strong>Local</strong>, czyli w Extension Host (włącz <code>chat.autopilot.advanced.enabled</code>). Dokumentacja nie podaje osobnej ceny ani nazwy modelu oceniającego Assisted, więc nie zakładaj, że jest bezpłatny.</p>
 <p>Poziom zgód wybierasz dla bieżącej sesji w pickerze czatu. <code>chat.permissions.default</code> ustawia poziom dla nowych sesji; starsze <code>chat.experimentalModePermissionsPicker</code> nie jest już udokumentowaną instrukcją włączenia pickera. Advanced Autopilot działa podobnie jak <code>/goal</code> w Claude Code i Codex: agent pracuje dalej, aż osobny model uzna zadanie za ukończone. W Copilot CLI <code>/goal</code> uruchamia Autopilot.</p>
 <p>Jeśli chcesz udostępnić narzędzie tylko do jednego pytania, w sesji <strong>Local</strong> otwórz <code>Configure Tools</code> przy polu czatu i wybierz narzędzia przed wysłaniem wiadomości. W <strong>Copilot harness</strong> wybór narzędzi w <code>Agent Customizations</code> zapisuje się w profilu użytkownika. Włączenie narzędzia nie oznacza automatycznej zgody na jego wywołanie.</p>
-<p>Przykład automatycznego zatwierdzania i blokowania wybranych poleceń CLI jest w <a href="https://github.com/EdukeyTeam/COURSE-REPO/tree/main/course-materials/agent-configs/copilot">repozytorium kursu</a>. Copilot nie odczytuje takich list z repozytoryjnego <code>.github/copilot/settings.json</code>.</p>
+<p>Przykład automatycznego zatwierdzania i blokowania wybranych poleceń CLI jest w <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/agent-configs/copilot">repozytorium kursu</a>. Copilot nie odczytuje takich list z repozytoryjnego <code>.github/copilot/settings.json</code>.</p>
 <p class="qa-sources">Źródła: <a href="https://code.visualstudio.com/docs/agents/run/approvals">VS Code - approvals</a>, <a href="https://code.visualstudio.com/docs/agents/run/tools">VS Code - narzędzia</a>, <a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference">GitHub - komendy CLI</a>, lokalny <code>copilot help config</code> 1.0.88.</p></article>
 
 <article class="qa-card" id="skills"><h2>Dlaczego skill nie pojawia się w IntelliJ?</h2>
@@ -64,8 +64,8 @@
 
 <article class="qa-card" id="instrukcje"><h2>Czy zagnieżdżone AGENTS.md działają automatycznie?</h2>
 <p>W VS Code <strong>Local</strong> odczyt zagnieżdżonych plików zależy od <code>chat.useNestedAgentsMdFiles</code>, które jest domyślnie wyłączone. Plik główny ma osobne ustawienie <code>chat.useAgentsMdFile</code>. Agent Host stosuje reguły wybranego harnessu; nie przenoś ustawienia Local na wszystkie narzędzia bez testu.</p>
-<p>Dla instrukcji przypiętych do konkretnych plików można użyć <code>.github/instructions/*.instructions.md</code> i <code>applyTo</code>. W repo kursu jest <a href="https://github.com/EdukeyTeam/COURSE-REPO/tree/main/course-materials/AGENTS.md">folder przykładów AGENTS.md</a> dla Next.js i MCP. To materiały do adaptacji; same pliki w tym folderze nie stają się automatycznie instrukcjami bieżącego projektu. Poproś agenta o wskazanie, które instrukcje faktycznie zastosował do bieżącego pliku.</p>
-<p class="qa-sources">Źródła: <a href="https://code.visualstudio.com/docs/agent-customization/custom-instructions">VS Code - custom instructions</a>, <a href="https://github.com/EdukeyTeam/COURSE-REPO/tree/main/course-materials/AGENTS.md">przykłady z repo kursu</a>.</p></article>
+<p>Dla instrukcji przypiętych do konkretnych plików można użyć <code>.github/instructions/*.instructions.md</code> i <code>applyTo</code>. W repo kursu jest <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/AGENTS.md">folder przykładów AGENTS.md</a> dla Next.js i MCP. To materiały do adaptacji; same pliki w tym folderze nie stają się automatycznie instrukcjami bieżącego projektu. Poproś agenta o wskazanie, które instrukcje faktycznie zastosował do bieżącego pliku.</p>
+<p class="qa-sources">Źródła: <a href="https://code.visualstudio.com/docs/agent-customization/custom-instructions">VS Code - custom instructions</a>, <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/AGENTS.md">przykłady z repo kursu</a>.</p></article>
 
 <article class="qa-card" id="historia"><h2>Gdzie trafia historia sesji?</h2>
 <p>VS Code Session Sync jest domyślnie włączone, jeśli pozwala na to polityka firmy. Sesje są synchronizowane z osobistym kontem GitHub; można wyłączyć synchronizację przez <code>chat.sessionSync.enabled</code> lub wykluczyć wybrane repozytoria. Jeśli synchronizacja jest wyłączona, kliknij ikonę Copilota na pasku stanu (prawy dolny róg) i wybierz <code>Session Sync: Enable</code>. Chronicle pomaga wyszukać wcześniejsze sesje.</p>
@@ -94,18 +94,42 @@
 <div class="qa-note">Jeden zapisywalny magazyn tylko dla agentów, którym ufasz w równym stopniu. Pozostałe koszty worktree zostają: osobne porty serwerów, kopia <code>.env</code> i sprzątanie przez <code>git worktree remove</code>.</div>
 <p class="qa-sources">Źródło: <a href="https://pnpm.io/git-worktrees">pnpm: git worktrees</a>.</p></article>
 
-<article class="qa-card" id="hooki"><h2>Hooki: czy można je ograniczyć do plików i poleceń?</h2>
-<p>Tak. Hook uruchamia się na zdarzeniu, np. przed każdym użyciem narzędzia (<code>preToolUse</code> w Copilocie, <code>PreToolUse</code> w Claude Code i Codex), i dostaje pełne argumenty wywołania: polecenie, ścieżkę pliku, wzorzec wyszukiwania. Zawęzisz go na trzy sposoby:</p>
-<ul><li><strong>matcher</strong>: nazwa narzędzia jako wyrażenie regularne, np. <code>Bash|Read</code>,</li><li><strong><code>if</code></strong> (Claude Code): składnia reguł uprawnień, np. <code>Bash(git commit *)</code>,</li><li><strong>skrypt</strong>: sam sprawdza plik lub polecenie i zwraca odmowę (kod wyjścia <code>2</code>).</li></ul>
-<p>W repozytorium kursu jest <a href="https://github.com/EdukeyTeam/COURSE-REPO/tree/main/course-materials/hooks-example">jeden skrypt blokujący odczyt <code>.env</code>, kluczy SSH i <code>secrets/</code></a> z konfiguracją dla Copilota, Claude Code i Codex. Hooki Copilota z <code>.github/hooks/*.json</code> działają w Copilot CLI, cloud agencie i VS Code (preview).</p>
-<p class="qa-sources">Źródła: <a href="https://docs.github.com/en/copilot/concepts/agents/hooks">GitHub: hooki</a>, <a href="https://docs.github.com/en/copilot/reference/hooks-reference">GitHub: hooks reference</a>, <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">VS Code: hooki</a>, <a href="https://code.claude.com/docs/en/hooks-guide">Claude Code: hooki</a>, <a href="https://developers.openai.com/codex/hooks">Codex: hooki</a>.</p></article>
+<article class="qa-card" id="hooki"><h2>Hooki: jak sprawdzić zakres działania?</h2><p>Hook reaguje na zdarzenie sesji lub użycia narzędzia. Copilot CLI ma pliki .github/hooks/*.json oraz zdarzenie preToolUse. Nazwy zdarzeń, format argumentów i kod odmowy sprawdź w dokumentacji konkretnego agenta.</p><p>Skrypt zawęża działanie do wskazanej ścieżki lub komendy. Przetestuj nieszkodliwy dozwolony i blokowany przypadek. Przykłady wielonarzędziowe w <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/hooks-example">bibliotece hooków</a> wymagają dopasowania i testu w używanej wersji.</p><p class="qa-sources">Źródła: <a href="https://docs.github.com/en/copilot/concepts/agents/hooks">GitHub: hooki</a>, <a href="https://developers.openai.com/codex/hooks/">Codex: hooki</a>. Stan: 05.10.2026.</p></article>
+
+<article class="qa-card" id="fork-pr"><h2>Własny fork przed pierwszym pushem lub PR</h2>
+<p>W dniu 1 klonujesz publiczne repo trenera i pracujesz na lokalnym branchu. W dniu 3, zanim wyślesz branch albo utworzysz PR, przygotuj własny fork dla tego samego klona. Nie klonuj ponownie, nie resetuj plików i nie porzucaj lokalnych zmian.</p>
+<p>Wybierz jeden wariant przygotowania forka. <strong>Wariant z GitHub CLI:</strong> w terminalu w katalogu repozytorium zaloguj się przez przeglądarkę, a następnie utwórz fork. Polecenie <code>gh repo fork --remote</code> ustawia Twój fork jako <code>origin</code> i zmienia nazwę dotychczasowego remote trenera na <code>upstream</code>.</p>
+<pre>gh auth login --hostname github.com --git-protocol https --web
+gh auth setup-git --hostname github.com
+gh repo fork --remote
+git remote -v
+git remote get-url origin
+git remote get-url upstream</pre>
+<p><strong>Wariant bez GitHub CLI:</strong> na stronie repozytorium trenera w GitHub kliknij Fork i utwórz kopię na swoim koncie. Ten wariant zastępuje <code>gh repo fork</code>, nie wykonuj obu. W tym samym lokalnym klonie zmień nazwę remote trenera:</p>
+<pre>git remote rename origin upstream</pre>
+<p>Wybierz dokładnie jeden sposób uwierzytelnienia do własnego forka. W przykładach zastąp <code>TWOJ-LOGIN</code> swoim loginem i sprawdź adres z przycisku Code we własnym forku.</p>
+<p><strong>HTTPS:</strong> użyj wcześniej skonfigurowanego menedżera poświadczeń Git, który loguje przez przeglądarkę. Jeśli nie jest skonfigurowany, uzgodnij konfigurację z trenerem przed pushem. Dodaj origin HTTPS:</p>
+<pre>git remote add origin https://github.com/TWOJ-LOGIN/sages-codex-copilot-cli-2026-10.git</pre>
+<p><strong>Albo SSH:</strong> użyj wcześniej skonfigurowanego klucza SSH dodanego do Twojego konta GitHub. Zamiast powyższego origin HTTPS dodaj origin SSH:</p>
+<pre>git remote add origin git@github.com:TWOJ-LOGIN/sages-codex-copilot-cli-2026-10.git</pre>
+<p>Nie wykonuj obu poleceń dodania origin. Następnie sprawdź remotes:</p>
+<pre>git remote -v</pre>
+<p>Oba warianty zachowują istniejący branch i lokalną pracę. Nie wymagają resetu ani ponownego klonowania. GitHub CLI pozostaje opcjonalne; wariant ręczny nie wymaga jego instalacji. Push wymaga działającego uwierzytelnienia Git do Twojego konta.</p>
+<p>Sprawdź wyniki: <code>origin</code> musi wskazywać repozytorium na Twoim koncie, a <code>upstream</code> ma wskazywać <code>https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10.git</code>. Zmiana remotes zachowuje bieżący lokalny branch i pliki. Jeśli adresy są inne, wyjaśnij różnicę z trenerem przed pushem.</p>
+<p>Przejrzyj diff, wykonaj testy i commit uzgodnionej zmiany. Dopiero potem wyślij bieżący branch do własnego forka:</p>
+<pre>git push -u origin HEAD</pre>
+<p>W tym szkoleniu standardowym celem PR jest Twój własny fork. W formularzu GitHub ustaw <code>base repository</code> na <code>TWOJ-LOGIN/sages-codex-copilot-cli-2026-10</code>, <code>base</code> na <code>main</code>, a <code>compare</code> na swój wysłany bieżący branch, np. <code>moja-praca</code>. Zastąp <code>TWOJ-LOGIN</code> swoim loginem i jawnie sprawdź te trzy pola przed wysłaniem. Nie kieruj PR do repo trenera bez osobnego uzgodnienia. Po <code>gh repo fork</code> kolejne operacje <code>gh</code> domyślnie wskazują upstream, dlatego cel PR sprawdzaj jawnie w GitHub. Utworzenie lokalnego brancha, push i PR to osobne kroki. Pełny przebieg: <a href="Prezentacja_06_Review_CI.html#1">Review i CI</a> oraz <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10#readme">README repozytorium kursowego</a>.</p>
+<p>Jeśli wybierasz GitHub CLI do utworzenia PR, wskaż własne repozytorium, bazę i branch jawnie. Przykład dla brancha <code>moja-praca</code>; przy innej nazwie zastąp ją w poleceniu. Po utworzeniu sprawdź URL repozytorium oraz nazwy base/head w wyniku:</p>
+<pre>gh pr create --repo TWOJ-LOGIN/sages-codex-copilot-cli-2026-10 --base main --head moja-praca
+gh pr view moja-praca --repo TWOJ-LOGIN/sages-codex-copilot-cli-2026-10 --json url,baseRefName,headRefName</pre>
+<p class="qa-sources">Źródła: <a href="https://cli.github.com/manual/gh_repo_fork">GitHub CLI: fork i remotes</a>, <a href="https://cli.github.com/manual/gh_auth_login">logowanie przez przeglądarkę</a>, <a href="https://cli.github.com/manual/gh_auth_setup-git">uwierzytelnienie Git</a>.</p></article>
 
 <article class="qa-card" id="cicd"><h2>Agent w CI/CD: Azure, GitLab, Bitbucket</h2>
-<p><a href="https://github.com/EdukeyTeam/COURSE-REPO/tree/main/course-materials/cicd-headless/agent-review">Gotowy zestaw w repozytorium kursu</a>: agent robi code review i security review każdego pull requestu, dodaje komentarz do PR, czyta zadanie z Jira i dopisuje tam wynik. Agenta wybierasz jedną zmienną: Copilot, Claude Code, Codex albo OpenCode.</p>
-<ul><li><strong>Pipeline'y</strong>: Azure Pipelines, GitLab CI i Bitbucket Pipelines; dla GitHub Actions osobne przykłady w tym samym folderze.</li><li><strong>Dostęp</strong>: najprościej jeden klucz <code>OPENROUTER_API_KEY</code> dla wszystkich agentów. Copilot na własnym koncie wymaga fine-grained PAT z uprawnieniem <em>Copilot Requests</em>, Claude Code <code>ANTHROPIC_API_KEY</code>, Codex <code>CODEX_API_KEY</code>.</li><li><strong>Obraz</strong>: własny, na Debian slim z czterema CLI. Alpine odpada, bo narzędzia agentów zakładają glibc.</li><li><strong>Bitbucket</strong>: app passwords przestały działać w lipcu 2026; użyj access tokena repozytorium.</li></ul>
-<p class="qa-sources">Źródła: <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically">Copilot CLI programowo</a>, <a href="https://code.claude.com/docs/en/headless">Claude Code headless</a>, <a href="https://developers.openai.com/codex/noninteractive">Codex exec</a>, <a href="https://www.atlassian.com/blog/bitbucket/bitbucket-cloud-transitions-to-api-tokens-enhancing-security-with-app-password-deprecation">Bitbucket API tokens</a>.</p></article>
+<p><a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/cicd-headless/agent-review">Przykłady do konfiguracji w repozytorium kursu</a>: agent robi code review i security review każdego pull requestu, dodaje komentarz do PR, czyta zadanie z Jira i dopisuje tam wynik. Agenta wybierasz jedną zmienną: Copilot, Claude Code, Codex albo OpenCode.</p>
+<ul><li><strong>Pipeline'y</strong>: Azure Pipelines, GitLab CI i Bitbucket Pipelines; dla GitHub Actions osobne przykłady w tym samym folderze.</li><li><strong>Dostęp:</strong> uwierzytelnienie należy do konkretnego CLI i dostawcy. Administrator dodaje właściwy token jako sekret CI; sam klucz OPENROUTER_API_KEY nie loguje wszystkich agentów.</li><li><strong>Obraz</strong>: własny, na Debian slim z czterema CLI. Alpine odpada, bo narzędzia agentów zakładają glibc.</li><li><strong>Bitbucket</strong>: App passwords wycofano 28 lipca 2026; użyj API tokena z uprawnieniami wymaganymi przez integrację.</li></ul>
+<p class="qa-sources">Źródła: <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically">Copilot CLI programowo</a>, <a href="https://code.claude.com/docs/en/headless">Claude Code headless</a>, <a href="https://developers.openai.com/codex/noninteractive">Codex exec</a>, <a href="https://community.atlassian.com/forums/discussion/3237429/deprecation-notice-bitbucket-cloud-app-password-brownout-schedule-and-next-steps">Bitbucket: wycofanie app passwords</a>, <a href="https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/">Bitbucket: API tokens</a>.</p></article>
 </main>
-<footer class="qa-foot"><div class="hub-container"><a href="index.html">← Wszystkie materiały</a><a href="agenda.html#prezentacje">Prezentacje</a><span>GitHub Copilot in Practice</span></div></footer>
+<footer class="qa-foot"><div class="hub-container"><a href="index.html">← Wszystkie materiały</a><a href="agenda.html#prezentacje">Prezentacje</a><span>Codex i Copilot CLI</span></div></footer>
 <script>(function(){var b=document.getElementById('themeToggle');function apply(t){document.documentElement.dataset.theme=t;document.body.dataset.theme=t;b.setAttribute('aria-pressed',String(t==='light'));b.textContent=t==='light'?'Motyw: jasny':'Motyw: ciemny'}apply(document.documentElement.dataset.theme==='light'?'light':'dark');b.addEventListener('click',function(){var t=document.documentElement.dataset.theme==='light'?'dark':'light';apply(t);try{localStorage.setItem('developer-course-theme',t)}catch(_){}})})();</script>
 </body>
 </html>

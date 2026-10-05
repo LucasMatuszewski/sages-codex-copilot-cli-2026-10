@@ -91,7 +91,7 @@
     },
     {
       "id": "P18-jftp-legacy",
-      "version": "1",
+      "version": "3",
       "source": "P18-jftp-legacy.md",
       "targets": [
         "prompty.html",
@@ -100,7 +100,7 @@
     },
     {
       "id": "P19-plan-matryca",
-      "version": "4",
+      "version": "6",
       "source": "P19-plan-matryca.md",
       "targets": [
         "prompty.html",
