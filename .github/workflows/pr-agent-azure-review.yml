@@ -1,5 +1,5 @@
 # Community PR-Agent v0.47.0; see README.md for Azure and fork setup.
-# Copy to .github/workflows/pr-agent-azure-review.yml to activate.
+# Optional: configure Azure credentials/variables and set PR_AGENT_ENABLED=true to activate.
 name: Community PR-Agent Azure Review
 
 on:
@@ -62,7 +62,7 @@ env:
 jobs:
   review:
     if: >-
-      github.event.sender.type != 'Bot' &&
+      vars.PR_AGENT_ENABLED == 'true' && github.event.sender.type != 'Bot' &&
       ((github.event_name == 'pull_request' &&
         github.event.pull_request.head.repo.full_name == github.repository &&
         !github.event.pull_request.draft) ||

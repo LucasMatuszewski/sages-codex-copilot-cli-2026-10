@@ -1,0 +1,49 @@
+name: Java starter QA
+
+on:
+  push:
+    branches: [main, 'course/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: JDK 17 / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+          cache-dependency-path: |
+            app/pom.xml
+            app/build-bridge/**/pom.xml
+            app/launcher/pom.xml
+      - name: Check original source integrity
+        run: python scripts/verify-upstream.py
+      - name: Compile, test and package original application
+        run: mvn --batch-mode --no-transfer-progress -f app/pom.xml verify
+      - name: Verify packaged headless fallback
+        shell: bash
+        run: |
+          set +e
+          java -Djava.awt.headless=true -jar app/launcher/target/jftp-workshop.jar > headless.log 2>&1
+          result=$?
+          set -e
+          cat headless.log
+          test "$result" -eq 2
+          grep -F 'A graphical desktop is required' headless.log
+      - name: Verify warm-cache offline build
+        run: mvn --batch-mode --no-transfer-progress -o -f app/pom.xml verify

@@ -23,7 +23,7 @@ oss_provider = "ollama"          # Default OSS (Open Source) models provider
 # CLI override example:
 #   codex --config 'approval_policy="on-request"'
 #
-# approval_policy = "never"      # never ask (allow all). Other options: on-request or { granular = { ... } }
+# approval_policy = "never"      # Never ask; actions requiring approval are rejected, not automatically allowed.
 # "untrusted" is no longer supported as an approval_policy value (use "on-request" or "never").
 #
 # Example granular approval policy:
@@ -88,10 +88,10 @@ enabled = false
 # Context7 (docs context provider) - connect to remote server
 [mcp_servers.context7]
 url = "https://mcp.context7.com/mcp"
-env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" } # paste you API key from Contex7 or set env
+env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" } # Optional environment-variable header; never paste a key.
 startup_timeout_sec = 20
 tool_timeout_sec = 60
-enabled = true
+enabled = false # Optional integration; the course starts with local CLI tools.
 # Local MCP server with Context7 on your machine
 # [mcp_servers.context7]
 # command = "npx"

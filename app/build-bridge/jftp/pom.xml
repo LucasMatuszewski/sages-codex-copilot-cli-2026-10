@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>com.devpowers.course</groupId><artifactId>jftp-workshop</artifactId><version>1.0.0</version><relativePath>../../pom.xml</relativePath></parent>
+  <artifactId>jftp-baseline</artifactId>
+  <dependencies>
+    <dependency><groupId>com.devpowers.course</groupId><artifactId>ftpapi-baseline</artifactId><version>${project.version}</version></dependency>
+    <dependency><groupId>javax.help</groupId><artifactId>javahelp</artifactId><version>2.0.05</version></dependency>
+  </dependencies>
+  <build><sourceDirectory>${project.basedir}/../../jftp/src/main/java</sourceDirectory><resources><resource><directory>${project.basedir}/../../jftp/src/main/resources</directory></resource><resource><directory>${project.basedir}/../../jftp/src/main/resources_de</directory></resource><resource><directory>${project.basedir}/../../jftp/src/main/resources_zh_TW</directory></resource><resource><directory>${project.basedir}/../../jftp/src/main/images</directory></resource><resource><directory>${project.basedir}/../../jftp/src/main/help</directory></resource></resources><plugins><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><excludes><exclude>**/OSXAdapterOld.java</exclude></excludes></configuration></plugin></plugins></build>
+</project>
