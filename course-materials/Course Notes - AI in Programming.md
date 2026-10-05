@@ -98,15 +98,15 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 
 ### Case Studies:
 
-- **Microsoft** plans to rewrite all code from **C/C++ to Rust** using AI and algorithms
+- **Microsoft research ambition (Galen Hunt):** eliminate **C/C++ by 2030**, using AI and algorithms to migrate large codebases to **Rust**. Hunt later clarified in the same post that this is a research project enabling language migration, not an announced AI rewrite of Windows.
   - Linkedin post from [Galen Hunt - Principal Software Engineer (CoreAI)](https://www.linkedin.com/posts/galenh_principal-software-engineer-coreai-microsoft-activity-7407863239289729024-WTzf)
    My goal is to eliminate every line of C and C++ from Microsoft by 2030. Our strategy is to combine AI *and* Algorithms to rewrite Microsoft's largest codebases. Our North Star is "1 engineer, 1 month, 1 million lines of code".   To accomplish this previously unimaginable task, we've built a powerful code processing infrastructure. Our algorithmic infrastructure creates a scalable graph over source code at scale. Our AI processing infrastructure then enables us to apply AI agents, guided by algorithms, to make code modifications at scale. The core of this infrastructure is already operating at scale on problems such as code understanding.
 
 - **OpenClaw** — fastest-growing GitHub project in history (launched late Nov 2025)
   - **220k+ Stars, 790 contributors, 4,300+ open PRs** — [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw)
   - Created by **Peter Steinberger** ([@steipete](https://github.com/steipete)), who joined **OpenAI in Feb 2026** to help build autonomous agents at scale. OpenClaw transitions to an OpenAI-backed open-source foundation.
-  - **50 parallel Codex agents for PR triage:** Peter spins up 50 Codex instances simultaneously, each outputs a JSON report (vision match, intent, risk signals). All 50 reports ingested in one session to query/deduplicate/auto-close/merge — no vector DB needed: [X post](https://x.com/steipete/status/2025591780595429385)
-  - **Thousands of commits/day:** since switching to Codex (Oct 2025), regularly runs many parallel agents across 2 computers; top days now hit **~2,600–2,900 commits/day** (up from the first >1,000 day, 1,374 on Oct 26, 2025 - the pace keeps climbing). [X post](https://x.com/steipete/status/2024524946114814414) | [GitHub profile](https://github.com/steipete)
+  - **50+ parallel Codex agents for PR triage:** Peter spins up 50 Codex instances simultaneously, each outputs a JSON report (vision match, intent, risk signals). All 50 reports ingested in one session to query/deduplicate/auto-close/merge — no vector DB needed: [X post](https://x.com/steipete/status/2025591780595429385)
+  - **GitHub activity at agent scale (updated 2026-10-05):** current trainer research identifies a record of about **6,700 on May 9, 2026**. The read-only GitHub contributions API verifies **6,747 total contributions and 1,089 commit contributions** on that date. Contributions include commits, pull requests and other activity; do not call the whole total commits. Peter regularly runs many agents across multiple projects. [GitHub profile and contribution calendar](https://github.com/steipete) | [Earlier workflow post](https://x.com/steipete/status/2024524946114814414)
   - Peter's articles on his workflow:
     - My [NotebookLM knowledge base](https://notebooklm.google.com/notebook/3e4c8c3c-d617-4060-998c-c684d124d762) with his articles and videos about how he works
     - [Essential Reading Aug 2025](https://steipete.me/posts/2025/essential-reading-august-2025)
@@ -194,6 +194,10 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
   - Context Rot,
   - Lost in the Middle
 - **Tokens**, Tokenizer, Embedding (osadzanie), Vector DB, etc.
+  - Tokens are numeric IDs for pieces of text/data; an embedding lookup maps them to learned vectors. An ID is not itself a vector.
+  - Practical trainer estimates (2026-10-05, tokenizer-dependent): **Polish around 2.4 tokens/word, English around 1.3; comparable Polish prose can use 60-80% more tokens**. Recommend English when practical to conserve context and token budget; Polish prompts can also lead to Polish reasoning traces. Quality effects depend on model/task, not a universal rule. [OpenAI Tokenizer](https://platform.openai.com/tokenizer) | [Do Multilingual LLMs Think In English?](https://arxiv.org/abs/2502.15603)
+  - **Session context view (trainer-observed 2026-10-05):** Claude Code and Copilot CLI show a detailed breakdown with `/context`. Codex CLI has basic `/status` and account-wide `/usage` analytics, not an equivalent session breakdown. Desktop: **General Settings > Composer > Show context window usage**; availability has been unstable, with the feature breaking/disappearing. [Copilot context management](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/context-management) | [Codex commands](https://developers.openai.com/codex/cli/slash-commands)
+
 - **Autoregression**
   - model predicts future values in a sequence by using a linear combination of its own past values
   - one mistake may lead to cascade / domino effect of mistakes (better to start again - branching in ChatGPT, Cursor can also revert with back icon next to our prompts in history)
