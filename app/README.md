@@ -10,7 +10,7 @@ mvn -f app/pom.xml verify
 java -jar app/launcher/target/jftp-workshop.jar
 ```
 
-The same commands work in native Windows PowerShell. Convenience entry points: `bash scripts/run-jftp.sh` or `./scripts/run-jftp.ps1` after packaging. If script execution is restricted by policy, use the direct Java command. The JAR must remain beside its generated `lib/` directory; it is not a fat JAR.
+The Maven build, tests, packaging, packaged headless fallback and warm-cache offline build passed from a public Git checkout on native Windows and Ubuntu in [CI run 37265295119](https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/actions/runs/37265295119). The direct Maven and Java commands are suitable for native PowerShell. Convenience entry points: `bash scripts/run-jftp.sh` or `./scripts/run-jftp.ps1` after packaging. If script execution is restricted by policy, use the direct Java command. The JAR must remain beside its generated `lib/` directory; it is not a fat JAR.
 
 ## Prerequisites and recovery
 
@@ -20,7 +20,13 @@ The first build needs Maven Central for JavaHelp 2.0.05, JUnit and Maven plugins
 
 Once `verify` has succeeded, the same machine can run `mvn -o -f app/pom.xml verify` with its cached dependencies and plugins. A fresh machine without that cache is not an offline build environment.
 
-A graphical desktop is needed for the Swing UI. In a headless environment the course launcher exits with code 2 and suggests headless tests. Continue repository analysis and tests with `mvn -f app/pom.xml test`; a trainer or participant with a desktop must verify the GUI. Modern macOS native integration and native Windows execution are not established by Linux QA.
+A graphical desktop is needed for the Swing UI. In a headless environment the course launcher exits with code 2 and suggests headless tests. Continue repository analysis and tests with `mvn -f app/pom.xml test`; a trainer or participant with a desktop must verify the GUI. The original Swing window and local synthetic-file flow were verified on Linux/WSLg; native Windows GUI and modern macOS native integration remain unverified. The Windows CI evidence establishes build/package/headless behavior, not interactive GUI behavior.
+
+## IDE use
+
+The canonical build is the terminal reactor at `app/pom.xml`. You can use Eclipse or IntelliJ to read and edit the sources, then run the documented Maven command in a terminal. IDE Maven import has not been validated: the bridge uses source directories outside each module's basedir, so automatic m2e or IntelliJ source mapping is not an established workflow. Do not import the preserved upstream POM as if it were the course build. Use the verified terminal workflow if IDE import does not map the source trees correctly.
+
+Surefire runs the supplied and future participant tests headlessly with `user.home` set to `app/launcher/target/test-home`. A test that initializes jFTP therefore keeps preferences under generated test output rather than the real user profile. This configuration does not change the application launcher or its separate workshop home.
 
 ## Boundaries
 

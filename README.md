@@ -3,7 +3,7 @@
 5-8 października 2026, 09:00-17:00 czasu polskiego, Zoom, własne komputery. Głównym narzędziem jest OpenAI Codex, drugim GitHub Copilot CLI. Pierwszego dnia analizujemy rzeczywisty projekt Java: [jFTP autorstwa Sai Pullabhotli](https://github.com/sai-pullabhotla/jftp), klient FTP/FTPS z interfejsem Swing. Kolejny projekt Java wybierzemy podczas dalszej części warsztatu.
 
 - [Strona szkolenia i materiały](https://devpowers.com/szkolenia/sages/sygnity-05-10/)
-- [Pełna agenda](AGENDA.md)
+- [Pełna agenda](AGENDA.md), zachowany program źródłowy; starsze godziny 09:00-16:00 w tym pliku zastępuje potwierdzony termin 09:00-17:00 czasu polskiego.
 - [Ćwiczenie jFTP](course-materials/java/README.md)
 - [Źródła, rewizje i licencje](app/UPSTREAM.md)
 - [Zakres przygotowania startera](docs/PRD.md)
@@ -12,7 +12,7 @@
 
 Potrzebujesz Git, **JDK 17** (`java` i `javac` w PATH), **Maven 3.9.x** (`mvn` w PATH) oraz graficznego pulpitu. JDK 17 jest sprawdzonym środowiskiem tego startera; obsługa innych wersji wymaga weryfikacji. Pierwsze budowanie pobiera zależności z Maven Central. Node.js służy narzędziom agentowym, nie aplikacji jFTP.
 
-Polecenia działają w terminalu Linux/macOS i w natywnym PowerShell na Windows, bez WSL. Uruchamiaj je kolejno:
+Polecenia możesz wykonać w terminalu Linux/macOS i w natywnym PowerShell na Windows, bez WSL. [CI z publicznego checkoutu](https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/actions/runs/37265295119) potwierdziło na Ubuntu i natywnym Windows budowanie, testy, pakowanie, tryb headless oraz ponowne budowanie z cache bez sieci. GUI Windows i macOS pozostaje do sprawdzenia. Uruchamiaj polecenia kolejno:
 
 ```bash
 git clone https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10.git

@@ -30,7 +30,7 @@ personality = "pragmatic"          # Style/tone preset (e.g., pragmatic/friendly
 sandbox_mode = "workspace-write"   # Sandbox modes: read-only, workspace-write, danger-full-access
 # Note: network access is configured per sandbox, see [sandbox_workspace_write] below.
 
-approvals_reviewer = "auto_review" # Who receives approval prompts. Could be "user" or "auto_review"
+approvals_reviewer = "user" # Who receives approval prompts. Could be "user" or "auto_review"
 approval_policy = "on-request"
 # approval_policy controls when Codex asks before it runs tools/commands.
 # CLI override example:
@@ -76,9 +76,9 @@ multi_agent = true # Allow spawning/using multiple agents (if supported by your 
 # js_repl was removed from Codex (retired feature flag); do not set it in [features].
 
 # Additional plugin marketplace from Anthropic
-[marketplaces.claude-plugins-official]
-source_type = "git"
-source = "https://github.com/anthropics/claude-plugins-official.git"
+# [marketplaces.claude-plugins-official]
+# source_type = "git"
+# source = "https://github.com/anthropics/claude-plugins-official.git"
 
 # ----------------
 # TUI (terminal UI)
@@ -138,15 +138,15 @@ enabled = false
 # sandbox_workspace_write config applies when sandbox_mode="workspace-write".
 # network_access here is the sandbox-level permission that controls outbound network calls.
 [sandbox_workspace_write]
-network_access = true            # Allow network when running inside the workspace-write sandbox.
+network_access = false           # Approve required network calls explicitly during the workshop.
 
 # ============================================================
 # Custom Model Providers
 # ============================================================
-[model_providers.openrouter]
-name = "OpenRouter"
-base_url = "https://openrouter.ai/api/v1" # OpenRouter Responses is in beta (Completions is deprecated by Codex)
-env_key = "OPENROUTER_API_KEY" # use env defined in your system
+# [model_providers.openrouter]
+# name = "OpenRouter"
+# base_url = "https://openrouter.ai/api/v1" # OpenRouter Responses is in beta (Completions is deprecated by Codex)
+# env_key = "OPENROUTER_API_KEY" # use env defined in your system
 
 # wire_api = "responses" # only responsnes are supported now. Completions are deprecated in Codex
 # query_params = { api-version = "2025-04-01-preview" }
@@ -159,11 +159,11 @@ env_key = "OPENROUTER_API_KEY" # use env defined in your system
 # Use the Responses endpoint below. The older Chat Completions endpoint
 # (https://api.z.ai/api/coding/paas/v4) no longer works with Codex.
 # The Z.ai guide pastes the key into `experimental_bearer_token`; `env_key` keeps it out of the file.
-[model_providers.zai]
-name = "Z.ai Coding Plan"
-base_url = "https://api.z.ai/api/v1"
-env_key = "ZAI_API_KEY" # name of the environment variable that holds your Z.ai API key
-wire_api = "responses"
+# [model_providers.zai]
+# name = "Z.ai Coding Plan"
+# base_url = "https://api.z.ai/api/v1"
+# env_key = "ZAI_API_KEY" # name of the environment variable that holds your Z.ai API key
+# wire_api = "responses"
 
 # ============================================================
 # Profiles (switch configs from CLI)

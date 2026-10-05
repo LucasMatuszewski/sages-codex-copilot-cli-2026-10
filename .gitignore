@@ -17,5 +17,6 @@ __pycache__/
 # Java build and isolated workshop runtime
 **/target/
 app/.workshop-home/
+.workshop-home/
 .agent-briefs/
 *.class
