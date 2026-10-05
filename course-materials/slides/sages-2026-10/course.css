@@ -1243,3 +1243,7 @@ body[data-course-audience="developer"] .course-tools .sages-course-brand{padding
   .overview-slide .card { padding: .85rem 1.1rem; }
   .overview-slide .feature-list li { padding-top: .2rem; padding-bottom: .2rem; margin: .15rem 0; font-size: 1rem; line-height: 1.4; }
 }
+
+/* Keep organizer logos clear of the slide progress bar at every viewport width. */
+body[data-page-type="slides"] .sages-course-brand,
+body[data-page-type="slides"] .fsi-deck-brand{margin-top:10px}
