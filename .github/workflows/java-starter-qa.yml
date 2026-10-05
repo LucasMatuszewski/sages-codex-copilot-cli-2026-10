@@ -33,6 +33,9 @@ jobs:
             app/launcher/pom.xml
       - name: Check original source integrity
         run: python scripts/verify-upstream.py
+      - name: Check real prompt DOM and downloads in Chrome
+        if: matrix.os == 'ubuntu-latest'
+        run: python scripts/test-prompt-tools.py
       - name: Compile, test and package original application
         run: mvn --batch-mode --no-transfer-progress -f app/pom.xml verify
       - name: Verify packaged headless fallback
