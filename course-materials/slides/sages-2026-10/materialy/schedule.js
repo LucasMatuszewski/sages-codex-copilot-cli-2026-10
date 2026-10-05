@@ -1,13 +1,14 @@
 /* One course schedule source for every topic deck and the participant agenda.
-   Set the date of each course day in `dates` before delivery; null keeps preview alarms quiet. */
+   Set the date of each course day in `dates` before delivery; null keeps preview alarms quiet.
+   Proposed breaks stay quiet until the trainer sets confirmed:true after agreeing their times. */
 (() => {
   const common = {
     courseId:'sages-sygnity-2026-10',
     timeZone:'Europe/Warsaw',
     start:'09:00', end:'17:00',
     breaks:[
-      {time:'10:45', duration:10, label:'Przerwa poranna (propozycja)'},
-      {time:'12:30', duration:40, label:'Przerwa obiadowa (propozycja)'},
+      {time:'10:45', duration:10, label:'Przerwa poranna (propozycja)', optional:true},
+      {time:'12:30', duration:40, label:'Przerwa obiadowa (propozycja)', optional:true},
       {time:'14:45', duration:10, label:'Przerwa popołudniowa (propozycja)', optional:true}
     ]
   };
