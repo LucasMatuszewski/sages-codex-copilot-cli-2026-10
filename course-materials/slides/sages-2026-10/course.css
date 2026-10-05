@@ -875,6 +875,14 @@ body[data-page-type="slides"] #clock{
 }
 body[data-page-type="slides"] .slide-body{padding-bottom:2rem;}
 
+/* Keep scrolling slide content above the fixed desktop clock and counter. */
+@media screen and (min-width:681px){
+  body[data-page-type="slides"] #deck{
+    height:calc(100vh - 64px);
+    height:calc(100dvh - 64px);
+  }
+}
+
 body[data-page-type="glossary"] .term{
   background:var(--bg2);
   border-color:var(--line);
@@ -1200,3 +1208,38 @@ html[data-theme="light"] .fsi-logo-dark,body[data-theme="light"] .fsi-logo-dark{
 body[data-page-type="slides"] .prompt-full{position:relative}
 body[data-page-type="slides"] .prompt-full .copy-prompt{position:absolute;top:.55rem;right:.55rem;margin:0;z-index:2;box-shadow:0 2px 12px rgba(2,8,23,.45)}
 body[data-page-type="slides"] .prompt-full pre[data-prompt-id]{padding-top:3.4rem}
+
+/* Sages assets retain their approved colors and aspect ratio. */
+.sages-course-brand{position:fixed;left:16px;top:10px;z-index:950;display:flex;align-items:center;width:122px;height:38px}
+.sages-logo{display:block;width:100%;height:100%;object-fit:contain}.sages-logo-dark{display:none}
+body.light .sages-logo-white,body[data-theme="light"] .sages-logo-white,html[data-theme="light"] .sages-logo-white{display:none}
+body.light .sages-logo-dark,body[data-theme="light"] .sages-logo-dark,html[data-theme="light"] .sages-logo-dark{display:block}
+.hub-top-in{padding-left:150px}.hub-top .hub-brand{font-size:1rem}
+@media(max-width:700px){.sages-course-brand{width:88px;height:29px;left:10px;top:14px}.hub-top-in{padding-left:106px}.course-tools{right:8px;gap:5px}.course-tools a{font-size:12px;padding:7px}.slide-body{padding-top:5rem!important}}
+@media print{.sages-course-brand{display:none!important}}
+
+/* Keep the partner header and hero readable at phone width. */
+.hub-top .hub-brand{min-width:0;white-space:normal;overflow-wrap:anywhere}
+.hub-hero-in{padding-left:24px;padding-right:24px}
+@media(max-width:700px){.hub-top-in{flex-wrap:nowrap;gap:8px;padding-left:106px;padding-right:10px;min-height:64px}.hub-top .hub-brand{flex:1;font-size:12px;line-height:1.35}.hub-top .hub-brand-sub{display:block}.hub-hero-in{padding-left:18px;padding-right:18px}.qa-theme{flex-shrink:0;max-width:108px}.hub-theme{flex-shrink:0}}
+
+/* Optional dark slides retain readable kicker text in the light page theme. */
+body[data-page-type="slides"].light .slide.dark .kicker{color:#e0af68;}
+
+/* Non-deck logos belong to the opaque header or normal-flow controls on phones. */
+@media(max-width:900px){
+  body[data-course-audience="developer"]:not([data-page-type="slides"]) .sages-course-brand{
+    position:static;inset:auto;flex-shrink:0;margin-right:auto;
+  }
+  body[data-course-audience="developer"]:not([data-page-type="slides"]) .hub-top-in{padding-left:18px;}
+}
+body[data-page-type="prompts"][data-theme="light"] .desc{color:var(--text);}
+body[data-page-type="exercises"][data-theme="light"] .tag{color:var(--accent);}
+/* Brand links keep their native proportions rather than inheriting button chrome. */
+body[data-course-audience="developer"] .course-tools .sages-course-brand{padding:0;min-height:0;border:0;border-radius:0;background:transparent;}
+
+/* Keep every overview bullet visible at desktop presentation size. */
+@media (min-width: 900px) and (min-height: 700px) {
+  .overview-slide .card { padding: .85rem 1.1rem; }
+  .overview-slide .feature-list li { padding-top: .2rem; padding-bottom: .2rem; margin: .15rem 0; font-size: 1rem; line-height: 1.4; }
+}
