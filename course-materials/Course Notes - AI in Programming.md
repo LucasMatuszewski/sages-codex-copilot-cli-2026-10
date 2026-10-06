@@ -118,6 +118,10 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
   - My 10-day experience report with exact token/cost/productivity numbers + notes on Opus 4.6 and GLM-4.7 (now GLM-5): [10 dni z OpenClaw — edukey.ai](https://edukey.ai/pl/blog/10-dni-z-openclaw-i-claude-opus-46-ai-rozwija-sie-szybciej-niz-twoj-zespol)
 
 - **AI token budget: Jensen Huang (NVIDIA CEO), All-In Podcast, 19 March 2026.** For a software engineer or AI researcher earning **$500,000/year**, Huang expects **at least $250,000/year in tokens**, an additional company-funded AI budget equivalent to half the salary. This is an expectation/thought experiment, not verified actual expenditure or an ROI result. NVIDIA benefits commercially from AI infrastructure demand; this signals big-tech ambitions rather than a ready-made budget for a Polish company.
+  - Huang compares working without AI to a chip designer declining CAD tools:
+
+    > I'm just going to use paper and pencil, I don't think I'm going to need any CAD tools.
+
   - Primary publisher's [video clip and transcript](https://www.linkedin.com/videos/allinpod_jensen-huang-if-that-500000-engineer-activity-7440742599600230400-drTE); [full All-In interview](https://www.youtube.com/watch?v=gwW8GKwHB3I).
 
 ### AI real impact we already see in Dev/IT:
