@@ -192,11 +192,11 @@ class PromptToolsBrowserTest(unittest.TestCase):
         cls.titles = {item["id"]: item["title"] for item in cls.result["authored"]}
         cls.json_downloads = [json.loads(item["text"]) for item in cls.result["downloads"] if item["name"] == "prompty.json"]
 
-    def test_json_metadata_and_lossless_markdown_for_all_12_prompts(self):
-        self.assertEqual(len(self.manifest), 12)
+    def test_json_metadata_and_lossless_markdown_for_all_20_prompts(self):
+        self.assertEqual(len(self.manifest), 20)
         self.assertEqual(len(self.json_downloads), 2)
         for records in self.json_downloads:
-            self.assertEqual(len(records), 12)
+            self.assertEqual(len(records), 20)
             self.assertEqual({item["id"] for item in records}, set(self.expected))
             for record in records:
                 with self.subTest(prompt=record["id"]):
@@ -213,12 +213,12 @@ class PromptToolsBrowserTest(unittest.TestCase):
     def assert_state(self, state, matches):
         self.assertEqual(set(state["visibleCards"]), matches, "Filter must hide the entire nonmatching card")
         self.assertEqual(set(state["visibleHeadings"]), matches, "Card title must disappear with a nonmatch")
-        self.assertEqual(state["status"], f"Prompty: {len(matches)} / 12")
+        self.assertEqual(state["status"], f"Prompty: {len(matches)} / 20")
 
     def test_every_authored_title_filters_the_whole_card(self):
         states = self.result["states"]
-        self.assertEqual(len(states), 15)
-        for state in states[1:13]:
+        self.assertEqual(len(states), 23)
+        for state in states[1:-2]:
             with self.subTest(query=state["term"]):
                 matches = {
                     prompt_id for prompt_id in self.expected
@@ -241,7 +241,7 @@ class PromptToolsBrowserTest(unittest.TestCase):
         downloads = [item for item in self.result["downloads"] if item["name"] == "prompty.csv"]
         self.assertEqual(len(downloads), 1)
         rows = list(csv.DictReader(io.StringIO(downloads[0]["text"].removeprefix("\ufeff"))))
-        self.assertEqual(len(rows), 12)
+        self.assertEqual(len(rows), 20)
         records = {record["id"]: record for record in self.json_downloads[0]}
         self.assertEqual({row["id"] for row in rows}, set(records))
         for row in rows:

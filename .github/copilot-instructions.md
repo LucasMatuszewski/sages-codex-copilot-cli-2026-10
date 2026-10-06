@@ -1,9 +1,7 @@
 # GitHub Copilot repository context
 
-Follow root `AGENTS.md`. This Sages / Sygnity workshop uses Java jFTP from sai-pullabhotla/jftp, with Codex and GitHub Copilot CLI. Read `docs/PRD.md` and applicable ADRs for actual requirements. Archived examples do not imply a TypeScript, multimodal AI or electronics returns application.
+Follow root `AGENTS.md` and the user's chat language. This Sages / Sygnity repository holds course materials for Codex and GitHub Copilot CLI. The original jFTP application is cloned separately from https://github.com/sai-pullabhotla/jftp; there is no application code, build bridge or product PRD here.
 
-`course-materials/` contains lesson files, historical prompts, sample requirements and configurations. During application work do not browse, search, read or index it. Access a relevant file only on an explicit request to work with course material.
+`course-materials/` contains current lessons and optional historical examples. Do not infer an application stack, requirements or permission to enable provider, hook, MCP or agent configurations from those examples. During application work, access relevant course files only on explicit request. Participants record their own application requirements and decisions in the jFTP checkout.
 
-Preserve vendored source during starter preparation. Keep course-only build and launch configuration outside `app/jftp/` and `app/ftpapi/`. Use JDK 17 and Maven 3.9.x. Run `mvn -f app/pom.xml test` for scoped tests, `mvn -f app/pom.xml verify` for package verification, and `java -jar app/launcher/target/jftp-workshop.jar` on a graphical desktop for actual Swing QA. Report headless limitations; do not treat compilation as GUI evidence. No npm dev server or AI API key is required by this app.
-
-Make a small specified change, add meaningful tests for features and bug fixes, inspect the diff and report exact results. Do not weaken tests or rewrite the source integrity manifest to hide a failure. Use only local synthetic fixtures, keep FTP disconnected, and retain license notices. Never add credentials, private organization code or participant data.
+For application changes, use evidence from the original source and dependencies, agree on the requested behavior, add meaningful tests, inspect the diff and report exact results and limits. Treat compilation, tests and interactive Swing verification as separate evidence. Use only local synthetic data; keep FTP disconnected and never include credentials or participant data.

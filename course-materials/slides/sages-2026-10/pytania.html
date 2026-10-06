@@ -97,31 +97,31 @@
 <article class="qa-card" id="hooki"><h2>Hooki: jak sprawdzić zakres działania?</h2><p>Hook reaguje na zdarzenie sesji lub użycia narzędzia. Copilot CLI ma pliki .github/hooks/*.json oraz zdarzenie preToolUse. Nazwy zdarzeń, format argumentów i kod odmowy sprawdź w dokumentacji konkretnego agenta.</p><p>Skrypt zawęża działanie do wskazanej ścieżki lub komendy. Przetestuj nieszkodliwy dozwolony i blokowany przypadek. Przykłady wielonarzędziowe w <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/main/course-materials/hooks-example">bibliotece hooków</a> wymagają dopasowania i testu w używanej wersji.</p><p class="qa-sources">Źródła: <a href="https://docs.github.com/en/copilot/concepts/agents/hooks">GitHub: hooki</a>, <a href="https://developers.openai.com/codex/hooks/">Codex: hooki</a>. Stan: 05.10.2026.</p></article>
 
 <article class="qa-card" id="fork-pr"><h2>Własny fork przed pierwszym pushem lub PR</h2>
-<p>W dniu 1 klonujesz publiczne repo trenera i pracujesz na lokalnym branchu. W dniu 3, zanim wyślesz branch albo utworzysz PR, przygotuj własny fork dla tego samego klona. Nie klonuj ponownie, nie resetuj plików i nie porzucaj lokalnych zmian.</p>
-<p>Wybierz jeden wariant przygotowania forka. <strong>Wariant z GitHub CLI:</strong> w terminalu w katalogu repozytorium zaloguj się przez przeglądarkę, a następnie utwórz fork. Polecenie <code>gh repo fork --remote</code> ustawia Twój fork jako <code>origin</code> i zmienia nazwę dotychczasowego remote trenera na <code>upstream</code>.</p>
+<p>W dniu 1 klonujesz oryginalne repo jFTP i pracujesz na lokalnym branchu. W dniu 3, zanim wyślesz branch albo utworzysz PR, przygotuj własny fork dla tego samego klona. Nie klonuj ponownie, nie resetuj plików i nie porzucaj lokalnych zmian.</p>
+<p>Wybierz jeden wariant przygotowania forka. <strong>Wariant z GitHub CLI:</strong> w terminalu w katalogu repozytorium zaloguj się przez przeglądarkę, a następnie utwórz fork. Polecenie <code>gh repo fork --remote</code> ustawia Twój fork jako <code>origin</code> i zmienia nazwę dotychczasowego remote oryginału na <code>upstream</code>.</p>
 <pre>gh auth login --hostname github.com --git-protocol https --web
 gh auth setup-git --hostname github.com
 gh repo fork --remote
 git remote -v
 git remote get-url origin
 git remote get-url upstream</pre>
-<p><strong>Wariant bez GitHub CLI:</strong> na stronie repozytorium trenera w GitHub kliknij Fork i utwórz kopię na swoim koncie. Ten wariant zastępuje <code>gh repo fork</code>, nie wykonuj obu. W tym samym lokalnym klonie zmień nazwę remote trenera:</p>
+<p><strong>Wariant bez GitHub CLI:</strong> na stronie repozytorium jFTP w GitHub kliknij Fork i utwórz kopię na swoim koncie. Ten wariant zastępuje <code>gh repo fork</code>, nie wykonuj obu. W tym samym lokalnym klonie zmień nazwę remote oryginału:</p>
 <pre>git remote rename origin upstream</pre>
 <p>Wybierz dokładnie jeden sposób uwierzytelnienia do własnego forka. W przykładach zastąp <code>TWOJ-LOGIN</code> swoim loginem i sprawdź adres z przycisku Code we własnym forku.</p>
 <p><strong>HTTPS:</strong> użyj wcześniej skonfigurowanego menedżera poświadczeń Git, który loguje przez przeglądarkę. Jeśli nie jest skonfigurowany, uzgodnij konfigurację z trenerem przed pushem. Dodaj origin HTTPS:</p>
-<pre>git remote add origin https://github.com/TWOJ-LOGIN/sages-codex-copilot-cli-2026-10.git</pre>
+<pre>git remote add origin https://github.com/TWOJ-LOGIN/jftp.git</pre>
 <p><strong>Albo SSH:</strong> użyj wcześniej skonfigurowanego klucza SSH dodanego do Twojego konta GitHub. Zamiast powyższego origin HTTPS dodaj origin SSH:</p>
-<pre>git remote add origin git@github.com:TWOJ-LOGIN/sages-codex-copilot-cli-2026-10.git</pre>
+<pre>git remote add origin git@github.com:TWOJ-LOGIN/jftp.git</pre>
 <p>Nie wykonuj obu poleceń dodania origin. Następnie sprawdź remotes:</p>
 <pre>git remote -v</pre>
 <p>Oba warianty zachowują istniejący branch i lokalną pracę. Nie wymagają resetu ani ponownego klonowania. GitHub CLI pozostaje opcjonalne; wariant ręczny nie wymaga jego instalacji. Push wymaga działającego uwierzytelnienia Git do Twojego konta.</p>
-<p>Sprawdź wyniki: <code>origin</code> musi wskazywać repozytorium na Twoim koncie, a <code>upstream</code> ma wskazywać <code>https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10.git</code>. Zmiana remotes zachowuje bieżący lokalny branch i pliki. Jeśli adresy są inne, wyjaśnij różnicę z trenerem przed pushem.</p>
+<p>Sprawdź wyniki: <code>origin</code> musi wskazywać repozytorium na Twoim koncie, a <code>upstream</code> ma wskazywać <code>https://github.com/sai-pullabhotla/jftp.git</code>. Zmiana remotes zachowuje bieżący lokalny branch i pliki. Jeśli adresy są inne, wyjaśnij różnicę z trenerem przed pushem.</p>
 <p>Przejrzyj diff, wykonaj testy i commit uzgodnionej zmiany. Dopiero potem wyślij bieżący branch do własnego forka:</p>
 <pre>git push -u origin HEAD</pre>
-<p>W tym szkoleniu standardowym celem PR jest Twój własny fork. W formularzu GitHub ustaw <code>base repository</code> na <code>TWOJ-LOGIN/sages-codex-copilot-cli-2026-10</code>, <code>base</code> na <code>main</code>, a <code>compare</code> na swój wysłany bieżący branch, np. <code>moja-praca</code>. Zastąp <code>TWOJ-LOGIN</code> swoim loginem i jawnie sprawdź te trzy pola przed wysłaniem. Nie kieruj PR do repo trenera bez osobnego uzgodnienia. Po <code>gh repo fork</code> kolejne operacje <code>gh</code> domyślnie wskazują upstream, dlatego cel PR sprawdzaj jawnie w GitHub. Utworzenie lokalnego brancha, push i PR to osobne kroki. Pełny przebieg: <a href="Prezentacja_06_Review_CI.html#1">Review i CI</a> oraz <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10#readme">README repozytorium kursowego</a>.</p>
+<p>W tym szkoleniu standardowym celem PR aplikacji jest Twój własny fork jFTP. Sprawdź aktualną gałąź bazową; oryginalne repo używa <code>master</code>. W formularzu GitHub ustaw <code>base repository</code> na <code>TWOJ-LOGIN/jftp</code>, <code>base</code> na <code>master</code>, a <code>compare</code> na swój wysłany bieżący branch, np. <code>moja-praca</code>. Zastąp <code>TWOJ-LOGIN</code> swoim loginem i jawnie sprawdź te trzy pola przed wysłaniem. Nie kieruj PR do repo oryginalnego autora bez osobnego uzgodnienia. Po <code>gh repo fork</code> kolejne operacje <code>gh</code> domyślnie wskazują upstream, dlatego cel PR sprawdzaj jawnie w GitHub. Utworzenie lokalnego brancha, push i PR to osobne kroki. Pełny przebieg: <a href="Prezentacja_06_Review_CI.html#1">Review i CI</a> oraz <a href="https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10#readme">README repozytorium kursowego</a>.</p>
 <p>Jeśli wybierasz GitHub CLI do utworzenia PR, wskaż własne repozytorium, bazę i branch jawnie. Przykład dla brancha <code>moja-praca</code>; przy innej nazwie zastąp ją w poleceniu. Po utworzeniu sprawdź URL repozytorium oraz nazwy base/head w wyniku:</p>
-<pre>gh pr create --repo TWOJ-LOGIN/sages-codex-copilot-cli-2026-10 --base main --head moja-praca
-gh pr view moja-praca --repo TWOJ-LOGIN/sages-codex-copilot-cli-2026-10 --json url,baseRefName,headRefName</pre>
+<pre>gh pr create --repo TWOJ-LOGIN/jftp --base master --head moja-praca
+gh pr view moja-praca --repo TWOJ-LOGIN/jftp --json url,baseRefName,headRefName</pre>
 <p class="qa-sources">Źródła: <a href="https://cli.github.com/manual/gh_repo_fork">GitHub CLI: fork i remotes</a>, <a href="https://cli.github.com/manual/gh_auth_login">logowanie przez przeglądarkę</a>, <a href="https://cli.github.com/manual/gh_auth_setup-git">uwierzytelnienie Git</a>.</p></article>
 
 <article class="qa-card" id="cicd"><h2>Agent w CI/CD: Azure, GitLab, Bitbucket</h2>

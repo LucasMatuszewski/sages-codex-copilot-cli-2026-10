@@ -1,44 +1,19 @@
 # jFTP - ćwiczenie z istniejącym projektem Java
 
-Na dzień 1 używamy rzeczywistego klienta Swing [sai-pullabhotla/jftp](https://github.com/sai-pullabhotla/jftp). Źródła w `app/jftp/`, zależność FTP API w `app/ftpapi/`, pochodzenie i licencje w [app/UPSTREAM.md](../../app/UPSTREAM.md). Starter zachowuje kod oryginału; nie zawiera gotowej modernizacji ani odpowiedzi do ćwiczenia.
+Pierwszego dnia pracujemy na [oryginalnym jFTP](https://github.com/sai-pullabhotla/jftp), kliencie FTP/FTPS z interfejsem Swing. Sklonuj aplikację do katalogu sąsiadującego z repozytorium materiałów; dalej pracuj **w katalogu `jftp`**, nie w kopii materiałów. Jeśli zespół potrzebuje identycznego punktu startowego, użyj rewizji `14e62ceba4e371c2a0b955604b10f065f46f4f7d`. Fork jest potrzebny dopiero wtedy, gdy chcesz wysłać własną gałąź lub PR.
 
-## Przygotowanie
+Pomocą jest [pełny oryginalny prompt legacy](../Prompt%20examples/Legacy-Code-JFTP-modernization.md). Bieżącą wersję ćwiczenia znajdziesz w [prompcie P18](../slides/sages-2026-10/prompts/P18-jftp-legacy.md) i [slajdach legacy](../slides/sages-2026-10/Prezentacja_07_Legacy.html). Prompt jest punktem wyjścia: ustalenia i polecenia porównuj z rzeczywistą kopią jFTP. [Agenda](../../AGENDA.md) pokazuje miejsce ćwiczenia w całym warsztacie.
 
-Wymagania i budowanie: [główny README](../../README.md) oraz [instrukcja aplikacji](../../app/README.md). W katalogu głównym:
+[Porównanie narzędzi i wyniki pomiarów](../Research/legacy-repository-analysis.md): Repomix, mapy repozytorium i wyszukiwanie kodu przez Context7.
 
-```bash
-mvn -f app/pom.xml verify
-```
+## Etapy pracy
 
-```bash
-java -jar app/launcher/target/jftp-workshop.jar
-```
+1. **Inwentaryzacja.** Obejrzyj strukturę, README, pliki budowania, importy, miejsca wywołań, uruchamianie UI i zależności. Zapisz krótką mapę z odnośnikami do plików: co wiadomo, co jest hipotezą i co trzeba sprawdzić. Porównaj ustalenia Codex i Copilot CLI na tym samym kodzie.
+2. **Pakowanie zakresu.** Wybierz jeden mały przepływ do zbadania. Przygotuj dla agenta tylko potrzebne pliki, fakty i ograniczenia oraz kryterium ukończenia. Nie zgaduj brakujących typów frameworka ani metod API: potwierdzaj je importem, miejscem wywołania lub kodem źródłowym.
+3. **Podział pracy.** Jeśli zadanie rzeczywiście ma niezależne części, przydziel pracownikom rozłączne zakresy i poproś o osobne raporty z dowodami. Złóż wyniki w jedną mapę, sprawdź sprzeczności i zaznacz luki.
+4. **Dokumentacja i karty API.** W repozytorium aplikacji zapisz zweryfikowane fakty o architekturze, przepływach i zależnościach. Dla ważnych interfejsów przygotuj krótkie karty: źródło typu lub metody, wejścia, wyniki, możliwe błędy oraz niepewność. Oddziel obserwację od proponowanej zmiany.
+5. **Wspólnie napisana umiejętność agenta.** Na podstawie sprawdzonych kart opracujcie małą instrukcję lub skill dla jednego powtarzalnego zadania. Dajcie ją świeżemu agentowi bez historii rozmowy i sprawdźcie, czy potrafi odtworzyć wynik. Poprawcie instrukcję na podstawie błędów i braków w raporcie.
+6. **Testy i uruchomienie.** Najpierw ustal, co blokuje testy w oryginalnym projekcie; dobierz i uruchom framework dopiero po sprawdzeniu kodu i dostępnych zależności. Wybierz obserwowalne zachowanie bez sieci i napisz test charakteryzujący **rzeczywisty stan**, także jeśli jest zaskakujący. Zachowaj oryginalny kod do zielonego wyniku testu; sprawdź siłę testu małą kontrolowaną mutacją i cofnij mutację. Osobno spróbuj uruchomić aplikację na pulpicie graficznym. Samo zbudowanie projektu lub przejście testów nie potwierdza działania GUI. Bez pulpitu zapisz ograniczenie zamiast deklarować sukces.
+7. **Zmiana i przegląd.** Po wyborze funkcji, poprawki albo refaktoryzacji uzgodnij wymagania i zapisz PRD w repozytorium aplikacji; ADR dodaj, gdy trzeba utrwalić decyzję techniczną. Dla nowego zachowania najpierw pokaż test, który nie przechodzi. Wprowadź małą zmianę, ponów odpowiednie testy i kontrolę GUI, przejrzyj diff oraz poproś o niezależny przegląd. Gdy test przestanie przechodzić, zbadaj zmianę kodu przed zmianą asercji.
 
-Pozostaw FTP rozłączone. W panelu lokalnym przejdź do `app/fixtures/local-files/`, sprawdź plik tekstowy i nazwę z polskimi znakami. Nie potrzebujesz serwera FTP, konta ani hasła. Przy braku GUI wykonaj testy i analizę repozytorium; oznacz w raporcie, że interfejsu nie sprawdzono.
-
-## Zadanie 1: mapa repozytorium i ryzyka
-
-Poproś Codex o analizę `app/`, `AGENTS.md` i `docs/PRD.md`. Nie polecaj mu wyszukiwania po całej bibliotece kursowej. Zapisz:
-
-1. Skąd uruchamia się aplikacja i jak budowane są moduły?
-2. Co pochodzi z upstreamu, a co przygotowano na kurs?
-3. Jak odróżnisz kompilację, test zasobów, uruchomienie GUI i test transferu?
-4. Które stwierdzenia masz potwierdzone kodem lub poleceniem, a które wymagają sprawdzenia?
-
-Wykonaj tę samą analizę w Copilot CLI. Porównaj konkretne wskazania plików i dowody, nie długość odpowiedzi.
-
-## Zadanie 2: test charakteryzujący, bez sieci
-
-Wybierz `com.myjavaworld.jftp.JFTPUtil.getTimeString(int)` w `app/jftp/src/main/java/`. To lokalne formatowanie czasu, które nie wymaga GUI ani połączenia FTP. Zapisz granice wejścia, które chcesz zbadać, np. przejście między minutami i godzinami. Sprawdź obserwowane zachowanie i samodzielnie napisz test JUnit w `app/launcher/src/test/java/`.
-
-Nie zmieniaj jeszcze produkcyjnego kodu. Test charakteryzujący ma opisać oryginał. Jeśli zachowanie budzi wątpliwości, rozdziel w raporcie obserwację, własną hipotezę i pytanie o wymaganie. Dla zmiany zachowania najpierw uzgodnij wymaganie oraz PRD, potem napisz odpowiedni test i zaimplementuj zmianę. Starter nie podaje oczekiwanych wyników ani gotowego testu tej funkcji.
-
-```bash
-mvn -f app/pom.xml test
-```
-
-## Zadanie 3: mała zmiana z PRD i ADR
-
-Z prowadzącym wybierz jedną zmianę, poprawę błędu albo refaktoryzację. Napisz krótki PRD dla tej zmiany oraz ADR, jeśli podejmujesz decyzję techniczną. Określ zakres plików, warunek akceptacji, sposób testowania i granice uprawnień agenta. Dopiero wtedy zleć implementację, przejrzyj diff i sprawdź rezultat.
-
-Oddajesz mapę repozytorium z dowodami, własny test, PRD/ADR uzgodnionej zmiany oraz raport z dokładnymi poleceniami i wynikami. [Pełna agenda](../../AGENDA.md) opisuje dalszą część warsztatu; ćwiczenie jFTP stanowi jego pierwszy projekt.
+Pracuj wyłącznie na lokalnych danych syntetycznych, bez konta i połączenia z cudzym serwerem FTP. Na koniec pokaż mapę z dowodami, zakresy i raporty agentów, karty API, wynik próby ze świeżym agentem, dokładne polecenia i rezultaty testów oraz uruchomienia, PRD/ADR uzgodnionej zmiany, diff, pytania bez odpowiedzi i poprawki po przeglądzie. Jeżeli zatrzymasz się wcześniej, zapisz odtwarzalny stan i powód.

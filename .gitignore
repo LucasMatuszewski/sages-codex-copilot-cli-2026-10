@@ -14,9 +14,7 @@ __pycache__/
 *.pyc
 .playwright-cli
 
-# Java build and isolated workshop runtime
+# Java build output
 **/target/
-app/.workshop-home/
-.workshop-home/
 .agent-briefs/
 *.class
