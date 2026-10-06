@@ -320,23 +320,38 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
         <div class="card-title"><a href="https://github.com/steipete">Peter Steinberger: 221 publicznych repozytoriów</a></div>
         <ul class="feature-list">
           <li>Twórca <a href="https://github.com/openclaw/openclaw">OpenClaw</a>; <a href="https://steipete.me/posts/2026/openclaw">dołączył do OpenAI</a>, by rozwijać autonomicznych agentów.</li>
-          <li><strong>50+ agentów równolegle</strong>: rozwój projektów, przegląd PR i porządkowanie zgłoszeń.</li>
+          <li><a href="https://x.com/steipete/status/2025591780595429385"><strong>50+ agentów Codex równolegle</strong></a>: każdy analizuje PR i zwraca JSON; jedna sesja scala raporty, wykrywa duplikaty i porządkuje zgłoszenia.</li>
           <li>Rekord: około <strong>6700 aktywności GitHub jednego dnia, 9 maja 2026</strong>.</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-title"><a href="https://www.linkedin.com/posts/galenh_principal-software-engineer-coreai-microsoft-activity-7407863239289729024-WTzf">Microsoft: Galen Hunt, CoreAI</a></div>
         <ul class="feature-list">
-          <li>Ambicja: wyeliminować C/C++ do 2030, migrując największe systemy do Rust.</li>
+          <li>Oryginalny cel Hunta: <strong>wyeliminować cały C/C++ z Microsoft do 2030</strong>, przepisując największe bazy kodu do Rust.</li>
           <li>North Star: <strong>1 inżynier, 1 miesiąc, 1 mln linii kodu</strong>.</li>
-          <li><strong>AI + algorytmy</strong>: graf kodu i agenci wykonujący zmiany na dużą skalę. To cel projektu badawczego.</li>
+          <li><strong>AI + algorytmy</strong>: skalowalny graf kodu prowadzi agentów wykonujących masowe zmiany.</li>
         </ul>
       </div>
     </div>
-    <div class="note-box"><strong>Wspólny kierunek: maksymalne wykorzystanie AI.</strong> Postulat z branży: na tokeny przeznaczać co najmniej połowę wynagrodzenia developera.</div>
+    <p style="font-size:.8rem;margin-top:.6rem">Późniejsze sprostowanie Hunta: badanie migracji języków, nie ogłoszony plan przepisania Windows.</p>
   </div>
 </section>
-<section class="slide"><div class="slide-body"><div class="kicker">Case studies / granice porównania</div><h2>Solo developer i praca zespołowa</h2><div class="two-col"><div><h3>Jedna osoba</h3><ul class="feature-list"><li>Krótka pętla: pomysł, rozmowa z agentem, implementacja i własna próba działania.</li><li>Autor zna architekturę i szybko ocenia, gdzie odpowiedź odbiega od celu.</li><li>Mniejszy koszt koordynacji; więcej decyzji pozostaje w jednej głowie.</li><li>Workflow solo wymaga dopasowania, zanim zespół zastosuje go w firmowym repozytorium.</li></ul></div><div><h3>Zespół i istniejący system</h3><ul class="feature-list"><li>Jawne instrukcje, PRD oraz ADR przekazują kontekst kolejnym osobom i agentom.</li><li>Briefy, właściciele plików i kolejność integracji ograniczają konflikty.</li><li>Testy, bezpieczeństwo i review stanowią koszt dostarczenia, nie dodatek po wygenerowaniu kodu.</li><li>Dobierz liczbę agentów do niezależnych zadań i sprawdź wspólny wynik.</li></ul></div></div><p><a href="https://steipete.me/posts/2025/shipping-at-inference-speed">Peter Steinberger: workflow i ograniczenia pracy solo</a> · źródło 28.12.2025, sprawdzone 05.10.2026. Podział dla zespołu jest wnioskiem praktycznym do ćwiczenia.</p></div></section>
+<section class="slide">
+  <div class="slide-body">
+    <div class="kicker">Agenci / budżet na AI</div>
+    <h2>Tokeny jako budżet pracy inżyniera</h2>
+    <p class="subtitle">Jensen Huang, CEO NVIDIA, w All-In Podcast, 19.03.2026</p>
+    <div class="two-col">
+      <div class="card"><div class="card-title">$500 tys. rocznie</div><p>Wynagrodzenie inżyniera lub badacza AI w przykładzie Huanga.</p></div>
+      <div class="card ok"><div class="card-title">Co najmniej $250 tys. na tokeny</div><p>Budżet finansowany przez firmę: <strong>co najmniej połowa rocznego wynagrodzenia</strong>, dodatkowo do pensji.</p></div>
+    </div>
+    <ul class="feature-list">
+      <li>Huang uznałby niższe zużycie za niepokojące: oczekuje intensywnej pracy z AI, jak projektowania chipów z narzędziami CAD zamiast ołówka.</li>
+      <li>NVIDIA sprzedaje infrastrukturę AI, więc ma interes w większym zużyciu tokenów. To sygnał ambicji big tech, nie gotowy budżet dla polskiej firmy.</li>
+    </ul>
+    <p><a href="https://www.linkedin.com/videos/allinpod_jensen-huang-if-that-500000-engineer-activity-7440742599600230400-drTE">All-In: klip i transkrypcja wypowiedzi</a> · <a href="https://www.youtube.com/watch?v=gwW8GKwHB3I">Pełna rozmowa</a></p>
+  </div>
+</section>
 <section class="slide">
   <div class="slide-body">
     <div class="kicker">Modele / wybór</div>
@@ -507,9 +522,9 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
         <p>Brak analogicznego rozbicia. <code>/status</code>: podstawowe dane sesji. <code>/usage</code>: ogólne statystyki konta i zużycia, nie szczegóły okna tej sesji.</p>
       </div>
     </div>
-    <div class="note-box"><strong>ChatGPT Desktop app: gdzie włączyć widok</strong><br>General Settings &gt; Composer &gt; <strong>Show context window usage</strong><br>Pokazuje więcej szczegółów, ale działa niestabilnie: funkcja bywa dodawana i usuwana; ostatnio psuła się i znikała.</div>
+    <div class="note-box"><strong>ChatGPT Desktop app, tryb Codex: gdzie włączyć widok</strong><br>General Settings &gt; Composer &gt; <strong>Show context window usage</strong><br>Wskaźnik dotyczy sesji Codex. Bywa niestabilny: funkcja i szczegóły znikały po aktualizacjach.</div>
     <p>Przed <code>/compact</code> lub nową sesją zapisz w repo decyzje, zakres i wyniki testów. Ogranicz niepowiązane pliki i szum w kontekście.</p>
-    <p style="font-size:.8rem;margin-top:.6rem">Stan: 05.10.2026 · <a href="https://developers.openai.com/codex/cli/slash-commands">Codex: polecenia</a> · <a href="https://code.claude.com/docs/en/commands">Claude: polecenia</a> · <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/context-management">Copilot: context management</a></p>
+    <p style="font-size:.8rem;margin-top:.6rem">Stan: 06.10.2026 · <a href="https://developers.openai.com/codex/cli/slash-commands">Codex: polecenia</a> · <a href="https://code.claude.com/docs/en/commands">Claude: polecenia</a> · <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/context-management">Copilot: context management</a> · <a href="https://openai.com/index/chatgpt-for-your-most-ambitious-work/">ChatGPT i Codex w jednej aplikacji</a> · <a href="https://github.com/openai/codex/issues/25573">Zgłoszenie wskaźnika</a></p>
   </div>
 </section>
 <section class="slide"><div class="slide-body"><div class="kicker">Agenci / kontekst</div><h2>Skąd agent bierze kontekst</h2><ul><li>Otwarte pliki, zaznaczenie i rozmowa pomagają ustalić punkt wejścia.</li><li>Instrukcje repozytorium opisują stałe reguły; prompt opisuje jedną zmianę.</li><li>Przed zadaniem sprawdź, jakie pliki i źródła są faktycznie dołączone do rozmowy.</li><li>Gdy odpowiedź nie ma podstawy w kodzie, poproś o ścieżkę, fragment i test.</li></ul><div class="course-note">W ćwiczeniu: dołącz plik, który zmieniasz, i jego testy; poproś agenta o wskazanie kryterium akceptacji (AC), którego dotyczy zmiana.</div></div></section>
