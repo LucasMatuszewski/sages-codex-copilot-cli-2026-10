@@ -1,0 +1,14 @@
+diff --git a/examples/angular/src/app/chat/chat.component.ts b/examples/angular/src/app/chat/chat.component.ts
+index 7333c7b..a20729f 100644
+--- a/examples/angular/src/app/chat/chat.component.ts
++++ b/examples/angular/src/app/chat/chat.component.ts
+@@ -63 +63 @@ export class ChatComponent {
+-          selectedModel: 'openai/gpt-6-astra',
++          selectedModel: 'inclusionai/ling-3.1-flash-free',
+diff --git a/examples/angular/src/server.ts b/examples/angular/src/server.ts
+index 207bf03..f2bbea2 100644
+--- a/examples/angular/src/server.ts
++++ b/examples/angular/src/server.ts
+@@ -19 +19 @@ app.use(express.json({ strict: false })); // Allow primitives (for analyze endpo
+-const defaultModel = 'openai/gpt-6-astra';
++const defaultModel = 'inclusionai/ling-3.1-flash-free';
