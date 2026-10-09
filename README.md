@@ -4,7 +4,7 @@ This example Angular chat app lives in the [Vercel AI SDK repository](https://gi
 
 We created the branch [`angular-ai-chat-voice-mode-demo`](https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/angular-ai-chat-voice-mode-demo) for this demo. See [the demo instructions and saved model configuration patch](https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/blob/angular-ai-chat-voice-mode-demo/course-materials/angular-ai-chat/README.md) to reproduce it. The chat uses Ling 3.1 Flash (Free) through Vercel AI Gateway, with the API key kept on the Express server.
 
-The jFTP implementation code is available in [Lucas Matuszewski's fork, on the `docs/compact-repo-map-validation` branch](https://github.com/LucasMatuszewski/jftp-modernization/tree/docs/compact-repo-map-validation). Most of the implementation work was added on this branch, including RepoMap, Repomix, context7-local with local RAG, and basic application updates to run jFTP on Windows 11.
+The jFTP implementation code is available in [Lucas Matuszewski's fork, on the `main` branch](https://github.com/LucasMatuszewski/jftp-modernization/tree/main). It includes RepoMap, Repomix, context7-local with local RAG, and basic application updates to run jFTP on Windows 11.
 
 # Codex i GitHub Copilot CLI - warsztat Java (Sages / Sygnity)
 
