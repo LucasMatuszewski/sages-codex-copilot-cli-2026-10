@@ -2,7 +2,7 @@
 
 ## Project and authority
 
-This is the course-material repository for the Sages / Sygnity Java workshops for two groups, on 5-7 and 13-15 October 2026, using OpenAI Codex and GitHub Copilot CLI. Exercises cover repository analysis, context engineering, requirements, architecture decisions, features, bug fixes, legacy refactoring, tests and code review.
+This is the course-material repository for the four-day Sages / Sygnity Java workshops for two groups, on 5-8 and 13-16 October 2026, using OpenAI Codex and GitHub Copilot CLI. Exercises cover repository analysis, context engineering, requirements, architecture decisions, features, bug fixes, legacy refactoring, tests and code review.
 
 Concrete exercise scope and technical decisions are agreed live with the group through research and analysis -> PRD -> ADR where needed -> implementation with agents. Do not assume a default application, framework, build tool, Java version or feature specification.
 

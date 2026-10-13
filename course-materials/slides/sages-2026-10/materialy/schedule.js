@@ -12,10 +12,10 @@
       {time:'15:00', duration:10, label:'Przerwa popołudniowa', confirmed:true}
     ]
   };
-  // Each group has three days; the shared decks follow today's matching date.
+  // Each group has four days; the shared decks follow today's matching date.
   const groups = [
-    ['2026-10-05','2026-10-06','2026-10-07'],
-    ['2026-10-13','2026-10-14','2026-10-15']
+    ['2026-10-05','2026-10-06','2026-10-07','2026-10-08'],
+    ['2026-10-13','2026-10-14','2026-10-15','2026-10-16']
   ];
   window.COURSE_DAYS = groups.flatMap(dates => dates.map((date, index) => ({
     ...common, day:index + 1, date, breaks:common.breaks.map(item => ({...item}))
