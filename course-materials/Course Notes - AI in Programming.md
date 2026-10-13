@@ -100,6 +100,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 
 - **Microsoft: Galen Hunt's original ambition:** eliminate **every line of C/C++ from Microsoft by 2030**, using AI and algorithms to rewrite Microsoft's largest codebases in **Rust**. North Star: **1 engineer, 1 month, 1 million lines of code**; a scalable code graph guides agents making mass modifications. Hunt later clarified in the same post that this is a research project enabling language migration, not an announced AI rewrite of Windows.
   - Linkedin post from [Galen Hunt - Principal Software Engineer (CoreAI)](https://www.linkedin.com/posts/galenh_principal-software-engineer-coreai-microsoft-activity-7407863239289729024-WTzf)
+  - [Code graphs, hybrid migration and the distinction from Code Mode](Research/code-mode-and-algorithmic-code-migration-2026-10-13.md#microsoft-research-ambition): research ambition, not an achieved throughput benchmark.
    My goal is to eliminate every line of C and C++ from Microsoft by 2030. Our strategy is to combine AI *and* Algorithms to rewrite Microsoft's largest codebases. Our North Star is "1 engineer, 1 month, 1 million lines of code".   To accomplish this previously unimaginable task, we've built a powerful code processing infrastructure. Our algorithmic infrastructure creates a scalable graph over source code at scale. Our AI processing infrastructure then enables us to apply AI agents, guided by algorithms, to make code modifications at scale. The core of this infrastructure is already operating at scale on problems such as code understanding.
 
 - **OpenClaw** — fastest-growing GitHub project in history (launched late Nov 2025)
@@ -561,6 +562,12 @@ Scripts the agent harness runs on lifecycle events (session start, before/after 
   - + Custom Tools
 - **LSP** (Language Server Protocol)
   - allows agent to use diagnostic tools and understand syntax, linting errors
+
+### Code Mode and algorithmic transformations (research 13.10.2026)
+
+- **Code Mode / programmatic tool calling:** the agent writes a program that composes tool calls, filters intermediate results and returns compact evidence. OpenCode v2 defaults MCP tools to Code Mode; Codex availability depends on the harness, model metadata and configuration. [Research: mechanisms, defaults and measured results](Research/code-mode-and-algorithmic-code-migration-2026-10-13.md).
+- **Algorithmic refactoring is a separate mechanism:** use a tested AST/type-aware recipe for repeatable edits; use the LLM for interpretation and difficult cases. Code Mode can orchestrate that recipe and its validation. The research compares OpenRewrite, C2Rust, Airbnb, Google and RustMap, with a qualified Microsoft example.
+- **Benefits are workload-dependent:** fewer model round trips and less intermediate context can save tokens and time. Preserve failure evidence and compare behavioral correctness; a generated program can still encode a wrong condition or unsafe sequence. [Case studies and limitations](Research/code-mode-and-algorithmic-code-migration-2026-10-13.md#7-migration-cases-production-evidence-and-research-ambitions).
 
 ### MCP - Tools & Servers
 
