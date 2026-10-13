@@ -399,6 +399,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - **Strategy**: burn the weekly allowance to zero first, then apply the reset (effectively 2x for that week)
 - **Cheaper models as workers**: GPT-6 Luna, local LFM2.5 / Gemma 4 / Qwen 3.6, Chinese APIs (MiniMax, Kimi, DeepSeek, MiMo)
 - Full numbers (Codex 5h ranges per model), auto-continue, how to save the allowance, sources: [token-optimization-limits-resets.md](Research/token-optimization-limits-resets.md)
+- **Subscription allowances vs credits and API prices (research snapshot 12.10.2026):** [Quantified comparison and measurement methods](Research/chatgpt-subscription-vs-enterprise-credits-2026-10-12.md). Independent Codex estimates put a heavily utilized $20 Plus subscription at roughly $200-300/month of API-list-equivalent usage, or **10-15x the subscription fee**. The $25 Business Standard comparison is an **8-12x Plus-derived proxy**; weekly equivalence is unconfirmed. Ratios depend on workload, caching and usable quota, and describe API list value, not the provider's actual inference cost.
 
 ## My Recommendations - tools to install/use:
 
