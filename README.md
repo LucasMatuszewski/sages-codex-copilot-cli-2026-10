@@ -8,7 +8,7 @@ The jFTP implementation code is available in [Lucas Matuszewski's fork, on the `
 
 # Codex i GitHub Copilot CLI - warsztat Java (Sages / Sygnity)
 
-5-8 października 2026, 09:00-17:00 czasu polskiego, Zoom, własne komputery. Pracujemy przede wszystkim w OpenAI Codex, a wyniki porównujemy z GitHub Copilot CLI. Pierwszego dnia poznajemy [jFTP autorstwa Sai Pullabhotli](https://github.com/sai-pullabhotla/jftp), istniejący klient FTP/FTPS z interfejsem Swing. Na kolejnych dniach dokumentujemy ten sam kod, naprawiamy start i rozwijamy jedną uzgodnioną zmianę.
+5-7 i 13-15 października 2026, 09:00-17:00 czasu polskiego, Zoom, własne komputery. Pracujemy przede wszystkim w OpenAI Codex, a wyniki porównujemy z GitHub Copilot CLI. Pierwszego dnia poznajemy [jFTP autorstwa Sai Pullabhotli](https://github.com/sai-pullabhotla/jftp), istniejący klient FTP/FTPS z interfejsem Swing. Na kolejnych dniach dokumentujemy ten sam kod, naprawiamy start i rozwijamy jedną uzgodnioną zmianę.
 
 - [Strona szkolenia i materiały](https://devpowers.com/szkolenia/sages/sygnity-05-10/)
 - [Pełna agenda](AGENDA.md) - zachowany program źródłowy; aktualne godziny to 09:00-17:00.

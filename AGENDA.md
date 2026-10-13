@@ -5,6 +5,8 @@ trainer: "Łukasz Matuszewski"
 
 # Codex i GitHub Copilot CLI - od zera do zespołu agentów AI
 
+Aktualne terminy: grupa 1, 5-7 października 2026; grupa 2, 13-15 października 2026. Godziny: 09:00-17:00 czasu polskiego. Poniżej zachowano pierwotny program źródłowy.
+
 Szkolenie zamknięte: pełny program kursu „Codex – od zera do zespołu agentów AI" rozszerzony o praktyczną pracę z GitHub Copilot CLI i wykorzystanie obu narzędzi w codziennej pracy zespołu.
 
 | Program: | 4 dni (9:00–16:00) |

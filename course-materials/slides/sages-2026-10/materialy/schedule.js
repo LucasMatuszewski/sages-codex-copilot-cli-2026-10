@@ -1,5 +1,5 @@
 /* One course schedule source for every topic deck and the participant agenda.
-   Set the date of each course day in `dates` before delivery; null keeps preview alarms quiet.
+   Both groups share these materials; dates are confirmed by the trainer.
    The trainer confirmed these break times; reminders are active on each course date. */
 (() => {
   const common = {
@@ -12,11 +12,14 @@
       {time:'15:00', duration:10, label:'Przerwa popołudniowa', confirmed:true}
     ]
   };
-  // One date per course day, by day number; a day without a date raises no break reminders.
-  const dates = {1:'2026-10-05',2:'2026-10-06',3:'2026-10-07',4:'2026-10-08'};
-  window.COURSE_DAYS = [1,2,3,4].map(day => ({
-    ...common, day, date:dates[day], breaks:common.breaks.map(item => ({...item}))
-  }));
+  // Each group has three days; the shared decks follow today's matching date.
+  const groups = [
+    ['2026-10-05','2026-10-06','2026-10-07'],
+    ['2026-10-13','2026-10-14','2026-10-15']
+  ];
+  window.COURSE_DAYS = groups.flatMap(dates => dates.map((date, index) => ({
+    ...common, day:index + 1, date, breaks:common.breaks.map(item => ({...item}))
+  })));
   // A topic deck is shown on whichever day its topic comes up, so it follows the course day
   // whose date is today. Outside the course dates it shows the hours of the first day.
   let today = null;
