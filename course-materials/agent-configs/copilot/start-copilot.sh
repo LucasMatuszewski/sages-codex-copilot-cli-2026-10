@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Start Copilot CLI in this repository with a small set of pre-approved read-only commands.
-repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 cd "$repo_root"
 
 # Shell rules use trailing :* prefixes (copilot help permissions, CLI 1.0.88).

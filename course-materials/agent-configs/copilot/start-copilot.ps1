@@ -1,6 +1,6 @@
 # Start Copilot CLI in this repository with a small set of pre-approved read-only commands.
 # Other commands still ask for approval; denied commands are rejected without a prompt.
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 # Shell rules use trailing :* prefixes (copilot help permissions, CLI 1.0.88).
 # Feature pushes may be approved; explicit main/master/prod and force prefixes are denied.
 # Bare push, refspec destinations, other remotes/options and later force flags can escape
