@@ -39,13 +39,13 @@ prefix_rule(pattern=["git", "worktree", "add"], decision="prompt")
 prefix_rule(pattern=["git", "push"], decision="forbidden")
 ```
 
-The curated policy preserves routine execution within the sandbox and requests
-review for escalation. Its small outside-sandbox allow examples are `pwd` and
+The curated policy requests review for its explicit `prompt` rules and for
+escalations. Eligible requests use automatic review in the course defaults. Its small outside-sandbox allow examples are `pwd` and
 `whoami`. The comparison file retains every original command allowance for study,
 including broad interpreters and package managers; install only rules you have
 reviewed for the intended environment.
 
-| Claude commands | Curated Codex behavior when escalation is evaluated | Reason for the mapping |
+| Claude commands | Explicit Codex rule decision | Reason for the mapping |
 |---|---|---|
 | `cat`, `ls`, `find`, `grep`, `echo`, `wc`, `head`, `tail`, `diff` | `prompt`; adds `rg` | Outside-sandbox reads could access denied files; `find` can execute commands and `echo` can participate in redirection |
 | `pwd`, `whoami` | `allow` | Narrow teaching examples |
@@ -58,7 +58,8 @@ reviewed for the intended environment.
 | `docker ps/logs/inspect/images` | `prompt` | A daemon can expose host data and environment values |
 | `env`, `printenv` | `forbidden` | Avoid blanket environment dumps |
 | `git push`, including `--force`; `git reset --hard` | `forbidden` for the shown token prefixes | Preserve explicit publishing and destructive-reset denials |
-| `chmod`, `chown`, `sudo`, `curl`, `wget`, `ssh`, `scp` | `forbidden` | Preserve source denials |
+| `chmod`, `chown`, `sudo`, `ssh`, `scp` | `forbidden` | Retain privilege and remote-shell restrictions |
+| `curl`, `wget`, including shown `.exe` names | `prompt` | Allow HTTP workflows through automatic review rather than prohibit these clients |
 | `docker run/rm/rmi`, `docker-compose down` | `forbidden`; adds `docker compose down` | Preserve denials with the modern Compose spelling |
 | Root `rm`, `rmdir` | `forbidden` | Present in the root source, absent from the general source |
 | Root worktree creation | `prompt`, including `git -C ...` via the broad Git prompt | Ask about directory creation and checkout changes |
@@ -94,7 +95,8 @@ behavior](https://learn.chatgpt.com/docs/agent-configuration/rules#shell-wrapper
 
 File boundaries belong in beta permission profiles, with exact paths or deny-read
 globs. `course-workspace` inherits `:workspace`, preserving its protected config
-and Git paths. `course-root` adds the root Claude exclusions. Recursive scans are
+and Git paths. `course-root` is a named root preset with the same file and
+network access; it does not exclude logs or training examples. Recursive scans are
 bounded at 12 levels in these examples; deeper matches and newly created paths
 need platform validation. [Official permission profiles](https://learn.chatgpt.com/docs/permissions).
 
@@ -104,20 +106,46 @@ need platform validation. [Official permission profiles](https://learn.chatgpt.c
 | `Read(.env)`, named local/dev/prod/test files | Exact `"deny"` entries under `filesystem.":workspace_roots"` |
 | `Read(**/.env)` | Recursive deny glob; also includes nested named variants |
 | `Read(**/secrets/**)` | Exact root `secrets` denial plus recursive subtree glob |
-| Root `Read(**/logs/**)` | Added by `course-root` |
-| Root `Read(course-materials/agent-configs/**)` | `course-root` denies that subtree |
+| Root `Read(**/logs/**)` | Deliberately not copied: a Codex filesystem deny would also block shell searches |
+| Root `Read(course-materials/agent-configs/**)` | Deliberately not copied: these are inspectable teaching examples |
 | Root `Read(.env.example)` allowance | Exact `"read"` entry; the synthetic template remains inspectable |
 | Demonstrate a read-only file | `".env.example" = "read"`: writes need additional permission |
 | Demonstrate workspace review | `course-review` sets workspace `"." = "read"` |
 | Demonstrate selected writes | `course-docs` additionally sets `"docs" = "write"` |
 
-The root profile intentionally excludes the archived example folder, matching
-the root Claude policy. Select `course-workspace` for a session analyzing those
-examples. Review/docs profiles retain writable temporary directories from their
-parent; they restrict persistent workspace changes rather than every temp write.
+Logs and training examples remain accessible in the default root profile.
+Review/docs profiles retain writable temporary directories from their parent;
+they restrict persistent workspace changes rather than every temp write.
 
-`approval_policy = "on-request"` and `approvals_reviewer = "user"` make boundary
-crossings eligible for human review. They do not ask before every workspace edit.
+### Search logs without filling the context
+
+The original root Claude policy denies its `Read` tool for logs but permits Bash
+commands. Copying that tool selector into Codex filesystem `"deny"` was too broad:
+it denies sandboxed reads and writes for every program, including `rg`, `grep`,
+`cat` and Python. Filesystem rules cannot express "deny a Read tool but allow
+shell searches of the same path". Independently approved escalations and external
+tools have their own access controls.
+
+Use bounded searches and excerpts for context control, for example:
+
+```bash
+rg -n -m 20 --max-columns 200 --max-columns-preview 'ERROR|WARN' logs | head -n 80
+tail -n 80 logs/application.log
+```
+
+The `rg -m` bound is per file; `head` caps total returned lines and the column
+options bound long log lines. On PowerShell, use `Select-Object -First 80` in
+place of `head`. Search filenames or counts first when possible, then inspect
+small relevant excerpts. Avoid dumping entire log files into the conversation.
+
+The configuration sets `tool_output_token_limit = 4000`, the token budget for
+individual tool/function results stored in history. This controls context size;
+it does not forbid a full-file read, limit the bytes a command reads, or prevent
+many successive outputs from accumulating. A strict per-tool ban requires
+tool-level enforcement, not a filesystem profile. [Output budget reference](https://learn.chatgpt.com/docs/config-file/config-reference).
+
+`approval_policy = "on-request"` and `approvals_reviewer = "auto_review"` route
+eligible requests through the reviewer. They do not review every workspace edit.
 `approval_policy = "never"` removes the prompt path; it does not grant additional
 access. A profile `"deny"` is a sandbox restriction, not a Claude-style tool-wide
 ban on every possible approved escalation. An approved command can run with
@@ -134,13 +162,33 @@ adapt it to required tools. [Configuration reference](https://learn.chatgpt.com/
 
 ## Network and web tools
 
-The default profiles disable command network access. `course-jetbrains` permits
-the two hosts from Claude's `WebFetch`: `blog.jetbrains.com` and
-`www.jetbrains.com`. Its domain entries require the sample's
-`features.network_proxy = true`. Unknown hosts are not allowlisted.
-Direct `curl`/`wget` remain denied by the curated command rules, as in the source;
-this network profile is useful for other sandboxed HTTP clients and does not
-overrule a forbidden command.
+The default `course-workspace` profile enables public command network access
+with `network.enabled = true`, `network_proxy = true` and `domains."*" = "allow"`.
+`course-root`, `course-review` and `course-docs` inherit that network access.
+The proxy retains its normal local/private-network guard; this public host
+allowance does not intentionally grant access to every service on the LAN.
+
+Only the profile selected by `default_permissions` (or the session permission
+selector) is active. These are alternatives for the entire session, not groups
+simultaneously assigned to different repository directories. The root selects
+`course-root`; merely defining `course-jetbrains` does not activate its host list.
+
+`course-jetbrains` is an optional restrictive example. It starts independently
+from `:workspace`, repeats the file protections and permits only
+`blog.jetbrains.com` and `www.jetbrains.com`. This avoids inheriting the default
+profile's global host allowance. Selecting it changes network policy for the
+whole session; other destinations can require a separate permission request.
+
+Automatic review only evaluates actions requiring approval. An allowed network
+connection does not trigger review by itself. Explicit `prompt` rules for HTTP
+clients `curl` and `wget` route matching operations into the approval flow;
+Python, other clients, MCPs and apps still follow their own rule or tool controls.
+Do not assume this reviews every HTTP request. [Auto-review triggers](https://learn.chatgpt.com/docs/sandboxing/auto-review).
+
+Network-off defaults were initially copied from the root Codex configuration as
+a conservative workshop baseline. They did not reproduce the source Claude
+policy's command-level behavior or this course's intended online workflow.
+The current defaults enable the network while retaining file and command limits.
 
 Claude's `WebSearch` maps conceptually to Codex's separate hosted web-search
 capability; the standalone sample enables cached search. This command domain
@@ -152,7 +200,7 @@ claim of exact tool-for-tool parity. [Network scope](https://learn.chatgpt.com/d
 ## Choose and load the examples
 
 1. Use [`config.toml`](config.toml) for the complete Codex course configuration,
-   including these file profiles and human approvals, or merge the minimal
+   including these file profiles and automatic approval review, or merge the minimal
    [`permissions.toml`](permissions.toml) example into your own configuration.
    Remove active `sandbox_mode`, `[sandbox_workspace_write]` and `--sandbox`
    overrides from **every loaded layer** when selecting permission profiles;
@@ -194,7 +242,7 @@ shows why the broad literal mapping is a teaching artifact. Unmatched commands
 have no explicit rule decision and still go through Codex's normal handling.
 Do not interpret "no matching rule" as permission to run outside the sandbox.
 
-## Validation evidence (2026-10-14)
+## Initial validation evidence (2026-10-14)
 
 - Source repository refreshed by fast-forward to `0498a5c`; permission inputs were unchanged.
 - Python `tomllib` parsed the root config, general example and standalone permission example.
@@ -209,3 +257,18 @@ Do not interpret "no matching rule" as permission to run outside the sandbox.
   enforcement probe was run. Native sandbox enforcement and effective policy
   across the user's real config layers remain unverified; the known Windows
   sandbox launch failure was not reproduced.
+
+## Corrected-default validation (2026-10-14)
+
+- All three course configs and group two's new JFTP config parsed and loaded
+  successfully through Codex CLI 0.162.1 `features list` in isolated temporary homes.
+- Configuration assertions checked automatic review, the 4000-token output budget,
+  public network access for the selected defaults, accessible logs/examples, and
+  agreement between all course profile copies. The optional JetBrains profile
+  starts from `:workspace` and has no inherited global host allowance.
+- `execpolicy check` passed 39 decision cases for each curated course policy and
+  5 cases for JFTP's HTTP review policy: **83 successful checks**. The changed
+  `curl`/`wget` decisions are `prompt`; log searches have no filesystem deny.
+- Documentation links and `git diff --check` passed. No target command, actual
+  network request from the sandbox, or native enforcement probe was run; effective
+  behavior still depends on the client's loaded settings and a working sandbox.

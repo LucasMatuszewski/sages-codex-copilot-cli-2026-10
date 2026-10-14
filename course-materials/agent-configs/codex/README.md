@@ -1,8 +1,8 @@
 # Codex configuration examples
 
 The main [`config.toml`](config.toml) includes the Claude-to-Codex permission
-examples: human approval requests, filesystem read/write/deny profiles, and
-network restrictions. Command allow/approval/deny rules are in
+examples: automatic approval review, filesystem read/write/deny profiles, and
+public network access by default. Command allow/approval/deny rules are in
 [`rules/course.rules`](rules/course.rules).
 
 | File | Use |
@@ -28,8 +28,15 @@ overwriting your model/provider choices. Remove legacy `sandbox_mode` and
 profiles can take effect. Restart Codex and inspect `/permissions` and `/status`.
 Do not install the inactive literal comparison together with the curated rules.
 
-The default `course-workspace` profile permits workspace editing and denies the
-named environment files and secrets. Other examples cover additional root
-exclusions (`course-root`), workspace review (`course-review`), writes limited
-to `docs/` (`course-docs`), and the two JetBrains hosts (`course-jetbrains`).
-See the mapping guide for runtime and platform limits.
+The default `course-workspace` profile permits workspace editing and public
+network access, while denying named environment files and secrets. Logs and the
+training configuration examples remain available. `course-root` is an equivalent
+named preset for the course root. Other examples cover workspace review
+(`course-review`), writes limited to `docs/` (`course-docs`), and an optional
+restriction to the two JetBrains hosts (`course-jetbrains`). Only one profile is
+selected for a session. Automatic review handles eligible approval requests;
+it does not review every already-permitted network call.
+
+Tool results stored in history have a 4000-token budget. Search logs with bounded
+`rg`/`grep` results or small excerpts; filesystem permissions do not implement a
+Read-tool-only ban. See the mapping guide for examples and platform limits.
