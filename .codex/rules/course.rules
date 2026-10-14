@@ -26,12 +26,16 @@ prefix_rule(pattern=[["docker", "docker.exe"], ["ps", "logs", "inspect", "images
 # Never allow an entire shell wrapper outside the sandbox on the strength of its name.
 prefix_rule(pattern=[["pwsh", "pwsh.exe", "powershell", "powershell.exe", "cmd", "cmd.exe", "bash", "bash.exe", "sh", "zsh"]], decision="prompt", justification="Review the complete shell script and its targets before escalation.", match=["pwsh -Command Get-Content", "bash -lc pwd"])
 
-# DENY: inherited from the root Claude permissions (plus modern command aliases).
+# Network access is enabled. HTTP-client operations explicitly request review.
+# With approvals_reviewer = "auto_review", eligible prompts go to the judge.
+prefix_rule(pattern=[["curl", "curl.exe", "wget", "wget.exe"]], decision="prompt", justification="Review the destination and any upload, download or execution side effects.", match=["curl https://example.com", "wget https://example.com"], not_match=["rg ERROR logs"])
+
+# DENY: retained course restrictions (plus modern command aliases).
 prefix_rule(pattern=[["env", "printenv"]], decision="forbidden", justification="Environment dumps can disclose credentials; inspect only approved non-secret names.", match=["env", "printenv PATH"])
 prefix_rule(pattern=[["rm", "rmdir"]], decision="forbidden", justification="The root course policy disallows these deletion commands; request a scoped maintenance task.", match=["rm example.txt", "rmdir example"])
 prefix_rule(pattern=[["git", "git.exe"], "push"], decision="forbidden", justification="The course policy blocks publishing, including force pushes.", match=["git push", "git push --force origin main"], not_match=["git status", "git -C . push"])
 prefix_rule(pattern=[["git", "git.exe"], "reset", "--hard"], decision="forbidden", justification="Avoid discarding work; inspect the diff and discuss the intended recovery.", match=["git reset --hard HEAD"], not_match=["git reset --mixed", "git reset HEAD --hard"])
-prefix_rule(pattern=[["chmod", "chown", "sudo", "curl", "wget", "ssh", "scp"]], decision="forbidden", justification="The course policy blocks privilege changes and these remote-access commands.", match=["curl https://example.com", "ssh example.com", "sudo true"])
+prefix_rule(pattern=[["chmod", "chown", "sudo", "ssh", "scp"]], decision="forbidden", justification="The course policy blocks privilege changes and these remote-access commands.", match=["ssh example.com", "sudo true"])
 prefix_rule(pattern=[["docker", "docker.exe"], ["run", "rm", "rmi"]], decision="forbidden", justification="The course policy blocks container creation and removal.", match=["docker run example", "docker rm example", "docker rmi example"], not_match=["docker ps"])
 prefix_rule(pattern=["docker-compose", "down"], decision="forbidden", justification="Do not tear down the course stack.", match=["docker-compose down"])
 prefix_rule(pattern=[["docker", "docker.exe"], "compose", "down"], decision="forbidden", justification="Modern spelling of the same blocked stack teardown.", match=["docker compose down"], not_match=["docker compose ps"])

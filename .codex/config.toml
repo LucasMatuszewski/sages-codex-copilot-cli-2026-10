@@ -34,8 +34,10 @@ default_permissions = "course-root"
 # Command allow/prompt/forbidden examples: .codex/rules/course.rules.
 # Mapping and limitations: course-materials/agent-configs/codex/PERMISSIONS.md.
 
-approvals_reviewer = "user" # Who receives approval prompts. Could be "user" or "auto_review"
+approvals_reviewer = "auto_review" # Route eligible approval requests to the reviewer agent.
 approval_policy = "on-request"
+# Bound each tool result stored in history; this is not a tool-specific read prohibition.
+tool_output_token_limit = 4000
 # approval_policy controls when Codex asks before it runs tools/commands.
 # CLI override example:
 #   codex --config 'approval_policy="on-request"'
@@ -137,7 +139,7 @@ args = [
 command = "npx"
 enabled = false
 
-# Permission profiles below keep command network access off by default.
+# Permission profiles below enable public command network access by default.
 
 # ============================================================
 # Custom Model Providers
@@ -322,16 +324,18 @@ glob_scan_max_depth = 12
 ".env.example" = "read"
 
 [permissions.course-workspace.network]
-enabled = false
+enabled = true
+
+[permissions.course-workspace.network.domains]
+# Public network access is available in the default profile.
+# This does not request automatic review for every network connection.
+"*" = "allow"
 
 [permissions.course-root]
-description = "Root Claude policy: also exclude logs and archived agent configuration examples."
+description = "Course repository editing; logs and training examples remain accessible."
 extends = "course-workspace"
-
-[permissions.course-root.filesystem.":workspace_roots"]
-"logs" = "deny"
-"**/logs/**" = "deny"
-"course-materials/agent-configs" = "deny"
+# This named root preset inherits the default network and filesystem policy.
+# Logs are available to sandboxed search commands; there is no directory deny.
 
 [permissions.course-review]
 description = "Review workspace files; edits inside the workspace require extra permission."
@@ -349,8 +353,31 @@ extends = "course-review"
 "docs" = "write"
 
 [permissions.course-jetbrains]
-description = "Workspace editing with command network access to the two Claude WebFetch hosts."
-extends = "course-workspace"
+description = "Optional example: restrict command network access to two JetBrains hosts."
+# Independent baseline avoids inheriting course-workspace's global host allowance.
+extends = ":workspace"
+
+[permissions.course-jetbrains.filesystem]
+# Recursive deny globs are expanded before sandbox startup on some platforms.
+# This is a scanning bound, not a guarantee about paths deeper than 12 levels.
+glob_scan_max_depth = 12
+
+[permissions.course-jetbrains.filesystem.":workspace_roots"]
+# Exact source patterns, plus nested variants of the named environment files.
+".env" = "deny"
+".env.local" = "deny"
+".env.dev" = "deny"
+".env.prod" = "deny"
+".env.test" = "deny"
+"**/.env" = "deny"
+"**/.env.local" = "deny"
+"**/.env.dev" = "deny"
+"**/.env.prod" = "deny"
+"**/.env.test" = "deny"
+"secrets" = "deny"
+"**/secrets/**" = "deny"
+# A synthetic template is available for inspection but cannot be edited in this profile.
+".env.example" = "read"
 
 [permissions.course-jetbrains.network]
 enabled = true
