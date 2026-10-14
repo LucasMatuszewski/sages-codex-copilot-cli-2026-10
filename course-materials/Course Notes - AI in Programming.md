@@ -407,6 +407,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - **Handy STT** (like SuperWhisper but Open Source MIT)
   - [Handy](https://handy.computer/)
   - architecture details (Tauri): [Code Wiki](https://codewiki.google/github.com/cjpais/handy)
+  - **AI post-processing** (clean-up, PL→EN translation with an LLM after transcription; v0.9.8): **Advanced → Experimental Features** on, then **Experimental → Post Processing** on, then configure provider, model and prompt on the new **Post Process** page (optional separate hotkey). Steps and ready prompts: [Handy.computer - transcription prompts](Prompt%20examples/Handy.computer%20-%20transcription%20prompts.md)
 - Claude Code - for multi-step tasks, leading in innovation, and access to best models on discounted prices (especially on Max plan)
   - Desktop & Mobile apps with Code Agent in the cloud! [Claude Desktop App](https://code.claude.com/docs/en/desktop)
   - ⚠️ **Anthropic API / Claude Code availability** — in the last months, uptime has sometimes dropped below 99% for 90 day window. When you see below API errors, check [status.claude.com](https://status.claude.com/):

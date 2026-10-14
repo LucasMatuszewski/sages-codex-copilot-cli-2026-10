@@ -2,7 +2,15 @@
 
 https://handy.computer/
 
-Settings > Advanced > Experimental features > Post-processing Enabled
+## Enable post-processing (Handy v0.9.8, verified in source 14.10.2026)
+
+1. **Advanced** (PL: **Zaawansowane**) > group **App** (**Aplikacja**) > turn on **Experimental Features** (**Funkcje Eksperymentalne**).
+2. A new group **Experimental** (**Eksperymentalne**) appears lower on the same page > turn on **Post Processing** (**Postprocess**).
+3. A new sidebar page **Post Process** (**Postproces**) appears. Set **Provider** (OpenAI-compatible, Anthropic-compatible, a custom base URL such as a local Ollama endpoint, or Apple Intelligence on Apple Silicon with macOS 26), **API Key** and **Model**.
+4. Under **Prompt**, choose **Create New Prompt**, paste one of the prompts below and keep `${output}` where the transcript should go. Select the prompt you want to use.
+5. Optional: set a dedicated **Post-Processing Hotkey** on the same page, so one shortcut gives a raw transcript and the other an AI-processed one.
+
+Post-processing sends the transcript to the selected model provider. Use a local model or an approved company provider for work content.
 
 ---
 
