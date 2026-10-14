@@ -1,0 +1,42 @@
+# Codex execpolicy (Starlark), not Claude JSON. Experimental.
+# Applies to command approval/escalation; filesystem denials live in config.toml.
+# Commands already possible inside the sandbox do not need an outside-sandbox allow.
+# See PERMISSIONS.md for token-prefix, wrapper, and alternate-path limitations.
+
+# ALLOW: narrow examples without file-reading or arbitrary-code capabilities.
+prefix_rule(pattern=["pwd"], decision="allow", justification="Print the current directory.", match=["pwd"], not_match=["cat README.md"])
+prefix_rule(pattern=["whoami",], decision="allow", justification="Print the current account.", match=["whoami"], not_match=["printenv"])
+
+# ASK: Claude permits these reads. In Codex they can run INSIDE the sandbox;
+# an escalation must be reviewed because it can bypass file and network restrictions.
+prefix_rule(pattern=[["cat", "ls", "find", "grep", "rg", "echo", "wc", "head", "tail", "diff", "which", "date", "export"]], decision="prompt", justification="Review file access or shell behavior before leaving the sandbox.", match=["cat README.md", "rg permission docs", "export -p"], not_match=["pwd"])
+
+# Git's .git directory is protected by :workspace. Writes can need approval.
+# This broad prompt also catches git -C <path> worktree add; no wildcard token needed.
+prefix_rule(pattern=[["git", "git.exe"]], decision="prompt", justification="Review Git operations outside the sandbox, including worktree creation.", match=["git status", "git add src/Main.java", "git worktree add ../example", "git -C . worktree add ../example"])
+
+# Package managers, project scripts, interpreters and tool runners execute code.
+# Keep their in-sandbox behavior; require review before an unsandboxed invocation.
+prefix_rule(pattern=[["npm", "npx", "pnpm", "tsc", "eslint", "prettier", "jest", "vitest", "next", "turbo", "tsx", "node", "node.exe", "python", "python.exe", "python3", "py", "pip", "uv", "pytest", "mvn", "mvn.cmd", "mvnw", "mvnw.cmd", "./mvnw", "java", "java.exe"]], decision="prompt", justification="Review scripts, runtime access and dependency downloads before escalation.", match=["pnpm install", "python -c pass", "mvn test"], not_match=["git status"])
+
+# Docker inspection can expose environment variables or logs from the daemon.
+prefix_rule(pattern=[["docker", "docker.exe"], ["ps", "logs", "inspect", "images"]], decision="prompt", justification="Review Docker daemon access and returned data.", match=["docker ps", "docker inspect example"], not_match=["docker run example"])
+
+# Windows cmdlets are usually script text inside pwsh/powershell, not executable argv.
+# Never allow an entire shell wrapper outside the sandbox on the strength of its name.
+prefix_rule(pattern=[["pwsh", "pwsh.exe", "powershell", "powershell.exe", "cmd", "cmd.exe", "bash", "bash.exe", "sh", "zsh"]], decision="prompt", justification="Review the complete shell script and its targets before escalation.", match=["pwsh -Command Get-Content", "bash -lc pwd"])
+
+# DENY: inherited from the root Claude permissions (plus modern command aliases).
+prefix_rule(pattern=[["env", "printenv"]], decision="forbidden", justification="Environment dumps can disclose credentials; inspect only approved non-secret names.", match=["env", "printenv PATH"])
+prefix_rule(pattern=[["rm", "rmdir"]], decision="forbidden", justification="The root course policy disallows these deletion commands; request a scoped maintenance task.", match=["rm example.txt", "rmdir example"])
+prefix_rule(pattern=[["git", "git.exe"], "push"], decision="forbidden", justification="The course policy blocks publishing, including force pushes.", match=["git push", "git push --force origin main"], not_match=["git status", "git -C . push"])
+prefix_rule(pattern=[["git", "git.exe"], "reset", "--hard"], decision="forbidden", justification="Avoid discarding work; inspect the diff and discuss the intended recovery.", match=["git reset --hard HEAD"], not_match=["git reset --mixed", "git reset HEAD --hard"])
+prefix_rule(pattern=[["chmod", "chown", "sudo", "curl", "wget", "ssh", "scp"]], decision="forbidden", justification="The course policy blocks privilege changes and these remote-access commands.", match=["curl https://example.com", "ssh example.com", "sudo true"])
+prefix_rule(pattern=[["docker", "docker.exe"], ["run", "rm", "rmi"]], decision="forbidden", justification="The course policy blocks container creation and removal.", match=["docker run example", "docker rm example", "docker rmi example"], not_match=["docker ps"])
+prefix_rule(pattern=["docker-compose", "down"], decision="forbidden", justification="Do not tear down the course stack.", match=["docker-compose down"])
+prefix_rule(pattern=[["docker", "docker.exe"], "compose", "down"], decision="forbidden", justification="Modern spelling of the same blocked stack teardown.", match=["docker compose down"], not_match=["docker compose ps"])
+
+# Shared machine instructions prohibit blanket staging and yarn.
+prefix_rule(pattern=[["git", "git.exe"], "add", ["-A", "--all", "."]], decision="forbidden", justification="Stage explicitly named paths after reviewing git status.", match=["git add -A", "git add ."], not_match=["git add src/Main.java"])
+prefix_rule(pattern=["yarn"], decision="forbidden", justification="Use pnpm according to the shared machine instructions.", match=["yarn install"])
+prefix_rule(pattern=["npm", "install", ["-g", "--global"]], decision="forbidden", justification="Use pnpm for global CLI installations.", match=["npm install -g example"], not_match=["npm install"])
