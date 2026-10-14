@@ -289,7 +289,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - AIME (High School Math Exam): [AIME 2025 Benchmark Leaderboard | Artificial Analysis](https://artificialanalysis.ai/evaluations/aime-2025)
 - Market Share - Open Router: [LLM Rankings | OpenRouter](https://openrouter.ai/rankings)
 - Cost vs Intelligence Index [Artificial Analysis](https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index?eval-cost=intelligence-vs-total-cost#eval-cost-tabs)
-- **Price of intelligence over time (research 14.10.2026):** the cheapest model at a fixed quality level gets 9x-900x cheaper per year (median 50x, Epoch AI; GPT-3.5 level fell from $20 to $0.07 per 1M tokens in 23 months), but flagship prices stay high (GPT-6 Astra $10 / $50) and agents use far more tokens per task. Chart in deck 02, data and sources: [price-of-intelligence-2026-10-14.md](Research/price-of-intelligence-2026-10-14.md)
+- **Price of intelligence over time (research 14.10.2026):** the cheapest model at a fixed quality level gets 9x-900x cheaper per year (median 50x, Epoch AI; GPT-3.5 level fell from $20 to $0.07 per 1M tokens in 23 months), but flagship prices stay high (GPT-6 Astra $10 / $50) and agents use far more tokens per task. Chart in deck 02, data and sources: [price-of-intelligence-2026-10-14.md](Research/price-of-intelligence-2026-10-14.md). Same trend on Artificial Analysis's own index: [cost per Intelligence Index task by intelligence threshold, over time](https://artificialanalysis.ai/trends#efficiency) (AA also reports GPT-4-level intelligence ~350x cheaper in ~2 years: [AA on X](https://x.com/ArtificialAnlys/status/1986895619395551603))
 
 ---
 
