@@ -289,6 +289,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - AIME (High School Math Exam): [AIME 2025 Benchmark Leaderboard | Artificial Analysis](https://artificialanalysis.ai/evaluations/aime-2025)
 - Market Share - Open Router: [LLM Rankings | OpenRouter](https://openrouter.ai/rankings)
 - Cost vs Intelligence Index [Artificial Analysis](https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index?eval-cost=intelligence-vs-total-cost#eval-cost-tabs)
+- **Price of intelligence over time (research 14.10.2026):** the cheapest model at a fixed quality level gets 9x-900x cheaper per year (median 50x, Epoch AI; GPT-3.5 level fell from $20 to $0.07 per 1M tokens in 23 months), but flagship prices stay high (GPT-6 Astra $10 / $50) and agents use far more tokens per task. Chart in deck 02, data and sources: [price-of-intelligence-2026-10-14.md](Research/price-of-intelligence-2026-10-14.md)
 
 ---
 
@@ -401,6 +402,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - **Cheaper models as workers**: GPT-6 Luna, local LFM2.5 / Gemma 4 / Qwen 3.6, Chinese APIs (MiniMax, Kimi, DeepSeek, MiMo)
 - Full numbers (Codex 5h ranges per model), auto-continue, how to save the allowance, sources: [token-optimization-limits-resets.md](Research/token-optimization-limits-resets.md)
 - **Subscription allowances vs credits and API prices (research snapshot 12.10.2026):** [Quantified comparison and measurement methods](Research/chatgpt-subscription-vs-enterprise-credits-2026-10-12.md). Independent Codex estimates put a heavily utilized $20 Plus subscription at roughly $200-300/month of API-list-equivalent usage, or **10-15x the subscription fee**. The $25 Business Standard comparison is an **8-12x Plus-derived proxy**; weekly equivalence is unconfirmed. Ratios depend on workload, caching and usable quota, and describe API list value, not the provider's actual inference cost.
+- **Codex usage analytics (verified 14.10.2026, CLI 0.162.1):** `/status` for the current session; `/usage` -> **View analytics** for tokens by model, day and chat (`/usage daily`, `/usage weekly`); 5h and weekly allowance history in the **Plan** tab after enabling *Analytics plan history* in `/experimental` (`codex features enable analytics_plan_history`), consumer accounts (Plus, Pro) only. Details per tab and per account type: [codex-analytics-and-usage-history-2026-10-14.md](Research/codex-analytics-and-usage-history-2026-10-14.md)
 
 ## My Recommendations - tools to install/use:
 
@@ -558,6 +560,7 @@ Scripts the agent harness runs on lifecycle events (session start, before/after 
   - Browse / Search
   - Docs (RAG) lub Contex7 MCP jeśli nie ma docs wbudowanych
   - Codebase index / semantic search (RAG over your repo): Cursor and Copilot (`#codebase`; remote index for GitHub/Azure DevOps repos, local index elsewhere, off by default for org accounts): [Copilot semantic search](https://code.visualstudio.com/docs/agents/reference/workspace-context#_semantic-search). Less critical than a year ago: agents find code well with plain grep/ripgrep
+  - Code-graph MCP servers vs repo maps (research 14.10.2026): Aider repo map and Repomix give static snapshots; codebase-memory-mcp (MIT, local, tree-sitter + LSP incl. Java) and Graphify (Apache-2.0) give queryable graphs for callers, impact and dead code. Start with `rg` + AGENTS.md, add a graph only when multi-file dependencies are the bottleneck; GitNexus is non-commercial. [code-graph-tools-vs-repo-maps-2026-10-14.md](Research/code-graph-tools-vs-repo-maps-2026-10-14.md)
   - GIT
   - TODO list
   - Browser integration (e.g. in Cursor) / Chrome-devtools-mcp
@@ -693,12 +696,14 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
 - **[Paseo](https://paseo.sh)**, **[Orca](https://www.onorca.dev)**, **[T3 Code](https://t3.codes)**, **[Conductor](https://conductor.build)**, **[Vibe Kanban](https://www.vibekanban.com)** - orchestrators / control planes for parallel agents; **[Codex App](https://developers.openai.com/codex/app)** - OpenAI's single-vendor desktop app
 - **Herdr vs Codex App**: vendor-neutral runtime on your own machines vs zero-ops, OpenAI-only app with cloud tasks - they combine well
 - **Remote agents**: `herdr --machine <label>` over SSH, Codex cloud tasks, `codex exec`, `codex agents` + `codex queue`
+- **Codex CLI <-> Codex app, Windows <-> WSL (verified 14.10.2026):** add the exact project folder in the app (**Add new project** / `Ctrl+O`; WSL repos via `\\wsl$\`), restart the app after switching the agent between Windows and WSL, find old sessions with `codex resume --all` in the environment that created them, and use `/app` (Windows/macOS) to move a CLI session to the app. Windows and WSL keep separate Codex state; never share one `.codex` across them. Checklist: [codex-cli-desktop-projects-wsl-2026-10-14.md](Research/codex-cli-desktop-projects-wsl-2026-10-14.md)
 - Details, comparison and remote setup: [agent-managers-and-remote-agents.md](Research/agent-managers-and-remote-agents.md)
 
 ### Claude Code Plugins vs MCP/Skills
 
 - https://code.claude.com/docs/en/plugins
 - https://github.com/luongnv89/claude-howto/blob/main/claude_concepts_guide.md#plugins
+- **Sharing skills across many projects (question from group 2):** keep one source repository with `skills/` and MCP config and distribute it as a plugin: Codex `codex plugin marketplace add org/repo` + `codex plugin add plugin@marketplace`, Copilot CLI `copilot plugin install org/repo`, Claude Code `claude plugin marketplace add org/repo`. Plugins do not deploy project rules or settings: AGENTS.md, `.codex/config.toml` and rules stay in each project. Pin a tag or commit. Worked example with all three: [Edukey Agent Toolbox](https://github.com/EdukeyTeam/agent-toolbox)
 
 ## Security
 
