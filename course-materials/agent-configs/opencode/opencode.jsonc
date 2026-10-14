@@ -11,6 +11,36 @@
   // ===========================================================================
   "$schema": "https://opencode.ai/config.json",
 
+  // Course push policy: other commands, including feature pushes, ask for approval.
+  // Wildcards match command text, including spaces; the LAST matching rule wins.
+  // Keep the catch-all first and explicit denials after it.
+  // Bare git push names no branch; aliases, full refs and alternate options can
+  // escape these patterns. GitHub/Bitbucket branch protection is the real guard.
+  // Docs: https://opencode.ai/docs/permissions/#granular-rules-object-syntax
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git push * main": "deny",
+      "git push * main *": "deny",
+      "git push *:main": "deny",
+      "git push *:main *": "deny",
+      "git push * master": "deny",
+      "git push * master *": "deny",
+      "git push *:master": "deny",
+      "git push *:master *": "deny",
+      "git push * prod": "deny",
+      "git push * prod *": "deny",
+      "git push *:prod": "deny",
+      "git push *:prod *": "deny",
+      "git push --force*": "deny",
+      "git push -f": "deny",
+      "git push -f *": "deny",
+      "git push * --force*": "deny",
+      "git push * -f": "deny",
+      "git push * -f *": "deny"
+    }
+  },
+
   // ---------------------------------------------------------------------------
   // DEFAULT MODEL  ->  format is "<provider>/<model-id>"
   //

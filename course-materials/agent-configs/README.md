@@ -9,7 +9,20 @@ Each folder has the shape of that tool's own config folder.
 | `codex/` | `config.toml` (user-level example), provider profiles `<name>.config.toml` for Ollama, OpenRouter and Z.ai with `models.zai.json`, sub-agents in `agents/` | `~/.codex/` for the config and the profiles; `.codex/agents/` in your project for the sub-agents |
 | `claude/` | `settings.json` (and a commented `settings.jsonc`), `CLAUDE.md`, `statusline.sh`, sub-agents in `agents/`, `mcp-jetbrains.json` (JetBrains MCP server for a default Windows install of IntelliJ IDEA 2025.3.3; set the path of your own IDE) | `~/.claude/` for settings, `CLAUDE.md` and the status line; `.claude/agents/` in your project for the sub-agents |
 | `copilot/` | start scripts with allowed and denied tools, a custom agent in `agents/` | run the script from the repository root; `.github/agents/` in your project for the agent |
-| `opencode/` | `opencode.jsonc` with a default model and MCP servers | `~/.config/opencode/` or your project root |
+| `opencode/` | `opencode.jsonc` with a default model, MCP servers and Bash push permissions | `~/.config/opencode/` or your project root |
+
+## Protected-branch push policy
+
+Participants may push their own branches and open PRs. The examples deny the covered pushes to `main`, `master` and `prod` and force-push forms; Claude, Copilot and OpenCode may still ask before ordinary pushes, while curated Codex rules leave them to sandbox permissions and `on-request` escalation. These patterns cover common spellings, not every Git invocation.
+
+| Tool | Example file | Block push to main/master/prod | Block force push | What the tool cannot match with these rules |
+|---|---|---|---|---|
+| Claude Code | [settings.json](claude/settings.json), [settings.jsonc](claude/settings.jsonc) | `Bash(git push * main)` / `Bash(git push * main *)` and `Bash(git push *:main)` / `Bash(git push *:main *)`, repeated for `master`/`prod` | `Bash(git push --force:*)`, `Bash(git push -f:*)`, `Bash(git push --force-with-lease:*)` and later-position force globs | Bare `git push` on a checked-out protected branch; aliases, wrappers, full refs, global options and `+` force refspecs |
+| Codex | [rules/course.rules](codex/rules/course.rules) | `prefix_rule(pattern=[["git","git.exe"],"push",["origin","upstream"],["main","master","prod"]], decision="forbidden", ...)`, plus upstream-option variants | Forbidden prefixes for `--force`, `-f`, `--force-with-lease` in documented positions | Bare protected-branch push; token prefixes cannot match `HEAD:main` refspecs, other remotes/options, arbitrary later force flags or `--force-with-lease=<value>` |
+| Copilot CLI | [start-copilot.sh](copilot/start-copilot.sh), [start-copilot.ps1](copilot/start-copilot.ps1) | `--deny-tool='shell(git push origin main:*)'`, repeated for `upstream`, `master`/`prod` and upstream-option variants | `shell(git push --force:*)`, `shell(git push -f:*)`, `shell(git push --force-with-lease:*)` and known-position variants | Bare protected-branch push; trailing command-stem prefixes miss refspec destinations, other remotes/options and arbitrary later force flags |
+| OpenCode | [opencode.jsonc](opencode/opencode.jsonc) | `permission.bash` entries `"git push * main": "deny"` / `"git push * main *": "deny"` and `"git push *:main": "deny"` / `"git push *:main *": "deny"`, repeated for `master`/`prod` | `"git push --force*": "deny"`, standalone `-f` patterns and later-position force globs | Bare protected-branch push only asks; aliases, wrappers, full refs, global options and `+` force refspecs can escape the globs |
+
+GitHub/Bitbucket branch protection is the real guard for protected branches and force pushes; the headless review agent retains its blanket push denial.
 
 ## Codex permissions
 

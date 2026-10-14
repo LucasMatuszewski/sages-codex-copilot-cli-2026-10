@@ -27,6 +27,7 @@ An `allow` rule can permit sandbox bypass when the active filesystem policy has 
 | `pwd`, `whoami` | `allow` | Narrow teaching examples |
 | Reads, searches, `which`, `date`, `export`, Git inspection and mutation, package managers, interpreters, builds, tests, Docker inspection and shell wrappers | No explicit command rule | Run inside the sandbox; `on-request` still reviews required escalation |
 | `curl`, `wget`, including selected `.exe` names | `prompt` | Lucas chose explicit review of HTTP destinations and transfer side effects |
+| `git` / `git.exe worktree add` | `prompt` | Narrow exception: ask before worktree creation, including inside the sandbox; `git -C <dir> worktree add` does not match this prefix |
 | `env`, `printenv` | `forbidden` | Avoid blanket environment dumps |
 | Explicit `git push origin/upstream main/master/prod`, upstream-option variants and force-flag prefixes | `forbidden` | Allow participant feature branches while blocking covered protected/force forms |
 | `git reset --hard` | `forbidden` for the shown token prefix | Retain destructive-reset denial |
@@ -34,7 +35,7 @@ An `allow` rule can permit sandbox bypass when the active filesystem policy has 
 | `rm`, `rmdir`, Docker creation/removal and Compose teardown | `forbidden` for the shown prefixes | Retain course restrictions |
 | Blanket `git add -A/--all/.`, yarn and `npm install -g/--global` | `forbidden` for the shown prefixes | Follow shared staging and package-manager instructions |
 
-The active course policy removes broad read, Git, build, runtime, Docker-inspection and shell-wrapper `prompt` rules: in 0.162.1 they request approval even inside the sandbox, and `auto_review` then spends a reviewer call. Routine commands and feature-branch pushes have no explicit `allow` or `prompt`; the sandbox supplies the boundary. Do not add broad `allow` rules just to suppress prompts. With `approval_policy = "on-request"` and `approvals_reviewer = "auto_review"`, eligible requests go to the reviewer agent. Routine actions without an approval trigger do not reach it. `approval_policy = "never"` prevents approval requests; it grants no extra access. [Automatic review](https://learn.chatgpt.com/docs/sandboxing/auto-review).
+The active course policy removes broad read, Git, build, runtime, Docker-inspection and shell-wrapper `prompt` rules: in 0.162.1 they request approval even inside the sandbox, and `auto_review` then spends a reviewer call. Explicit prompts remain for HTTP clients and the narrow worktree-creation prefix. Routine commands and feature-branch pushes have no explicit `allow` or `prompt`; the sandbox supplies the boundary. Do not add broad `allow` rules just to suppress prompts. With `approval_policy = "on-request"` and `approvals_reviewer = "auto_review"`, eligible requests go to the reviewer agent. Routine actions without an approval trigger do not reach it. `approval_policy = "never"` prevents approval requests; it grants no extra access. [Automatic review](https://learn.chatgpt.com/docs/sandboxing/auto-review).
 
 ### Prefix and shell limits
 
@@ -49,6 +50,7 @@ Participants may push their own feature branches and open PRs. The active rules 
 | Tool | Rule form | Limits |
 |---|---|---|
 | Claude Code | `Bash(git push * main)` / `Bash(git push * main *)` and `Bash(git push *:main)` / `Bash(git push *:main *)`, repeated for `master`/`prod`; force prefixes and globs | `*` includes spaces; bare `git push` has no branch to match; aliases, wrappers and alternate refs/options need separate handling |
+| OpenCode | `permission.bash` deny entries for `git push * main` / `git push * main *` and `git push *:main` / `git push *:main *`, repeated for `master`/`prod`; leading and later force globs | Last matching rule wins; bare push only asks, and aliases, wrappers, full refs, global options and `+` refspecs can escape the globs |
 | Copilot CLI 1.0.88 | `--deny-tool='shell(git push origin main:*)'`, upstream-option and known-remote variants, plus force-flag prefixes | Primary docs and local help establish trailing `:*` command-stem prefixes, not arbitrary interior globs; bare push, refspec destinations, other remotes, reordered options and later force flags can miss them |
 | Codex | `prefix_rule(pattern=[["git","git.exe"],"push",["origin","upstream"],["main","master","prod"]], decision="forbidden", ...)`, upstream-option and force-prefix variants | Token-prefix matching cannot express arbitrary refspec suffixes such as `HEAD:main`; bare push, full refs, `+` refspecs, other remotes, `git -C`, later force flags and `--force-with-lease=<value>` can miss the rules |
 
@@ -152,3 +154,4 @@ Expected decisions are `allow`, `forbidden`, and no matching rule respectively. 
 | 2026-10-14 | CP-03 | Any legacy setting said to override profiles; 4000 tokens described as a universal per-result bound | Higher-precedence selectors determine syntax, and tool metadata can override history truncation; corrected version-specific explanations |
 | 2026-10-14 | CP-04 | Empty masked paths could be mistaken for unwanted host files | Mount inspection and bubblewrap source identify synthetic targets, including `.aws`; retain exact denials and avoid deletion or ignore patterns that hide the symptom |
 | 2026-10-14 | CP-05 | All pushes forbidden; broad command groups prompted even inside the sandbox | Lucas authorized feature branches/PRs, protected-branch and force-prefix denials, and HTTP-only explicit prompts; retain sandbox escalation and document client-rule gaps |
+| 2026-10-14 | CP-06 | Removing broad Git prompts also removed worktree review | Restore a narrow `git`/`git.exe worktree add` prompt in both curated files; retain ordinary sandboxed Git without broad prompts and document the `git -C` gap |
