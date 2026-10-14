@@ -11,6 +11,16 @@ Each folder has the shape of that tool's own config folder.
 | `copilot/` | start scripts with allowed and denied tools, a custom agent in `agents/` | run the script from the repository root; `.github/agents/` in your project for the agent |
 | `opencode/` | `opencode.jsonc` with a default model and MCP servers | `~/.config/opencode/` or your project root |
 
+## Codex permissions
+
+See [Claude-to-Codex permission mapping](codex/PERMISSIONS.md) for annotated TOML
+filesystem profiles, command `allow` / `prompt` / `forbidden` rules, and their limits.
+`codex/config.toml` includes these permissions directly in the main Codex example;
+`codex/permissions.toml` provides the same profiles as a minimal standalone example.
+Copy the configuration together with the reviewed `codex/rules/` files. `codex/examples/claude-command-parity.rules`
+is an inactive syntax comparison with broad allowances; use `codex/rules/course.rules`
+for the curated course policy.
+
 ## Codex profiles
 
 Codex reads profile files only from `~/.codex/`. Copy them there, then choose one:
