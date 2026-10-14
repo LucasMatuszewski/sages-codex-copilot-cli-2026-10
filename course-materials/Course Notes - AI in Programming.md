@@ -374,6 +374,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
   - Free: 50 premium requests/m + 2000 completions (NO: CLI, PRs, issue assign,  code reviews)
   - Pro for $10/m - unlimited GPT-5.4 mini, 300 premium requests (also Opus 4.5+)
   - Pro+ for $39/m - 1500 premium requests
+  - ⚠️ **UPDATE 14.10.2026**: since 2026-06-01 Copilot bills token-based AI credits; premium-request multipliers apply only to grandfathered annual plans. Current per-token rates, budget arithmetic for USD 25/100 and `/usage`: [java-team-agent-questions-2026-10-14.md](Research/java-team-agent-questions-2026-10-14.md#4-copilot-multipliers-current-model-prices-and-usd-25-vs-usd-100)
   - [GitHub Copilot · Plans & pricing · GitHub](https://github.com/features/copilot/plans)
   - [Plans for GitHub Copilot - GitHub Docs](https://docs.github.com/en/copilot/get-started/plans) (detailed docs)
 - **Cursor Pro** for $20/m provides best autocomplete
@@ -704,6 +705,7 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
 - https://code.claude.com/docs/en/plugins
 - https://github.com/luongnv89/claude-howto/blob/main/claude_concepts_guide.md#plugins
 - **Sharing skills across many projects (question from group 2):** keep one source repository with `skills/` and MCP config and distribute it as a plugin: Codex `codex plugin marketplace add org/repo` + `codex plugin add plugin@marketplace`, Copilot CLI `copilot plugin install org/repo`, Claude Code `claude plugin marketplace add org/repo`. Plugins do not deploy project rules or settings: AGENTS.md, `.codex/config.toml` and rules stay in each project. Pin a tag or commit. Worked example with all three: [Edukey Agent Toolbox](https://github.com/EdukeyTeam/agent-toolbox)
+- **More answers to Java-team questions (verified 14.10.2026):** agent-driven breakpoints (IntelliJ 2026.1.3+ debugger MCP tools, or `jdb` for Eclipse), security review with Codex/Copilot and Jenkins, the Jenkins MCP plugin (read-only service account), Codex Goals and the 5h limit (no automatic resume at reset), `.agents/skills` vs `.codex/skills`, copy-ready prompts against scope creep and endless reviews, worktree disk writes: [java-team-agent-questions-2026-10-14.md](Research/java-team-agent-questions-2026-10-14.md)
 
 ## Security
 
