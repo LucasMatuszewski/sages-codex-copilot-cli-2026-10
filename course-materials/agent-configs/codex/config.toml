@@ -13,10 +13,13 @@
 # every `codex --profile <name>`. Uncomment them only in your user-level ~/.codex/config.toml.
 # model = "gpt-6.1-sol"            # Default model for cloud runs. CLI: codex --model gpt-6.1-sol
 approval_policy = "on-request"   # Route approval-worthy actions through the configured reviewer.
-approvals_reviewer = "auto_review" # Let Codex review eligible approval prompts automatically.
+approvals_reviewer = "user"      # Show approval prompts to the user; use "auto_review" for automatic review.
 personality = "pragmatic"        # Style/tone preset (e.g., pragmatic/friendly/none depending on build).
-sandbox_mode = "workspace-write" # Command/file access policy: workspace-read, workspace-write, danger-full-access
-# Note: network access is configured per sandbox, see [sandbox_workspace_write] below.
+# Permission examples mapped from Claude: file profiles below plus rules/course.rules.
+# Remove legacy sandbox_mode / sandbox_workspace_write settings from other active layers.
+# See PERMISSIONS.md for allow, approval, deny and platform-specific limitations.
+default_permissions = "course-workspace"
+web_search = "cached" # Hosted web search is separate from command network permissions.
 oss_provider = "ollama"          # Default OSS (Open Source) models provider
 
 # approval_policy controls when Codex asks before it runs tools/commands.
@@ -64,6 +67,7 @@ sandbox = "elevated"
 # Feature toggles
 # ----------------
 [features]
+network_proxy = true            # Enforce domain rules for the course-jetbrains permission profile.
 multi_agent = true               # Allow spawning/using multiple agents (if supported by your build).
 
 # ----------------
@@ -98,13 +102,7 @@ enabled = false # Optional integration; the course starts with local CLI tools.
 # args = ["-y", "@upstash/context7-mcp", "--api-key", "YOUR_API_KEY"]
 # startup_timeout_sec = 20
 
-# -----------------------------------------
-# Sandbox details for workspace-write mode
-# -----------------------------------------
-# sandbox_workspace_write config applies when sandbox_mode="workspace-write".
-# network_access here is the sandbox-level permission that controls outbound network calls.
-[sandbox_workspace_write]
-network_access = true            # Allow network when running inside the workspace-write sandbox.
+# Filesystem and network permission profiles appear below.
 
 # ============================================================
 # Custom Model Providers
@@ -252,3 +250,75 @@ wire_api = "responses"
 #   ollama run glm-ocr Table Recognition: ./image.png
 # Figure recognition:
 #   ollama run glm-ocr Figure Recognition: ./image.png
+
+# ============================================================
+# Course permission examples: read, write, deny and network access
+# ============================================================
+# Beta permission profiles; use instead of sandbox_mode / sandbox_workspace_write.
+# Remove legacy sandbox settings from ALL loaded config layers before selecting these.
+# See course-materials/agent-configs/codex/PERMISSIONS.md for scope and platform limits.
+
+[permissions.course-workspace]
+description = "Workspace editing; named environment files and secrets are unreadable."
+extends = ":workspace"
+
+[permissions.course-workspace.filesystem]
+# Recursive deny globs are expanded before sandbox startup on some platforms.
+# This is a scanning bound, not a guarantee about paths deeper than 12 levels.
+glob_scan_max_depth = 12
+
+[permissions.course-workspace.filesystem.":workspace_roots"]
+# Exact source patterns, plus nested variants of the named environment files.
+".env" = "deny"
+".env.local" = "deny"
+".env.dev" = "deny"
+".env.prod" = "deny"
+".env.test" = "deny"
+"**/.env" = "deny"
+"**/.env.local" = "deny"
+"**/.env.dev" = "deny"
+"**/.env.prod" = "deny"
+"**/.env.test" = "deny"
+"secrets" = "deny"
+"**/secrets/**" = "deny"
+# A synthetic template is available for inspection but cannot be edited in this profile.
+".env.example" = "read"
+
+[permissions.course-workspace.network]
+enabled = false
+
+[permissions.course-root]
+description = "Root Claude policy: also exclude logs and archived agent configuration examples."
+extends = "course-workspace"
+
+[permissions.course-root.filesystem.":workspace_roots"]
+"logs" = "deny"
+"**/logs/**" = "deny"
+"course-materials/agent-configs" = "deny"
+
+[permissions.course-review]
+description = "Review workspace files; edits inside the workspace require extra permission."
+extends = "course-workspace"
+
+[permissions.course-review.filesystem.":workspace_roots"]
+"." = "read"
+# Temporary directories inherited from :workspace remain writable.
+
+[permissions.course-docs]
+description = "Read the workspace and edit only docs/ (plus inherited temporary directories)."
+extends = "course-review"
+
+[permissions.course-docs.filesystem.":workspace_roots"]
+"docs" = "write"
+
+[permissions.course-jetbrains]
+description = "Workspace editing with command network access to the two Claude WebFetch hosts."
+extends = "course-workspace"
+
+[permissions.course-jetbrains.network]
+enabled = true
+
+[permissions.course-jetbrains.network.domains]
+"blog.jetbrains.com" = "allow"
+"www.jetbrains.com" = "allow"
+# Domain rules require [features] network_proxy = true, provided in the sample config.

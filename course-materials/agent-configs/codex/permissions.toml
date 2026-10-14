@@ -1,0 +1,81 @@
+# Self-contained permission example; merge selected settings deliberately.
+# Copy as ~/.codex/config.toml or a trusted project's .codex/config.toml.
+# Remove sandbox_mode and [sandbox_workspace_write] from ALL active config layers.
+# This file is a permissions example, separate from model/provider --profile presets.
+default_permissions = "course-workspace"
+approval_policy = "on-request"
+approvals_reviewer = "user"
+web_search = "cached" # Separate hosted capability, as in Claude's WebSearch allow.
+
+[features]
+# Required for domain filtering if course-jetbrains is selected. No network in default profile.
+network_proxy = true
+
+# Beta permission profiles; use instead of sandbox_mode / sandbox_workspace_write.
+# Remove legacy sandbox settings from ALL loaded config layers before selecting these.
+# See course-materials/agent-configs/codex/PERMISSIONS.md for scope and platform limits.
+
+[permissions.course-workspace]
+description = "Workspace editing; named environment files and secrets are unreadable."
+extends = ":workspace"
+
+[permissions.course-workspace.filesystem]
+# Recursive deny globs are expanded before sandbox startup on some platforms.
+# This is a scanning bound, not a guarantee about paths deeper than 12 levels.
+glob_scan_max_depth = 12
+
+[permissions.course-workspace.filesystem.":workspace_roots"]
+# Exact source patterns, plus nested variants of the named environment files.
+".env" = "deny"
+".env.local" = "deny"
+".env.dev" = "deny"
+".env.prod" = "deny"
+".env.test" = "deny"
+"**/.env" = "deny"
+"**/.env.local" = "deny"
+"**/.env.dev" = "deny"
+"**/.env.prod" = "deny"
+"**/.env.test" = "deny"
+"secrets" = "deny"
+"**/secrets/**" = "deny"
+# A synthetic template is available for inspection but cannot be edited in this profile.
+".env.example" = "read"
+
+[permissions.course-workspace.network]
+enabled = false
+
+[permissions.course-root]
+description = "Root Claude policy: also exclude logs and archived agent configuration examples."
+extends = "course-workspace"
+
+[permissions.course-root.filesystem.":workspace_roots"]
+"logs" = "deny"
+"**/logs/**" = "deny"
+"course-materials/agent-configs" = "deny"
+
+[permissions.course-review]
+description = "Review workspace files; edits inside the workspace require extra permission."
+extends = "course-workspace"
+
+[permissions.course-review.filesystem.":workspace_roots"]
+"." = "read"
+# Temporary directories inherited from :workspace remain writable.
+
+[permissions.course-docs]
+description = "Read the workspace and edit only docs/ (plus inherited temporary directories)."
+extends = "course-review"
+
+[permissions.course-docs.filesystem.":workspace_roots"]
+"docs" = "write"
+
+[permissions.course-jetbrains]
+description = "Workspace editing with command network access to the two Claude WebFetch hosts."
+extends = "course-workspace"
+
+[permissions.course-jetbrains.network]
+enabled = true
+
+[permissions.course-jetbrains.network.domains]
+"blog.jetbrains.com" = "allow"
+"www.jetbrains.com" = "allow"
+# Domain rules require [features] network_proxy = true, provided in the sample config.
