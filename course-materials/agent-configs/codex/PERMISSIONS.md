@@ -25,26 +25,34 @@ An `allow` rule can permit sandbox bypass when the active filesystem policy has 
 | Claude command group | Curated Codex decision | Reason |
 |---|---|---|
 | `pwd`, `whoami` | `allow` | Narrow teaching examples |
-| `cat`, `ls`, `find`, `grep`, `echo`, `wc`, `head`, `tail`, `diff`, plus `rg` | `prompt` | Deliberately demonstrate explicit review, including routine sandboxed reads |
-| `which`, `date`, `export` | `prompt` | Arguments and shell behavior need inspection; `export -p` dumps variables |
-| Git inspection and mutation commands | `prompt` | Broad Git example also reviews `git -C ... worktree add` |
-| npm, npx, pnpm, compilers, test runners, interpreters, Maven and Java | `prompt` | Scripts and dependencies execute code |
-| `docker ps/logs/inspect/images` | `prompt` | Daemon access can expose host data |
-| `curl`, `wget`, including selected `.exe` names | `prompt` | Review destination and transfer side effects |
-| Shell wrappers such as Bash and PowerShell | `prompt` | Inspect the complete script and its targets |
+| Reads, searches, `which`, `date`, `export`, Git inspection and mutation, package managers, interpreters, builds, tests, Docker inspection and shell wrappers | No explicit command rule | Run inside the sandbox; `on-request` still reviews required escalation |
+| `curl`, `wget`, including selected `.exe` names | `prompt` | Lucas chose explicit review of HTTP destinations and transfer side effects |
 | `env`, `printenv` | `forbidden` | Avoid blanket environment dumps |
-| `git push`, `git reset --hard` | `forbidden` for the shown token prefixes | Retain publishing and destructive-reset denials |
+| Explicit `git push origin/upstream main/master/prod`, upstream-option variants and force-flag prefixes | `forbidden` | Allow participant feature branches while blocking covered protected/force forms |
+| `git reset --hard` | `forbidden` for the shown token prefix | Retain destructive-reset denial |
 | `chmod`, `chown`, `sudo`, `ssh`, `scp` | `forbidden` | Retain privilege and remote-access denials |
 | `rm`, `rmdir`, Docker creation/removal and Compose teardown | `forbidden` for the shown prefixes | Retain course restrictions |
 | Blanket `git add -A/--all/.`, yarn and `npm install -g/--global` | `forbidden` for the shown prefixes | Follow shared staging and package-manager instructions |
 
-These broad prompts intentionally add review overhead. They are teaching examples, not a requirement to approve every read in a production policy. Do not add broad `allow` rules just to suppress prompts. With `approval_policy = "on-request"` and `approvals_reviewer = "auto_review"`, eligible requests go to the reviewer agent. Routine actions without an approval trigger do not reach it. `approval_policy = "never"` prevents approval requests; it grants no extra access. [Automatic review](https://learn.chatgpt.com/docs/sandboxing/auto-review).
+The active course policy removes broad read, Git, build, runtime, Docker-inspection and shell-wrapper `prompt` rules: in 0.162.1 they request approval even inside the sandbox, and `auto_review` then spends a reviewer call. Routine commands and feature-branch pushes have no explicit `allow` or `prompt`; the sandbox supplies the boundary. Do not add broad `allow` rules just to suppress prompts. With `approval_policy = "on-request"` and `approvals_reviewer = "auto_review"`, eligible requests go to the reviewer agent. Routine actions without an approval trigger do not reach it. `approval_policy = "never"` prevents approval requests; it grants no extra access. [Automatic review](https://learn.chatgpt.com/docs/sandboxing/auto-review).
 
 ### Prefix and shell limits
 
-Patterns match argv positions, not arbitrary command substrings. `["git", "push"]` does not match `git -C . push`; the broad Git prompt reviews that form. Likewise `git reset HEAD --hard` does not match the exact destructive-reset prefix. A `*` string in a command pattern is a literal token. Aliases, absolute executable paths, `.exe` names and reordered options need explicit consideration. These examples are not an exhaustive command firewall.
+Patterns match argv positions, not arbitrary command substrings. A `["git", "push", ...]` prefix does not match `git -C . push`; that form now has no explicit command rule and remains subject to the sandbox. Likewise `git reset HEAD --hard` does not match the exact destructive-reset prefix. A `*` string in a command pattern is a literal token. Aliases, absolute executable paths, `.exe` names and reordered options need explicit consideration. These examples are not an exhaustive command firewall.
 
 Supported simple shell chains may be split for evaluation; complex scripts can remain a wrapper invocation. PowerShell cmdlets usually occur in script text rather than executable argv. An approved wrapper can perform actions that direct prefix rules forbid, although active filesystem denied reads must remain enforced in 0.162.1. Review the entire script. Do not install the inactive literal comparison alongside the curated policy: both would be evaluated, and its broad allowances have different approval semantics.
+
+### Feature-branch pushes and protected branches
+
+Participants may push their own feature branches and open PRs. The active rules deny explicit pushes to `main`, `master` and `prod` on `origin`/`upstream`, including `-u`/`--set-upstream` before or after the remote, plus `--force`, `-f` and `--force-with-lease` in the documented prefix positions. Ordinary pushes are unmatched, so they need no extra reviewer call when sandbox and network permissions already permit them; blocked network or filesystem access still needs `on-request` escalation. The inactive Claude comparison uses the same bounded push approximation while retaining its other literal allow/deny mappings.
+
+| Tool | Rule form | Limits |
+|---|---|---|
+| Claude Code | `Bash(git push * main)` / `Bash(git push * main *)` and `Bash(git push *:main)` / `Bash(git push *:main *)`, repeated for `master`/`prod`; force prefixes and globs | `*` includes spaces; bare `git push` has no branch to match; aliases, wrappers and alternate refs/options need separate handling |
+| Copilot CLI 1.0.88 | `--deny-tool='shell(git push origin main:*)'`, upstream-option and known-remote variants, plus force-flag prefixes | Primary docs and local help establish trailing `:*` command-stem prefixes, not arbitrary interior globs; bare push, refspec destinations, other remotes, reordered options and later force flags can miss them |
+| Codex | `prefix_rule(pattern=[["git","git.exe"],"push",["origin","upstream"],["main","master","prod"]], decision="forbidden", ...)`, upstream-option and force-prefix variants | Token-prefix matching cannot express arbitrary refspec suffixes such as `HEAD:main`; bare push, full refs, `+` refspecs, other remotes, `git -C`, later force flags and `--force-with-lease=<value>` can miss the rules |
+
+These client rules express the course policy; GitHub/Bitbucket branch protection is the real guard for protected branches and force pushes. Configure it in the exercise repository rather than treating a client deny list as complete enforcement. The headless review script retains its blanket push denial. [Claude wildcard syntax](https://code.claude.com/docs/en/permissions), [Copilot permission patterns](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#tool-permission-patterns).
 
 ## Filesystem profiles
 
@@ -133,7 +141,7 @@ codex execpolicy check --pretty --rules .codex/rules/course.rules -- git push --
 codex execpolicy check --pretty --rules .codex/rules/course.rules -- git -C . push
 ```
 
-Expected decisions are `allow`, `forbidden`, `prompt` respectively. "No matching rule" does not grant unsandboxed execution.
+Expected decisions are `allow`, `forbidden`, and no matching rule respectively. "No matching rule" does not grant unsandboxed execution.
 
 ## Corrections log
 
@@ -143,3 +151,4 @@ Expected decisions are `allow`, `forbidden`, `prompt` respectively. "No matching
 | 2026-10-14 | CP-02 | Allow/approval described as unconditional sandbox bypass; routine reads described as escalation-only prompts | Version 0.162.1 preserves active denied reads, and explicit prompts can trigger inside the sandbox; corrected comments and mapping without changing decisions |
 | 2026-10-14 | CP-03 | Any legacy setting said to override profiles; 4000 tokens described as a universal per-result bound | Higher-precedence selectors determine syntax, and tool metadata can override history truncation; corrected version-specific explanations |
 | 2026-10-14 | CP-04 | Empty masked paths could be mistaken for unwanted host files | Mount inspection and bubblewrap source identify synthetic targets, including `.aws`; retain exact denials and avoid deletion or ignore patterns that hide the symptom |
+| 2026-10-14 | CP-05 | All pushes forbidden; broad command groups prompted even inside the sandbox | Lucas authorized feature branches/PRs, protected-branch and force-prefix denials, and HTTP-only explicit prompts; retain sandbox escalation and document client-rule gaps |
