@@ -1,6 +1,7 @@
 # TEACHING COMPARISON ONLY. Do not install this entire file as an active policy.
-# Claude Bash allow -> Codex outside-sandbox allow: syntactic mapping, stronger access.
-# Broad cat/find/node/python/npm/npx/export allowances can bypass sandbox protections.
+# Claude Bash allow -> Codex allow: syntactic mapping with different approval semantics.
+# Broad allowances can bypass the sandbox when there are no denied-read restrictions.
+# In 0.162.1, active denied reads must survive allow rules and approved escalation.
 # These rules do not implement Read/Edit/Write/WebFetch; see permissions.toml.
 # Source: course-materials/agent-configs/claude/settings.json.
 # Colon-star becomes trailing argv; there are no wildcard strings in these patterns.

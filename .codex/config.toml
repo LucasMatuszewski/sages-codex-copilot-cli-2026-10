@@ -29,14 +29,14 @@ oss_provider = "ollama"          # works with `codex --oss` flag (uses GPT OSS m
 personality = "pragmatic"          # Style/tone preset (e.g., pragmatic/friendly/none depending on build).
 # Filesystem permissions mapped from the root .claude/settings.json.
 # Beta profiles replace legacy sandbox_mode / sandbox_workspace_write settings.
-# Remove legacy sandbox settings from user/provider config too, or they take precedence.
+# Higher-precedence permission selectors win; avoid mixing legacy and named-profile selectors.
 default_permissions = "course-root"
 # Command allow/prompt/forbidden examples: .codex/rules/course.rules.
 # Mapping and limitations: course-materials/agent-configs/codex/PERMISSIONS.md.
 
 approvals_reviewer = "auto_review" # Route eligible approval requests to the reviewer agent.
 approval_policy = "on-request"
-# Bound each tool result stored in history; this is not a tool-specific read prohibition.
+# Default tool-output history budget; tools can override it and raw rollouts retain output.
 tool_output_token_limit = 4000
 # approval_policy controls when Codex asks before it runs tools/commands.
 # CLI override example:
@@ -68,7 +68,7 @@ tool_output_token_limit = 4000
 # Windows sandboxing
 # ----------------
 # Windows sandbox mode. "elevated" uses the Windows sandbox with elevated setup when required.
-# If not sure, keep "elevated" (recommended on Windows).
+# Legacy fallback: elevated supports denied reads; unelevated does not. Validate MXC separately.
 # [windows]
 # sandbox = "elevated"
 
@@ -244,13 +244,13 @@ enabled = false
 #        model_context_window = 65536
 #
 # Memory warning (important):
-# - Model size (e.g., “6.6 GB”) is only the baseline to load weights.
+# - Model size (e.g., "6.6 GB") is only the baseline to load weights.
 # - Increasing context length ALSO increases VRAM/RAM usage (KV cache grows with context size),
 #   so a 64k context can require significantly more memory than the model file size alone.
 #
 # Ollama defaults context length by VRAM (from Ollama docs):
 #   < 24 GiB VRAM   -> 4k context
-#   24–48 GiB VRAM  -> 32k context
+#   24-48 GiB VRAM  -> 32k context
 #   >= 48 GiB VRAM  -> 256k context
 #
 # Check models currently loaded to memory (and % loaded to CPU and GPU):
@@ -294,7 +294,7 @@ enabled = false
 # Course filesystem and network permission profiles
 # ============================================================
 # Beta permission profiles; use instead of sandbox_mode / sandbox_workspace_write.
-# Remove legacy sandbox settings from ALL loaded config layers before selecting these.
+# Higher-precedence sandbox_mode/--sandbox can select legacy behavior; inspect the effective profile.
 # See course-materials/agent-configs/codex/PERMISSIONS.md for scope and platform limits.
 
 [permissions.course-workspace]
@@ -302,12 +302,12 @@ description = "Workspace editing; named environment files and secrets are unread
 extends = ":workspace"
 
 [permissions.course-workspace.filesystem]
-# Recursive deny globs are expanded before sandbox startup on some platforms.
+# Linux/WSL and native Windows snapshot deny-glob matches before sandbox startup.
 # This is a scanning bound, not a guarantee about paths deeper than 12 levels.
 glob_scan_max_depth = 12
 
 [permissions.course-workspace.filesystem.":workspace_roots"]
-# Exact source patterns, plus nested variants of the named environment files.
+# Exact denials also protect absent paths; keep them alongside bounded recursive globs.
 ".env" = "deny"
 ".env.local" = "deny"
 ".env.dev" = "deny"
@@ -358,12 +358,12 @@ description = "Optional example: restrict command network access to two JetBrain
 extends = ":workspace"
 
 [permissions.course-jetbrains.filesystem]
-# Recursive deny globs are expanded before sandbox startup on some platforms.
+# Linux/WSL and native Windows snapshot deny-glob matches before sandbox startup.
 # This is a scanning bound, not a guarantee about paths deeper than 12 levels.
 glob_scan_max_depth = 12
 
 [permissions.course-jetbrains.filesystem.":workspace_roots"]
-# Exact source patterns, plus nested variants of the named environment files.
+# Exact denials also protect absent paths; keep them alongside bounded recursive globs.
 ".env" = "deny"
 ".env.local" = "deny"
 ".env.dev" = "deny"

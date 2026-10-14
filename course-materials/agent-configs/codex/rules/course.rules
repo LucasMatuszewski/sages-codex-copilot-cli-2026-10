@@ -1,29 +1,30 @@
 # Codex execpolicy (Starlark), not Claude JSON. Experimental.
 # Applies to command approval/escalation; filesystem denials live in config.toml.
-# Commands already possible inside the sandbox do not need an outside-sandbox allow.
+# Explicit prompt rules can require review even for commands that fit inside the sandbox.
+# In 0.162.1, allow/approval cannot remove active denied-read restrictions.
 # See PERMISSIONS.md for token-prefix, wrapper, and alternate-path limitations.
 
-# ALLOW: narrow examples without file-reading or arbitrary-code capabilities.
+# ALLOW: narrow teaching examples; denied-read restrictions still apply.
 prefix_rule(pattern=["pwd"], decision="allow", justification="Print the current directory.", match=["pwd"], not_match=["cat README.md"])
 prefix_rule(pattern=["whoami",], decision="allow", justification="Print the current account.", match=["whoami"], not_match=["printenv"])
 
-# ASK: Claude permits these reads. In Codex they can run INSIDE the sandbox;
-# an escalation must be reviewed because it can bypass file and network restrictions.
-prefix_rule(pattern=[["cat", "ls", "find", "grep", "rg", "echo", "wc", "head", "tail", "diff", "which", "date", "export"]], decision="prompt", justification="Review file access or shell behavior before leaving the sandbox.", match=["cat README.md", "rg permission docs", "export -p"], not_match=["pwd"])
+# ASK: explicit prompts review these reads even when sandbox-compatible.
+# Approved escalation can widen other access but must preserve denied reads in 0.162.1.
+prefix_rule(pattern=[["cat", "ls", "find", "grep", "rg", "echo", "wc", "head", "tail", "diff", "which", "date", "export"]], decision="prompt", justification="Review the requested file access or shell behavior.", match=["cat README.md", "rg permission docs", "export -p"], not_match=["pwd"])
 
 # Git's .git directory is protected by :workspace. Writes can need approval.
 # This broad prompt also catches git -C <path> worktree add; no wildcard token needed.
-prefix_rule(pattern=[["git", "git.exe"]], decision="prompt", justification="Review Git operations outside the sandbox, including worktree creation.", match=["git status", "git add src/Main.java", "git worktree add ../example", "git -C . worktree add ../example"])
+prefix_rule(pattern=[["git", "git.exe"]], decision="prompt", justification="Review Git operations, including worktree creation.", match=["git status", "git add src/Main.java", "git worktree add ../example", "git -C . worktree add ../example"])
 
 # Package managers, project scripts, interpreters and tool runners execute code.
-# Keep their in-sandbox behavior; require review before an unsandboxed invocation.
-prefix_rule(pattern=[["npm", "npx", "pnpm", "tsc", "eslint", "prettier", "jest", "vitest", "next", "turbo", "tsx", "node", "node.exe", "python", "python.exe", "python3", "py", "pip", "uv", "pytest", "mvn", "mvn.cmd", "mvnw", "mvnw.cmd", "./mvnw", "java", "java.exe"]], decision="prompt", justification="Review scripts, runtime access and dependency downloads before escalation.", match=["pnpm install", "python -c pass", "mvn test"], not_match=["git status"])
+# Explicit prompt rules request review even for an in-sandbox invocation.
+prefix_rule(pattern=[["npm", "npx", "pnpm", "tsc", "eslint", "prettier", "jest", "vitest", "next", "turbo", "tsx", "node", "node.exe", "python", "python.exe", "python3", "py", "pip", "uv", "pytest", "mvn", "mvn.cmd", "mvnw", "mvnw.cmd", "./mvnw", "java", "java.exe"]], decision="prompt", justification="Review scripts, runtime access and dependency downloads.", match=["pnpm install", "python -c pass", "mvn test"], not_match=["git status"])
 
 # Docker inspection can expose environment variables or logs from the daemon.
 prefix_rule(pattern=[["docker", "docker.exe"], ["ps", "logs", "inspect", "images"]], decision="prompt", justification="Review Docker daemon access and returned data.", match=["docker ps", "docker inspect example"], not_match=["docker run example"])
 
 # Windows cmdlets are usually script text inside pwsh/powershell, not executable argv.
-# Never allow an entire shell wrapper outside the sandbox on the strength of its name.
+# Broad shell allowances can widen access; review the full script, even with denied reads retained.
 prefix_rule(pattern=[["pwsh", "pwsh.exe", "powershell", "powershell.exe", "cmd", "cmd.exe", "bash", "bash.exe", "sh", "zsh"]], decision="prompt", justification="Review the complete shell script and its targets before escalation.", match=["pwsh -Command Get-Content", "bash -lc pwd"])
 
 # Network access is enabled. HTTP-client operations explicitly request review.

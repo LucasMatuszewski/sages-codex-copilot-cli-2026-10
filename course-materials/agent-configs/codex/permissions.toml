@@ -4,7 +4,7 @@
 # This file is a permissions example, separate from model/provider --profile presets.
 default_permissions = "course-workspace"
 approval_policy = "on-request"
-# Bound each tool result stored in history; this is not a tool-specific read prohibition.
+# Default tool-output history budget; tools can override it and raw rollouts retain output.
 tool_output_token_limit = 4000
 approvals_reviewer = "auto_review" # Route eligible approval requests to the reviewer agent.
 web_search = "cached" # Separate hosted capability, as in Claude's WebSearch allow.
@@ -14,7 +14,7 @@ web_search = "cached" # Separate hosted capability, as in Claude's WebSearch all
 network_proxy = true
 
 # Beta permission profiles; use instead of sandbox_mode / sandbox_workspace_write.
-# Remove legacy sandbox settings from ALL loaded config layers before selecting these.
+# Higher-precedence sandbox_mode/--sandbox can select legacy behavior; inspect the effective profile.
 # See course-materials/agent-configs/codex/PERMISSIONS.md for scope and platform limits.
 
 [permissions.course-workspace]
@@ -22,12 +22,12 @@ description = "Workspace editing; named environment files and secrets are unread
 extends = ":workspace"
 
 [permissions.course-workspace.filesystem]
-# Recursive deny globs are expanded before sandbox startup on some platforms.
+# Linux/WSL and native Windows snapshot deny-glob matches before sandbox startup.
 # This is a scanning bound, not a guarantee about paths deeper than 12 levels.
 glob_scan_max_depth = 12
 
 [permissions.course-workspace.filesystem.":workspace_roots"]
-# Exact source patterns, plus nested variants of the named environment files.
+# Exact denials also protect absent paths; keep them alongside bounded recursive globs.
 ".env" = "deny"
 ".env.local" = "deny"
 ".env.dev" = "deny"
@@ -78,12 +78,12 @@ description = "Optional example: restrict command network access to two JetBrain
 extends = ":workspace"
 
 [permissions.course-jetbrains.filesystem]
-# Recursive deny globs are expanded before sandbox startup on some platforms.
+# Linux/WSL and native Windows snapshot deny-glob matches before sandbox startup.
 # This is a scanning bound, not a guarantee about paths deeper than 12 levels.
 glob_scan_max_depth = 12
 
 [permissions.course-jetbrains.filesystem.":workspace_roots"]
-# Exact source patterns, plus nested variants of the named environment files.
+# Exact denials also protect absent paths; keep them alongside bounded recursive globs.
 ".env" = "deny"
 ".env.local" = "deny"
 ".env.dev" = "deny"

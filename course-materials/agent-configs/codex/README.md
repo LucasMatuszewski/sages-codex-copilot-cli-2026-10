@@ -1,42 +1,23 @@
 # Codex configuration examples
 
-The main [`config.toml`](config.toml) includes the Claude-to-Codex permission
-examples: automatic approval review, filesystem read/write/deny profiles, and
-public network access by default. Command allow/approval/deny rules are in
-[`rules/course.rules`](rules/course.rules).
+The examples target Codex CLI 0.162.1: named filesystem/network permission profiles, automatic approval review and Starlark command rules. Read [PERMISSIONS.md](PERMISSIONS.md) for the Claude mapping, platform limits, Windows prompts and doctor diagnostics.
 
 | File | Use |
 |---|---|
-| [`config.toml`](config.toml) | Complete example with permissions and existing model/provider/MCP settings |
-| [`permissions.toml`](permissions.toml) | Minimal permissions-only example with the same five profiles |
-| [`rules/course.rules`](rules/course.rules) | Curated `allow`, `prompt` and `forbidden` command examples |
-| [`examples/claude-command-parity.rules`](examples/claude-command-parity.rules) | Inactive literal comparison with the original Claude Bash permissions |
-| [`PERMISSIONS.md`](PERMISSIONS.md) | Mapping, deliberate differences, installation requirements and validation evidence |
+| [config.toml](config.toml) | Complete example with model/provider/MCP settings and five permission profiles |
+| [permissions.toml](permissions.toml) | Minimal permission example with the same five profiles |
+| [rules/course.rules](rules/course.rules) | Curated `allow`, `prompt` and `forbidden` command examples |
+| [examples/claude-command-parity.rules](examples/claude-command-parity.rules) | Inactive literal comparison with Claude Bash permissions |
+| [PERMISSIONS.md](PERMISSIONS.md) | Semantics, installation, Windows behavior and validation |
 
-## Copy into a project
+Merge selected settings into a trusted project's `.codex/config.toml`, then copy the curated rules to `.codex/rules/course.rules`. For deliberate user-wide scope use `~/.codex/config.toml` and `~/.codex/rules/`. Preserve provider choices and do not install the inactive comparison alongside the curated rules.
 
-From the training repository root, after reviewing the settings, merge
-`course-materials/agent-configs/codex/config.toml` into the target project's
-`.codex/config.toml`, and copy the curated rule file to
-`.codex/rules/course.rules`. Project configuration and rules load only for a
-trusted project. For user-wide settings, the corresponding destinations are
-`~/.codex/config.toml` and `~/.codex/rules/course.rules`.
+Avoid mixing legacy `sandbox_mode` and named-profile selectors. Higher-precedence selectors determine the effective syntax; a lower-precedence user setting does not automatically defeat a project profile. Reload the session and inspect `/permissions`, `/status` and `codex doctor --all`.
 
-When updating an existing configuration, merge the selected settings rather than
-overwriting your model/provider choices. Remove legacy `sandbox_mode` and
-`[sandbox_workspace_write]` settings from all active layers so the new file
-profiles can take effect. Restart Codex and inspect `/permissions` and `/status`.
-Do not install the inactive literal comparison together with the curated rules.
+`course-workspace` permits workspace editing and public command network access, while denying the named environment files and secrets inside workspace roots. `course-root` is an equivalent named preset. Other profiles demonstrate workspace review, writes limited to `docs/`, and an optional two-host JetBrains policy. Only one profile is selected. Inherited temporary directories remain writable.
 
-The default `course-workspace` profile permits workspace editing and public
-network access, while denying named environment files and secrets. Logs and the
-training configuration examples remain available. `course-root` is an equivalent
-named preset for the course root. Other examples cover workspace review
-(`course-review`), writes limited to `docs/` (`course-docs`), and an optional
-restriction to the two JetBrains hosts (`course-jetbrains`). Only one profile is
-selected for a session. Automatic review handles eligible approval requests;
-it does not review every already-permitted network call.
+Explicit `prompt` rules can review routine sandboxed commands. `auto_review` handles eligible approval requests, not every edit or allowed network connection. In 0.162.1 active denied reads survive command allows and approved escalation. Hosted search, apps and MCPs have separate controls.
 
-Tool results stored in history have a 4000-token budget. Search logs with bounded
-`rg`/`grep` results or small excerpts; filesystem permissions do not implement a
-Read-tool-only ban. See the mapping guide for examples and platform limits.
+The 4000-token setting is a default history-truncation budget with tool-specific overrides, not a universal hard output limit. Inspect logs through bounded searches and excerpts. Linux sandbox masks can appear as empty `.env*`/`secrets` files and `.agents`/`.aws` directories; retain exact denials and do not delete masked paths.
+
+Native Windows requires a backend that enforces denied reads. The provisioned legacy `elevated` backend can ask for administrator approval during setup or repair; ordinary refresh avoids UAC. Firewall dialogs are separate and need their named executable checked. See the mapping guide before considering MXC or changing security settings. User-level MCP warnings and environment diagnostics should be fixed at their source.
