@@ -175,5 +175,6 @@ For CLI work, most likely yes. The Linux sandbox is a different implementation (
 ## Sources
 
 - openai/codex source: `codex-rs/app-server-daemon/src/install_lock.rs`, `codex-rs/prompts/templates/permissions/approval_policy/on_request_rule_request_permission.md`
+- Reported from this investigation: #54440 (escalation ignored, resumed-thread Full Access), #54441 (UAC loop from proxy_ports flip)
 - Issues: #53650 (Computer Use under MXC 0x80070005), #53786, #53765, #50915 (MXC), #40217, #30445, #43354 (sandbox setup marker / ACL)
 - Codex config docs: "Windows sandbox mode" (`prefer_mxc`), learn.chatgpt.com/docs/config-file/config-basic
