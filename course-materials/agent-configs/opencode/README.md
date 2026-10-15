@@ -15,7 +15,15 @@ in `agent-configs/`. It shows how to set a **default model**, configure
 Load order (later wins): remote → global → `$OPENCODE_CONFIG` → project.
 
 OpenCode reads **JSONC**, so `//` comments are allowed (same as our
-`agent-configs/claude/settings.json`).
+[`../claude/settings.jsonc`](../claude/settings.jsonc); plain `settings.json` has no comments).
+
+## Protected-branch push policy
+
+The example's `permission.bash` object asks for approval by default, including feature-branch pushes. It denies explicit destinations `main`, `master` and `prod` using `git push * main` / `git push * main *` and `git push *:main` / `git push *:main *`, repeated for the other branches. Force denials cover leading and later `--force*` (including `--force-with-lease`) and standalone `-f` flags.
+
+OpenCode accepts `allow`, `ask` and `deny`; `*` matches any text, including spaces, and the last matching rule wins. Keep the catch-all first and the denials after it. The [permissions documentation](https://opencode.ai/docs/permissions/#granular-rules-object-syntax) and [config schema](https://opencode.ai/config.json) define this syntax; local OpenCode 1.18.30 `opencode --help` also describes `--auto` as approving requests that are not explicitly denied.
+
+Bare `git push` names no branch and therefore only asks; approving it can push a checked-out protected branch. Aliases, wrappers, full refs, global Git options and `+` force refspecs can escape these patterns. GitHub/Bitbucket branch protection is the real guard. See the [cross-tool comparison](../README.md#protected-branch-push-policy).
 
 ## Default model
 

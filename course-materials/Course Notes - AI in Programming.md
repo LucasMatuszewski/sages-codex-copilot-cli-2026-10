@@ -289,6 +289,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - AIME (High School Math Exam): [AIME 2025 Benchmark Leaderboard | Artificial Analysis](https://artificialanalysis.ai/evaluations/aime-2025)
 - Market Share - Open Router: [LLM Rankings | OpenRouter](https://openrouter.ai/rankings)
 - Cost vs Intelligence Index [Artificial Analysis](https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index?eval-cost=intelligence-vs-total-cost#eval-cost-tabs)
+- **Price of intelligence over time (research 14.10.2026):** the cheapest model at a fixed quality level gets 9x-900x cheaper per year (median 50x, Epoch AI; GPT-3.5 level fell from $20 to $0.07 per 1M tokens in 23 months), but flagship prices stay high (GPT-6 Astra $10 / $50) and agents use far more tokens per task. Chart in deck 02, data and sources: [price-of-intelligence-2026-10-14.md](Research/price-of-intelligence-2026-10-14.md). Same trend on Artificial Analysis's own index: [cost per Intelligence Index task by intelligence threshold, over time](https://artificialanalysis.ai/trends#efficiency) (AA also reports GPT-4-level intelligence ~350x cheaper in ~2 years: [AA on X](https://x.com/ArtificialAnlys/status/1986895619395551603))
 
 ---
 
@@ -373,6 +374,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
   - Free: 50 premium requests/m + 2000 completions (NO: CLI, PRs, issue assign,  code reviews)
   - Pro for $10/m - unlimited GPT-5.4 mini, 300 premium requests (also Opus 4.5+)
   - Pro+ for $39/m - 1500 premium requests
+  - ⚠️ **UPDATE 14.10.2026**: since 2026-06-01 Copilot bills token-based AI credits; premium-request multipliers apply only to grandfathered annual plans. Current per-token rates, budget arithmetic for USD 25/100 and `/usage`: [java-team-agent-questions-2026-10-14.md](Research/java-team-agent-questions-2026-10-14.md#4-copilot-multipliers-current-model-prices-and-usd-25-vs-usd-100)
   - [GitHub Copilot · Plans & pricing · GitHub](https://github.com/features/copilot/plans)
   - [Plans for GitHub Copilot - GitHub Docs](https://docs.github.com/en/copilot/get-started/plans) (detailed docs)
 - **Cursor Pro** for $20/m provides best autocomplete
@@ -401,12 +403,14 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - **Cheaper models as workers**: GPT-6 Luna, local LFM2.5 / Gemma 4 / Qwen 3.6, Chinese APIs (MiniMax, Kimi, DeepSeek, MiMo)
 - Full numbers (Codex 5h ranges per model), auto-continue, how to save the allowance, sources: [token-optimization-limits-resets.md](Research/token-optimization-limits-resets.md)
 - **Subscription allowances vs credits and API prices (research snapshot 12.10.2026):** [Quantified comparison and measurement methods](Research/chatgpt-subscription-vs-enterprise-credits-2026-10-12.md). Independent Codex estimates put a heavily utilized $20 Plus subscription at roughly $200-300/month of API-list-equivalent usage, or **10-15x the subscription fee**. The $25 Business Standard comparison is an **8-12x Plus-derived proxy**; weekly equivalence is unconfirmed. Ratios depend on workload, caching and usable quota, and describe API list value, not the provider's actual inference cost.
+- **Codex usage analytics (verified 14.10.2026, CLI 0.162.1):** `/status` for the current session; `/usage` -> **View analytics** for tokens by model, day and chat (`/usage daily`, `/usage weekly`); 5h and weekly allowance history in the **Plan** tab after enabling *Analytics plan history* in `/experimental` (`codex features enable analytics_plan_history`), consumer accounts (Plus, Pro) only. Details per tab and per account type: [codex-analytics-and-usage-history-2026-10-14.md](Research/codex-analytics-and-usage-history-2026-10-14.md)
 
 ## My Recommendations - tools to install/use:
 
 - **Handy STT** (like SuperWhisper but Open Source MIT)
   - [Handy](https://handy.computer/)
   - architecture details (Tauri): [Code Wiki](https://codewiki.google/github.com/cjpais/handy)
+  - **AI post-processing** (clean-up, PL→EN translation with an LLM after transcription; v0.9.8): **Advanced → Experimental Features** on, then **Experimental → Post Processing** on, then configure provider, model and prompt on the new **Post Process** page (optional separate hotkey). Steps and ready prompts: [Handy.computer - transcription prompts](Prompt%20examples/Handy.computer%20-%20transcription%20prompts.md)
 - Claude Code - for multi-step tasks, leading in innovation, and access to best models on discounted prices (especially on Max plan)
   - Desktop & Mobile apps with Code Agent in the cloud! [Claude Desktop App](https://code.claude.com/docs/en/desktop)
   - ⚠️ **Anthropic API / Claude Code availability** — in the last months, uptime has sometimes dropped below 99% for 90 day window. When you see below API errors, check [status.claude.com](https://status.claude.com/):
@@ -444,6 +448,7 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
 - **Claude Code**: `permissions` block in `settings.json` with `allow` / `ask` / `deny`, evaluated deny > ask > allow (an allow can't punch a hole in a deny); files: managed > `--settings` > `.claude/settings.local.json` > `.claude/settings.json` > `~/.claude/settings.json`
 - **Codex**: `approval_policy` + `sandbox_mode` in `config.toml`; allow/deny specific commands with Starlark **rules** in `~/.codex/rules/` or `<repo>/.codex/rules/` (most restrictive wins)
 - **Copilot CLI**: saved approvals in `~/.copilot/permissions-config.json` (allow only); deny with `--deny-tool` flags (deny always wins) and `deniedUrls`
+- **Course push policy**: feature-branch pushes and PRs are permitted, subject to each tool's approval settings; deny `main`/`master`/`prod` and covered force-push forms with Claude `Bash(git push * main)`/`Bash(git push *:main)` globs, OpenCode `permission.bash` deny globs, Copilot `shell(git push origin main:*)` prefixes and Codex `prefix_rule` argv prefixes (with option variants); bare `git push` can escape these branch rules, and token prefixes miss `HEAD:main` refspecs, so GitHub/Bitbucket branch protection is the real guard.
 - Full syntax, examples and sources: [config-files-and-permissions.md](Research/config-files-and-permissions.md)
 - Example files in this repo:
   - Claude Code: [project `.claude/settings.json`](../.claude/settings.json) (allow/deny + pom.xml security hook), [`agent-configs/claude/settings.json`](agent-configs/claude/settings.json), commented version with the reasoning behind each rule: [`agent-configs/claude/settings.jsonc`](agent-configs/claude/settings.jsonc)
@@ -556,6 +561,7 @@ Scripts the agent harness runs on lifecycle events (session start, before/after 
   - Browse / Search
   - Docs (RAG) lub Contex7 MCP jeśli nie ma docs wbudowanych
   - Codebase index / semantic search (RAG over your repo): Cursor and Copilot (`#codebase`; remote index for GitHub/Azure DevOps repos, local index elsewhere, off by default for org accounts): [Copilot semantic search](https://code.visualstudio.com/docs/agents/reference/workspace-context#_semantic-search). Less critical than a year ago: agents find code well with plain grep/ripgrep
+  - Code-graph MCP servers vs repo maps (research 14.10.2026): Aider repo map and Repomix give static snapshots; codebase-memory-mcp (MIT, local, tree-sitter + LSP incl. Java) and Graphify (Apache-2.0) give queryable graphs for callers, impact and dead code. Start with `rg` + AGENTS.md, add a graph only when multi-file dependencies are the bottleneck; GitNexus is non-commercial. [code-graph-tools-vs-repo-maps-2026-10-14.md](Research/code-graph-tools-vs-repo-maps-2026-10-14.md)
   - GIT
   - TODO list
   - Browser integration (e.g. in Cursor) / Chrome-devtools-mcp
@@ -691,12 +697,16 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
 - **[Paseo](https://paseo.sh)**, **[Orca](https://www.onorca.dev)**, **[T3 Code](https://t3.codes)**, **[Conductor](https://conductor.build)**, **[Vibe Kanban](https://www.vibekanban.com)** - orchestrators / control planes for parallel agents; **[Codex App](https://developers.openai.com/codex/app)** - OpenAI's single-vendor desktop app
 - **Herdr vs Codex App**: vendor-neutral runtime on your own machines vs zero-ops, OpenAI-only app with cloud tasks - they combine well
 - **Remote agents**: `herdr --machine <label>` over SSH, Codex cloud tasks, `codex exec`, `codex agents` + `codex queue`
+- **Codex CLI <-> Codex app, Windows <-> WSL (verified 14.10.2026):** add the exact project folder in the app (**Add new project** / `Ctrl+O`; WSL repos via `\\wsl$\`), restart the app after switching the agent between Windows and WSL, find old sessions with `codex resume --all` in the environment that created them, and use `/app` (Windows/macOS) to move a CLI session to the app. Windows and WSL keep separate Codex state; never share one `.codex` across them. Checklist: [codex-cli-desktop-projects-wsl-2026-10-14.md](Research/codex-cli-desktop-projects-wsl-2026-10-14.md)
 - Details, comparison and remote setup: [agent-managers-and-remote-agents.md](Research/agent-managers-and-remote-agents.md)
 
 ### Claude Code Plugins vs MCP/Skills
 
 - https://code.claude.com/docs/en/plugins
 - https://github.com/luongnv89/claude-howto/blob/main/claude_concepts_guide.md#plugins
+- **Sharing skills across many projects (question from group 2):** keep one source repository with `skills/` and MCP config and distribute it as a plugin: Codex `codex plugin marketplace add org/repo` + `codex plugin add plugin@marketplace`, Copilot CLI `copilot plugin install org/repo`, Claude Code `claude plugin marketplace add org/repo`. Plugins do not deploy project rules or settings: AGENTS.md, `.codex/config.toml` and rules stay in each project. Pin a tag or commit. Worked example with all three: [Edukey Agent Toolbox](https://github.com/EdukeyTeam/agent-toolbox)
+- **More answers to Java-team questions (verified 14.10.2026):** agent-driven breakpoints (IntelliJ 2026.1.3+ debugger MCP tools, or `jdb` for Eclipse), security review with Codex/Copilot and Jenkins, the Jenkins MCP plugin (read-only service account), Codex Goals and the 5h limit (no automatic resume at reset), `.agents/skills` vs `.codex/skills`, copy-ready prompts against scope creep and endless reviews, worktree disk writes: [java-team-agent-questions-2026-10-14.md](Research/java-team-agent-questions-2026-10-14.md)
+- **Eclipse-only project not importing into IntelliJ (research 14.10.2026):** the working build is repository files plus workspace preferences, variables, user libraries and plugins - a checkout alone does not reproduce it. Causes, detection and a six-step agent-driven migration to a verified Maven build: [eclipse-to-intellij-migration-2026-10-14.md](Research/eclipse-to-intellij-migration-2026-10-14.md)
 
 ## Security
 

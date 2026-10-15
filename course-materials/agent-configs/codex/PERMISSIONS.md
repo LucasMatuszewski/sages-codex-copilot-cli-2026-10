@@ -1,274 +1,157 @@
 # Mapping Claude permissions to Codex
 
-Prepared on 2026-10-14 from the two Claude policies in this training repository.
-The adjacent `jftp-gr2` checkout had no `.claude/` or `.codex/` configuration;
-the adjacent `jftp/.claude/settings.json` contained hooks rather than permissions.
+Prepared on 2026-10-14 for Codex CLI 0.162.1. These examples adapt the course's Claude command and file policies to Codex permission profiles and execpolicy rules. They do not claim tool-for-tool parity. Runtime behavior also depends on the selected sandbox, managed requirements and active session settings.
 
 ## Files and sources
 
 | File | Purpose |
 |---|---|
-| [`../claude/settings.json`](../claude/settings.json) and [`settings.jsonc`](../claude/settings.jsonc) | General Claude example: command allowances, command denials, environment files and secrets |
-| [`../../../.claude/settings.json`](../../../.claude/settings.json) | Root policy: additionally denies deletion, logs and archived agent examples; asks about worktrees |
-| [`permissions.toml`](permissions.toml) | Standalone, annotated Codex filesystem/network profiles |
-| [`rules/course.rules`](rules/course.rules) | Curated command policy with allow, approval and denial examples |
-| [`examples/claude-command-parity.rules`](examples/claude-command-parity.rules) | Inactive, literal mapping of every Bash allow/deny in the general Claude example |
-| [`../../../.codex/config.toml`](../../../.codex/config.toml) and [`course.rules`](../../../.codex/rules/course.rules) | Root Codex configuration and command policy |
+| [`../claude/settings.json`](../claude/settings.json) and [`settings.jsonc`](../claude/settings.jsonc) | General Claude source examples |
+| [`../../../.claude/settings.json`](../../../.claude/settings.json) | Root Claude source, including log and training-example exclusions and worktree prompts |
+| [`config.toml`](config.toml) | Complete reusable Codex configuration |
+| [`permissions.toml`](permissions.toml) | Minimal configuration with the same five permission profiles |
+| [`rules/course.rules`](rules/course.rules) | Curated allow, prompt and forbidden command examples |
+| [`examples/claude-command-parity.rules`](examples/claude-command-parity.rules) | Inactive literal comparison with every general Claude Bash entry |
+| [`../../../.codex/config.toml`](../../../.codex/config.toml) and [`course.rules`](../../../.codex/rules/course.rules) | Active course-root configuration and rules |
 
-The Claude root and general example differ. The general JSON has no `ask` list;
-the root asks about `git worktree add`, its `git -C` form, `EnterWorktree` and
-`Agent(isolation:worktree)`. Neither policy supplies a general file-write prompt
-list. `plansDirectory`, `statusLine` and the `pom.xml` hooks are separate features
-and are outside this permissions conversion.
+Claude's `plansDirectory`, `statusLine`, `pom.xml` hooks and tool names such as `EnterWorktree` are separate features, outside this conversion. Application configuration belongs in the application's own checkout.
 
-## Command mapping
+## Command rules and approval
 
-Codex uses TOML configuration and Starlark `.rules` files. For command prefixes,
-the decision mapping is `allow` -> `allow`, `ask` -> `prompt`, and `deny` ->
-`forbidden`; overlapping rules choose `forbidden` before `prompt` before `allow`.
-An `allow` rule authorizes execution **outside the sandbox**. This is why blindly
-translating Claude's broad allowances would change the protection they provide.
-Rules are experimental. [Official rules documentation](https://learn.chatgpt.com/docs/agent-configuration/rules).
+Codex uses TOML for configuration and Starlark `.rules` files for command policy. Prefix decisions map from Claude `allow` to `allow`, `ask` to `prompt`, and `deny` to `forbidden`. Overlapping command rules choose `forbidden` before `prompt` before `allow`. Explicit `prompt` rules can request review even when the command would fit inside the sandbox. [Official rules documentation](https://learn.chatgpt.com/docs/agent-configuration/rules), [0.162.1 decision implementation](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core/src/exec_policy.rs#L396).
 
-```python
-# Literal syntax example from Bash(git status:*):
-prefix_rule(pattern=["git", "status"], decision="allow")
-# Approval example from the root worktree policy:
-prefix_rule(pattern=["git", "worktree", "add"], decision="prompt")
-# Denial example from Bash(git push:*):
-prefix_rule(pattern=["git", "push"], decision="forbidden")
-```
+An `allow` rule can permit sandbox bypass when the active filesystem policy has no denied-read restrictions. In 0.162.1, active denied reads prohibit unrestricted bypass: approval may widen other access, but the command must retain filesystem enforcement of denied reads. If a suitable sandbox is unavailable, Codex rejects that escalation. This applies to these course profiles, which all retain denied reads. It does not govern external apps or erase secrets already inherited through environment variables or outputs. [0.162.1 sandbox implementation](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core/src/tools/sandboxing.rs#L234).
 
-The curated policy requests review for its explicit `prompt` rules and for
-escalations. Eligible requests use automatic review in the course defaults. Its small outside-sandbox allow examples are `pwd` and
-`whoami`. The comparison file retains every original command allowance for study,
-including broad interpreters and package managers; install only rules you have
-reviewed for the intended environment.
-
-| Claude commands | Explicit Codex rule decision | Reason for the mapping |
+| Claude command group | Curated Codex decision | Reason |
 |---|---|---|
-| `cat`, `ls`, `find`, `grep`, `echo`, `wc`, `head`, `tail`, `diff` | `prompt`; adds `rg` | Outside-sandbox reads could access denied files; `find` can execute commands and `echo` can participate in redirection |
 | `pwd`, `whoami` | `allow` | Narrow teaching examples |
-| `which`, `date`, `export` | `prompt` | Flags and shell behavior need inspection; `export -p` dumps variables |
-| `git status/log/diff/show/branch/stash list` | `prompt` for escalation | Repository inspection normally stays in the sandbox |
-| `git add/commit/checkout/switch/restore/fetch/merge/rebase` | `prompt` | Protected Git metadata, possible changes to work and network access |
-| `npm install/run/test/audit`, `npx`, `pnpm install/run/test` | `prompt` | Scripts and dependencies execute code |
-| `tsc`, `eslint`, `prettier`, `jest`, `vitest`, `next`, `turbo`, `tsx`, `node` | `prompt` | Project-controlled code and files remain subject to the sandbox |
-| `python`, `python3`, `pip install`, `uv`, `pytest` | `prompt` | Interpreter and dependency access |
-| `docker ps/logs/inspect/images` | `prompt` | A daemon can expose host data and environment values |
+| Reads, searches, `which`, `date`, `export`, Git inspection and mutation, package managers, interpreters, builds, tests, Docker inspection and shell wrappers | No explicit command rule | Run inside the sandbox; `on-request` still reviews required escalation |
+| `curl`, `wget`, including selected `.exe` names | `prompt` | Lucas chose explicit review of HTTP destinations and transfer side effects |
+| `git` / `git.exe worktree add` | `prompt` | Narrow exception: ask before worktree creation, including inside the sandbox; `git -C <dir> worktree add` does not match this prefix |
 | `env`, `printenv` | `forbidden` | Avoid blanket environment dumps |
-| `git push`, including `--force`; `git reset --hard` | `forbidden` for the shown token prefixes | Preserve explicit publishing and destructive-reset denials |
-| `chmod`, `chown`, `sudo`, `ssh`, `scp` | `forbidden` | Retain privilege and remote-shell restrictions |
-| `curl`, `wget`, including shown `.exe` names | `prompt` | Allow HTTP workflows through automatic review rather than prohibit these clients |
-| `docker run/rm/rmi`, `docker-compose down` | `forbidden`; adds `docker compose down` | Preserve denials with the modern Compose spelling |
-| Root `rm`, `rmdir` | `forbidden` | Present in the root source, absent from the general source |
-| Root worktree creation | `prompt`, including `git -C ...` via the broad Git prompt | Ask about directory creation and checkout changes |
-| `yarn install/run` | `forbidden` in curated rules; literal allowance in comparison | Shared machine instructions require pnpm |
-| Blanket `git add -A/--all/.`, `npm install -g/--global` | `forbidden` for the shown prefixes | Shared machine instructions require explicit staging and pnpm for global installs |
-| Maven/Java and Windows executable spellings | Additional `prompt` examples | Relevant to these Java workshops; no build is run by this conversion |
+| Explicit `git push origin/upstream main/master/prod`, upstream-option variants and force-flag prefixes | `forbidden` | Allow participant feature branches while blocking covered protected/force forms |
+| `git reset --hard` | `forbidden` for the shown token prefix | Retain destructive-reset denial |
+| `chmod`, `chown`, `sudo`, `ssh`, `scp` | `forbidden` | Retain privilege and remote-access denials |
+| `rm`, `rmdir`, Docker creation/removal and Compose teardown | `forbidden` for the shown prefixes | Retain course restrictions |
+| Blanket `git add -A/--all/.`, yarn and `npm install -g/--global` | `forbidden` for the shown prefixes | Follow shared staging and package-manager instructions |
 
-The source comments label several broad allowances as safe or non-destructive.
-Those labels do not constrain the program's arguments: `node -e`, Python, `npx`,
-package install hooks, Git restore/rebase and Docker inspect deserve their own
-assessment. The curated changes above are deliberate; the literal comparison
-makes every original Bash entry inspectable.
+The active course policy removes broad read, Git, build, runtime, Docker-inspection and shell-wrapper `prompt` rules: in 0.162.1 they request approval even inside the sandbox, and `auto_review` then spends a reviewer call. Explicit prompts remain for HTTP clients and the narrow worktree-creation prefix. Routine commands and feature-branch pushes have no explicit `allow` or `prompt`; the sandbox supplies the boundary. Do not add broad `allow` rules just to suppress prompts. With `approval_policy = "on-request"` and `approvals_reviewer = "auto_review"`, eligible requests go to the reviewer agent. Routine actions without an approval trigger do not reach it. `approval_policy = "never"` prevents approval requests; it grants no extra access. [Automatic review](https://learn.chatgpt.com/docs/sandboxing/auto-review).
 
 ### Prefix and shell limits
 
-Patterns match argument positions, not command substrings or arbitrary glob
-tokens. `["git", "push"]` does not match `git -C . push`; the curated broad Git
-prompt catches this form for review. Likewise `git reset HEAD --hard` does not
-match the exact destructive-reset prefix. A `*` string would be a literal token.
-Aliases, absolute executable paths, `git.exe` spellings and reordered options
-need explicit consideration. The curated rules cover selected `.exe` names;
-they are not an exhaustive command firewall.
+Patterns match argv positions, not arbitrary command substrings. A `["git", "push", ...]` prefix does not match `git -C . push`; that form now has no explicit command rule and remains subject to the sandbox. Likewise `git reset HEAD --hard` does not match the exact destructive-reset prefix. A `*` string in a command pattern is a literal token. Aliases, absolute executable paths, `.exe` names and reordered options need explicit consideration. These examples are not an exhaustive command firewall.
 
-Simple supported POSIX shell chains can be split for evaluation; complex scripts
-may remain one wrapper invocation. Windows cmdlets such as `Get-Content` and
-`Remove-Item` are commonly embedded in a PowerShell script. Listing a cmdlet as
-an executable prefix would not protect every such script. The curated wrapper
-rules ask for review; inspect the entire script before approving it. An approved
-wrapper can perform operations which direct command rules deny. [Shell wrapper
-behavior](https://learn.chatgpt.com/docs/agent-configuration/rules#shell-wrappers-and-compound-commands).
+Supported simple shell chains may be split for evaluation; complex scripts can remain a wrapper invocation. PowerShell cmdlets usually occur in script text rather than executable argv. An approved wrapper can perform actions that direct prefix rules forbid, although active filesystem denied reads must remain enforced in 0.162.1. Review the entire script. Do not install the inactive literal comparison alongside the curated policy: both would be evaluated, and its broad allowances have different approval semantics.
 
-## File reads, writes and approvals
+### Feature-branch pushes and protected branches
 
-File boundaries belong in beta permission profiles, with exact paths or deny-read
-globs. `course-workspace` inherits `:workspace`, preserving its protected config
-and Git paths. `course-root` is a named root preset with the same file and
-network access; it does not exclude logs or training examples. Recursive scans are
-bounded at 12 levels in these examples; deeper matches and newly created paths
-need platform validation. [Official permission profiles](https://learn.chatgpt.com/docs/permissions).
+Participants may push their own feature branches and open PRs. The active rules deny explicit pushes to `main`, `master` and `prod` on `origin`/`upstream`, including `-u`/`--set-upstream` before or after the remote, plus `--force`, `-f` and `--force-with-lease` in the documented prefix positions. Ordinary pushes are unmatched, so they need no extra reviewer call when sandbox and network permissions already permit them; blocked network or filesystem access still needs `on-request` escalation. The inactive Claude comparison uses the same bounded push approximation while retaining its other literal allow/deny mappings.
 
-| Claude file setting or teaching case | Codex setting in these examples |
+| Tool | Rule form | Limits |
+|---|---|---|
+| Claude Code | `Bash(git push * main)` / `Bash(git push * main *)` and `Bash(git push *:main)` / `Bash(git push *:main *)`, repeated for `master`/`prod`; force prefixes and globs | `*` includes spaces; bare `git push` has no branch to match; aliases, wrappers and alternate refs/options need separate handling |
+| OpenCode | `permission.bash` deny entries for `git push * main` / `git push * main *` and `git push *:main` / `git push *:main *`, repeated for `master`/`prod`; leading and later force globs | Last matching rule wins; bare push only asks, and aliases, wrappers, full refs, global options and `+` refspecs can escape the globs |
+| Copilot CLI 1.0.88 | `--deny-tool='shell(git push origin main:*)'`, upstream-option and known-remote variants, plus force-flag prefixes | Primary docs and local help establish trailing `:*` command-stem prefixes, not arbitrary interior globs; bare push, refspec destinations, other remotes, reordered options and later force flags can miss them |
+| Codex | `prefix_rule(pattern=[["git","git.exe"],"push",["origin","upstream"],["main","master","prod"]], decision="forbidden", ...)`, upstream-option and force-prefix variants | Token-prefix matching cannot express arbitrary refspec suffixes such as `HEAD:main`; bare push, full refs, `+` refspecs, other remotes, `git -C`, later force flags and `--force-with-lease=<value>` can miss the rules |
+
+These client rules express the course policy; GitHub/Bitbucket branch protection is the real guard for protected branches and force pushes. Configure it in the exercise repository rather than treating a client deny list as complete enforcement. The headless review script retains its blanket push denial. [Claude wildcard syntax](https://code.claude.com/docs/en/permissions), [Copilot permission patterns](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#tool-permission-patterns).
+
+## Filesystem profiles
+
+`course-workspace` extends `:workspace`. This baseline permits reads across the filesystem, writes in workspace roots and temporary directories, and protects metadata paths such as `.git`, `.agents`, `.codex` and `.aws` from ordinary writes. The course adds denied reads for specific names inside workspace roots; it is not a universal secret detector. For example, `.env.staging` and unrelated credentials elsewhere require separate policy. [Official permission profiles](https://learn.chatgpt.com/docs/permissions), [protected metadata source](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/protocol/src/permissions.rs#L41).
+
+| File case | Course setting |
 |---|---|
-| `Edit`, `Write`, `MultiEdit` | Workspace writes inherited by `course-workspace` |
-| `Read(.env)`, named local/dev/prod/test files | Exact `"deny"` entries under `filesystem.":workspace_roots"` |
-| `Read(**/.env)` | Recursive deny glob; also includes nested named variants |
-| `Read(**/secrets/**)` | Exact root `secrets` denial plus recursive subtree glob |
-| Root `Read(**/logs/**)` | Deliberately not copied: a Codex filesystem deny would also block shell searches |
-| Root `Read(course-materials/agent-configs/**)` | Deliberately not copied: these are inspectable teaching examples |
-| Root `Read(.env.example)` allowance | Exact `"read"` entry; the synthetic template remains inspectable |
-| Demonstrate a read-only file | `".env.example" = "read"`: writes need additional permission |
-| Demonstrate workspace review | `course-review` sets workspace `"." = "read"` |
-| Demonstrate selected writes | `course-docs` additionally sets `"docs" = "write"` |
+| Root `.env`, `.env.local`, `.env.dev`, `.env.prod`, `.env.test` | Exact `deny` entries under `filesystem.":workspace_roots"` |
+| Nested files with the same names | Corresponding recursive `deny` globs |
+| `secrets` | Exact root denial plus `**/secrets/**` |
+| `.env.example` | Exact `read` entry for the synthetic template |
+| Logs and teaching examples | Remain readable and searchable |
+| Review session | `course-review` sets workspace `"." = "read"` |
+| Documentation session | `course-docs` additionally grants `docs` write access |
 
-Logs and training examples remain accessible in the default root profile.
-Review/docs profiles retain writable temporary directories from their parent;
-they restrict persistent workspace changes rather than every temp write.
+A filesystem `deny` blocks both reads and writes by sandboxed programs, including `rg`, `grep`, `cat` and Python. It cannot express "forbid a full-file Read tool but permit shell searches of the same file". The original Claude log and teaching-example exclusions were therefore deliberately removed. `course-root` is an equivalent named preset for the course repository, not a stronger policy. Review/docs profiles retain inherited writable temporary directories.
 
-### Search logs without filling the context
+Linux/WSL and native Windows pre-expand deny globs into a snapshot of existing matches for their native sandbox enforcement. `glob_scan_max_depth = 12` bounds that scan; it is not a guarantee for deeper paths or paths created after the snapshot. Core tool validators also check the patterns directly. Keep exact denials alongside recursive globs: absent exact paths receive protection that a snapshot-only glob may not provide. [Linux snapshot implementation](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/linux-sandbox/src/bwrap.rs#L495), [Windows scan bounds](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/protocol/src/permissions/windows_glob.rs#L1).
 
-The original root Claude policy denies its `Read` tool for logs but permits Bash
-commands. Copying that tool selector into Codex filesystem `"deny"` was too broad:
-it denies sandboxed reads and writes for every program, including `rg`, `grep`,
-`cat` and Python. Filesystem rules cannot express "deny a Read tool but allow
-shell searches of the same path". Independently approved escalations and external
-tools have their own access controls.
+### Empty files visible inside the Linux sandbox
 
-Use bounded searches and excerpts for context control, for example:
+Exact denied paths that do not exist can appear as zero-byte inaccessible files, including a bare `secrets` file. Protected metadata names can appear as empty read-only directories. These are synthetic bubblewrap mount targets, not evidence that a secret file was created. `.aws` is also an intentional Codex-protected metadata name; it need not come from another tool. [Mask construction](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/linux-sandbox/src/bwrap.rs#L1286).
+
+A 2026-10-14 inspection of `/proc/self/mountinfo` showed tmpfs masks at all five denied environment names and `secrets`, and read-only tmpfs directories at `.agents` and `.aws`. Git inside the sandbox reported the bare `secrets` mask as untracked. Do not infer host contents or delete paths from this masked view. Codex tracks synthetic targets and cleans eligible ones after bubblewrap exits, while preserving real pre-existing data. [Lifecycle and cleanup](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/linux-sandbox/src/linux_run_main.rs#L587).
+
+Keep the exact denials. No `.gitignore` entry is needed merely to hide a temporary sandbox view. If a path remains in an ordinary terminal after all sessions using that workspace exit, inspect its metadata outside the sandbox and investigate cleanup before any human-approved removal. Never delete `.env` files based on their apparent size inside the sandbox.
+
+### Bounded log inspection
+
+Search filenames or counts first, then request bounded excerpts. For example:
 
 ```bash
 rg -n -m 20 --max-columns 200 --max-columns-preview 'ERROR|WARN' logs | head -n 80
+```
+
+```bash
 tail -n 80 logs/application.log
 ```
 
-The `rg -m` bound is per file; `head` caps total returned lines and the column
-options bound long log lines. On PowerShell, use `Select-Object -First 80` in
-place of `head`. Search filenames or counts first when possible, then inspect
-small relevant excerpts. Avoid dumping entire log files into the conversation.
+`rg -m` limits matches per file, while `head` limits total returned lines. On PowerShell use `Select-Object -First 80` instead of `head`. These are context-management conventions, not permission boundaries.
 
-The configuration sets `tool_output_token_limit = 4000`, the token budget for
-individual tool/function results stored in history. This controls context size;
-it does not forbid a full-file read, limit the bytes a command reads, or prevent
-many successive outputs from accumulating. A strict per-tool ban requires
-tool-level enforcement, not a filesystem profile. [Output budget reference](https://learn.chatgpt.com/docs/config-file/config-reference).
+`tool_output_token_limit = 4000` supplies a default history-truncation budget for tool results. Tool metadata can override it, and raw rollout payloads are retained. It does not cap the bytes a command reads, prevent full-file reads, guarantee every result is below 4000 tokens, or prevent many outputs accumulating. [0.162.1 output handling](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core/src/context_manager/history.rs#L554).
 
-`approval_policy = "on-request"` and `approvals_reviewer = "auto_review"` route
-eligible requests through the reviewer. They do not review every workspace edit.
-`approval_policy = "never"` removes the prompt path; it does not grant additional
-access. A profile `"deny"` is a sandbox restriction, not a Claude-style tool-wide
-ban on every possible approved escalation. An approved command can run with
-different access. [Approval and sandbox behavior](https://learn.chatgpt.com/docs/agent-approvals-security).
+## Network and hosted tools
 
-`.git`, `.agents`, `.codex` and `.aws` under writable roots remain protected by the
-inherited workspace policy. Changes to them can require approval. Environment
-files, subprocess environment variables, outputs, Git history and daemon APIs
-are different ways to obtain data; denying one file path does not erase copies
-or credentials already inherited by a process. Optional environment filtering
-uses `[shell_environment_policy]`, `ignore_default_excludes = false` and
-`filters = { "*TOKEN*" = "exclude", "*SECRET*" = "exclude", "*KEY*" = "exclude" }`;
-adapt it to required tools. [Configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference).
+The default profile enables command network access with `network.enabled = true` and `features.network_proxy = true`. The active proxy accepts `domains."*" = "allow"` for public hosts; the global wildcard is valid for allows, not denies. Local/private destinations retain the proxy's separate guard. This is not an offline or two-host policy. [Network settings](https://learn.chatgpt.com/docs/permissions#network-permissions), [0.162.1 wildcard implementation](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/network-proxy/src/policy.rs#L207).
 
-## Network and web tools
+Only one permission profile is selected for the session. `course-root`, `course-review` and `course-docs` inherit the public network allowance. Merely defining `course-jetbrains` does not activate it. That optional profile extends `:workspace` independently, repeats file protections and permits `blog.jetbrains.com` and `www.jetbrains.com`. Inheriting the default course profile would merge and retain its global allowance. Other destinations can require approval.
 
-The default `course-workspace` profile enables public command network access
-with `network.enabled = true`, `network_proxy = true` and `domains."*" = "allow"`.
-`course-root`, `course-review` and `course-docs` inherit that network access.
-The proxy retains its normal local/private-network guard; this public host
-allowance does not intentionally grant access to every service on the LAN.
+Allowed connections do not automatically trigger the reviewer. The `curl`/`wget` prompt rules review matching command invocations, not every connection by every client. Hosted search, page-opening tools, MCP servers, apps and browser/computer tools have separate controls. Cached web search is a separate capability; `tools.web_search.allowed_domains` is not a universal fetch restriction. [Network scope](https://learn.chatgpt.com/docs/permissions#what-the-network-proxy-does-not-control).
 
-Only the profile selected by `default_permissions` (or the session permission
-selector) is active. These are alternatives for the entire session, not groups
-simultaneously assigned to different repository directories. The root selects
-`course-root`; merely defining `course-jetbrains` does not activate its host list.
+## Load the examples and inspect the effective policy
 
-`course-jetbrains` is an optional restrictive example. It starts independently
-from `:workspace`, repeats the file protections and permits only
-`blog.jetbrains.com` and `www.jetbrains.com`. This avoids inheriting the default
-profile's global host allowance. Selecting it changes network policy for the
-whole session; other destinations can require a separate permission request.
+1. Merge the complete `config.toml` or minimal `permissions.toml` into a trusted project's `.codex/config.toml`. Preserve existing provider choices. Place curated rules under that project's `.codex/rules/` or deliberately under `~/.codex/rules/` for user-wide scope.
+2. Set `default_permissions` to one of the five course profile names. These are distinct from model/provider `--profile` presets.
+3. Avoid mixing legacy `sandbox_mode` selectors with named-profile selectors. In 0.162.1 the higher-precedence layer that selects `sandbox_mode` or `default_permissions` determines the syntax; at the same layer `default_permissions` wins. A lower-precedence user `sandbox_mode` does not automatically override a trusted project's profile selection. Explicit `--sandbox` can select legacy behavior. Remove obsolete legacy settings deliberately rather than assuming they always win. [Selection implementation](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core/src/config/mod.rs#L2593).
+4. Restart/reload Codex after configuration or rule changes, then inspect `/permissions`, `/status` and `codex doctor --all`. Doctor describes its invocation configuration; it does not inspect every running thread override. Managed requirements and saved session state can also affect the result.
 
-Automatic review only evaluates actions requiring approval. An allowed network
-connection does not trigger review by itself. Explicit `prompt` rules for HTTP
-clients `curl` and `wget` route matching operations into the approval flow;
-Python, other clients, MCPs and apps still follow their own rule or tool controls.
-Do not assume this reviews every HTTP request. [Auto-review triggers](https://learn.chatgpt.com/docs/sandboxing/auto-review).
+### Windows prompts and prerequisites
 
-Network-off defaults were initially copied from the root Codex configuration as
-a conservative workshop baseline. They did not reproduce the source Claude
-policy's command-level behavior or this course's intended online workflow.
-The current defaults enable the network while retaining file and command limits.
+The legacy `elevated` sandbox uses administrator-approved provisioning, separate lower-privilege users and firewall rules. The setup helper uses Windows `runas`, which can show UAC; sandbox commands themselves do not become administrator processes. Provisioning is normally reused, but missing or incompatible setup/account state may require repair and another administrator prompt. Ordinary ACL refresh explicitly avoids UAC. Do not promise "exactly once forever". [Windows sandbox documentation](https://learn.chatgpt.com/docs/windows/windows-sandbox), [UAC launch and refresh source](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/windows-sandbox-rs/src/setup.rs#L965).
 
-Claude's `WebSearch` maps conceptually to Codex's separate hosted web-search
-capability; the standalone sample enables cached search. This command domain
-allowlist does not restrict hosted search, page-opening tools, MCPs, connectors
-or browser/computer use. `tools.web_search.allowed_domains` filters search
-results and is not a universal `WebFetch` permission equivalent. There is no
-claim of exact tool-for-tool parity. [Network scope](https://learn.chatgpt.com/docs/permissions#what-the-network-proxy-does-not-control).
+A Windows Defender Firewall "allow access" dialog is separate from UAC and from Codex command approvals. The managed proxy binds local TCP listeners, so a firewall dialog naming the Codex executable could be related, but the actual dialog's executable and network profile are needed to confirm that cause. A rule tied to a versioned WindowsApps executable path may need revisiting after an app update; recurrence for this machine is UNCONFIRMED. Codex's own sandbox firewall rules use stable identifiers and user scopes, so an app update does not prove that all sandbox rules are recreated. [Proxy listeners](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/network-proxy/src/proxy.rs#L390), [idempotent firewall setup](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/windows-sandbox-rs/src/setup_provisioning/firewall.rs#L33).
 
-## Choose and load the examples
+Codex `prompt` approvals can recur for new actions or destinations, subject to approval caching and saved rules. Auto-review handles eligible requests but cannot approve Windows UAC or firewall dialogs. `unelevated` cannot enforce these denied-read profiles. Current Windows docs describe MXC as an alternative without elevated provisioning; compatibility and its different local-network behavior require separate validation before switching this workshop machine. Keep the known provisioned backend for the workshop.
 
-1. Use [`config.toml`](config.toml) for the complete Codex course configuration,
-   including these file profiles and automatic approval review, or merge the minimal
-   [`permissions.toml`](permissions.toml) example into your own configuration.
-   Remove active `sandbox_mode`, `[sandbox_workspace_write]` and `--sandbox`
-   overrides from **every loaded layer** when selecting permission profiles;
-   otherwise the legacy settings win. The root config now uses `course-root`.
-2. To change the default profile, set `default_permissions` to `course-workspace`,
-   `course-root`, `course-review`, `course-docs` or `course-jetbrains`. These are
-   permission profiles, distinct from model/provider `--profile` presets.
-3. Put curated rules under the intended trusted project's `.codex/rules/` or
-   the user's `~/.codex/rules/`. The root project already has its copy. Trust
-   decisions belong to the user; restart Codex after changing rules. A user-level
-   rule file affects other projects too. Do not copy the inactive comparison
-   alongside the curated rules: both files would be evaluated.
-4. Check the effective permission mode and writable roots in `/permissions` and
-   `/status`. User/provider/managed layers can change the result. Existing active
-   sessions do not acquire a new policy merely because a file was edited.
+## Doctor warnings and validation
 
-Native Windows must use a sandbox implementation capable of enforcing the chosen
-profile. The legacy `unelevated` sandbox cannot enforce denied read paths; use a
-supported `elevated` setup, MXC where supported, or WSL. This PC's known sandbox
-launch failures are a separate prerequisite. Escalating commands to work around
-those failures does not demonstrate enforcement of these file restrictions.
-[Windows sandbox documentation](https://learn.chatgpt.com/docs/windows/windows-sandbox).
+On 2026-10-14, Linux CLI 0.162.1 loaded the active course profile with 12 denied-read rules, 6 deny globs, depth 12 and no course-attributable startup warning. The captured Windows alpha doctor likewise reported restricted filesystem, enabled network, `OnRequest`, elevated provisioning complete and denied-read support. This is configuration/provisioning evidence, not a complete native runtime enforcement test.
 
-## Inspect rule decisions without executing the target
+The Linux and Windows startup warning `mcp_servers.context7.type is ignored` belongs to Lucas's user configuration. Remove only `type` from that MCP table; HTTP transport is selected by `url`. Windows also reports an enabled `node_repl` command using a WSL-style executable path; repair the native Windows path or disable that unused server. Do not copy either issue into course configuration.
 
-From the training repository root, in Bash or PowerShell:
+Defender exclusions, a non-Dev-Drive worktree, desktop updates and rollout/state-DB discrepancies are environment diagnostics. They are not fixed by loosening course denials. Defender advice is not proof that Defender blocked execution; exclusions and moving repositories require a separate operational decision. The Notes entry "filesystem restricted - network enabled" describes the intentional policy. An idle background server and missing optional databases are not automatically failures.
+
+Validate TOML with `tomllib`, compare all three `permissions` tables, run `codex execpolicy check` against each rule file to exercise inline examples, and inspect `git diff --check`. Policy checks do not execute the checked target commands. A full live enforcement claim additionally requires synthetic runtime probes on each target OS.
 
 ```text
 codex execpolicy check --pretty --rules .codex/rules/course.rules -- pwd
-codex execpolicy check --pretty --rules .codex/rules/course.rules -- git worktree add ../example
-codex execpolicy check --pretty --rules .codex/rules/course.rules -- git push --force origin main
-codex execpolicy check --pretty --rules .codex/rules/course.rules -- git -C . push
-codex execpolicy check --pretty --rules course-materials/agent-configs/codex/examples/claude-command-parity.rules -- python -c pass
 ```
 
-Expected decisions are `allow`, `prompt`, `forbidden`, `prompt`, `allow`.
-These checks do not execute `git`, Python or worktree creation. The last example
-shows why the broad literal mapping is a teaching artifact. Unmatched commands
-have no explicit rule decision and still go through Codex's normal handling.
-Do not interpret "no matching rule" as permission to run outside the sandbox.
+```text
+codex execpolicy check --pretty --rules .codex/rules/course.rules -- git push --force origin main
+```
 
-## Initial validation evidence (2026-10-14)
+```text
+codex execpolicy check --pretty --rules .codex/rules/course.rules -- git -C . push
+```
 
-- Source repository refreshed by fast-forward to `0498a5c`; permission inputs were unchanged.
-- Python `tomllib` parsed the root config, general example and standalone permission example.
-- Codex CLI `0.162.1` loaded each config in an isolated temporary `CODEX_HOME` with
-  `codex features list`. No user configuration, authentication or installed settings were changed.
-- `codex execpolicy check` passed 35 decision cases for each curated policy copy and
-  all 72 Bash entries from the general Claude JSON: **142 successful checks**.
-  This also loads and validates the rules' inline `match` / `not_match` examples.
-- Relative documentation links, agreement between root/reusable policy copies,
-  config line endings and `git diff --check` passed.
-- No target command, dependency install, application build, agent session or sandbox
-  enforcement probe was run. Native sandbox enforcement and effective policy
-  across the user's real config layers remain unverified; the known Windows
-  sandbox launch failure was not reproduced.
+Expected decisions are `allow`, `forbidden`, and no matching rule respectively. "No matching rule" does not grant unsandboxed execution.
 
-## Corrected-default validation (2026-10-14)
+## Corrections log
 
-- All three course configs and group two's new JFTP config parsed and loaded
-  successfully through Codex CLI 0.162.1 `features list` in isolated temporary homes.
-- Configuration assertions checked automatic review, the 4000-token output budget,
-  public network access for the selected defaults, accessible logs/examples, and
-  agreement between all course profile copies. The optional JetBrains profile
-  starts from `:workspace` and has no inherited global host allowance.
-- `execpolicy check` passed 39 decision cases for each curated course policy and
-  5 cases for JFTP's HTTP review policy: **83 successful checks**. The changed
-  `curl`/`wget` decisions are `prompt`; log searches have no filesystem deny.
-- Documentation links and `git diff --check` passed. No target command, actual
-  network request from the sandbox, or native enforcement probe was run; effective
-  behavior still depends on the client's loaded settings and a working sandbox.
+| Date | ID | Before | Correction and reason |
+|---|---|---|---|
+| 2026-10-14 | CP-01 | Root log and teaching-example denials; network disabled | Commits `735d781` and `6615b89` restored searchable logs/examples and public network access as requested; only selected profiles apply |
+| 2026-10-14 | CP-02 | Allow/approval described as unconditional sandbox bypass; routine reads described as escalation-only prompts | Version 0.162.1 preserves active denied reads, and explicit prompts can trigger inside the sandbox; corrected comments and mapping without changing decisions |
+| 2026-10-14 | CP-03 | Any legacy setting said to override profiles; 4000 tokens described as a universal per-result bound | Higher-precedence selectors determine syntax, and tool metadata can override history truncation; corrected version-specific explanations |
+| 2026-10-14 | CP-04 | Empty masked paths could be mistaken for unwanted host files | Mount inspection and bubblewrap source identify synthetic targets, including `.aws`; retain exact denials and avoid deletion or ignore patterns that hide the symptom |
+| 2026-10-14 | CP-05 | All pushes forbidden; broad command groups prompted even inside the sandbox | Lucas authorized feature branches/PRs, protected-branch and force-prefix denials, and HTTP-only explicit prompts; retain sandbox escalation and document client-rule gaps |
+| 2026-10-14 | CP-06 | Removing broad Git prompts also removed worktree review | Restore a narrow `git`/`git.exe worktree add` prompt in both curated files; retain ordinary sandboxed Git without broad prompts and document the `git -C` gap |

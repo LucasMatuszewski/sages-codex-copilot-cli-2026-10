@@ -13,12 +13,12 @@
 # every `codex --profile <name>`. Uncomment them only in your user-level ~/.codex/config.toml.
 # model = "gpt-6.1-sol"            # Default model for cloud runs. CLI: codex --model gpt-6.1-sol
 approval_policy = "on-request"   # Route approval-worthy actions through the configured reviewer.
-# Bound each tool result stored in history; this is not a tool-specific read prohibition.
+# Default tool-output history budget; tools can override it and raw rollouts retain output.
 tool_output_token_limit = 4000
 approvals_reviewer = "auto_review" # Route eligible approval requests to the reviewer agent.
 personality = "pragmatic"        # Style/tone preset (e.g., pragmatic/friendly/none depending on build).
 # Permission examples mapped from Claude: file profiles below plus rules/course.rules.
-# Remove legacy sandbox_mode / sandbox_workspace_write settings from other active layers.
+# Avoid mixing legacy sandbox_mode selectors with named profiles; higher-precedence selectors win.
 # See PERMISSIONS.md for allow, approval, deny and platform-specific limitations.
 default_permissions = "course-workspace"
 web_search = "cached" # Hosted web search is separate from command network permissions.
@@ -61,7 +61,7 @@ oss_provider = "ollama"          # Default OSS (Open Source) models provider
 # Windows sandboxing
 # ----------------
 # Windows sandbox mode. "elevated" uses the Windows sandbox with elevated setup when required.
-# If not sure, keep "elevated" (recommended on Windows).
+# Legacy fallback: elevated supports denied reads; unelevated does not. Validate MXC separately.
 [windows]
 sandbox = "elevated"
 
@@ -69,7 +69,7 @@ sandbox = "elevated"
 # Feature toggles
 # ----------------
 [features]
-network_proxy = true            # Enforce domain rules for the course-jetbrains permission profile.
+network_proxy = true            # Enforce domain rules for the selected network-enabled profile.
 multi_agent = true               # Allow spawning/using multiple agents (if supported by your build).
 
 # ----------------
@@ -257,7 +257,7 @@ wire_api = "responses"
 # Course permission examples: read, write, deny and network access
 # ============================================================
 # Beta permission profiles; use instead of sandbox_mode / sandbox_workspace_write.
-# Remove legacy sandbox settings from ALL loaded config layers before selecting these.
+# Higher-precedence sandbox_mode/--sandbox can select legacy behavior; inspect the effective profile.
 # See course-materials/agent-configs/codex/PERMISSIONS.md for scope and platform limits.
 
 [permissions.course-workspace]
@@ -265,12 +265,12 @@ description = "Workspace editing; named environment files and secrets are unread
 extends = ":workspace"
 
 [permissions.course-workspace.filesystem]
-# Recursive deny globs are expanded before sandbox startup on some platforms.
+# Linux/WSL and native Windows snapshot deny-glob matches before sandbox startup.
 # This is a scanning bound, not a guarantee about paths deeper than 12 levels.
 glob_scan_max_depth = 12
 
 [permissions.course-workspace.filesystem.":workspace_roots"]
-# Exact source patterns, plus nested variants of the named environment files.
+# Exact denials also protect absent paths; keep them alongside bounded recursive globs.
 ".env" = "deny"
 ".env.local" = "deny"
 ".env.dev" = "deny"
@@ -321,12 +321,12 @@ description = "Optional example: restrict command network access to two JetBrain
 extends = ":workspace"
 
 [permissions.course-jetbrains.filesystem]
-# Recursive deny globs are expanded before sandbox startup on some platforms.
+# Linux/WSL and native Windows snapshot deny-glob matches before sandbox startup.
 # This is a scanning bound, not a guarantee about paths deeper than 12 levels.
 glob_scan_max_depth = 12
 
 [permissions.course-jetbrains.filesystem.":workspace_roots"]
-# Exact source patterns, plus nested variants of the named environment files.
+# Exact denials also protect absent paths; keep them alongside bounded recursive globs.
 ".env" = "deny"
 ".env.local" = "deny"
 ".env.dev" = "deny"
