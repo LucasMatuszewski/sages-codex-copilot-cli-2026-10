@@ -131,3 +131,7 @@ alias ccn='claude-native'
 alias cco='claude-or'
 alias ccz='claude-zai'
 alias ccol='claude-ollama'
+
+# 
+alias codexz='codex --profile zai'
+alias cdxz='codex --profile zai'
