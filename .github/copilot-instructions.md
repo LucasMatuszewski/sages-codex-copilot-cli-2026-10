@@ -1,6 +1,6 @@
 # GitHub Copilot repository context
 
-Follow root `AGENTS.md` and the user's chat language. This Sages / Sygnity repository holds course materials for Codex and GitHub Copilot CLI. The original jFTP application is cloned separately from https://github.com/sai-pullabhotla/jftp; there is no application code, build bridge or product PRD here.
+Follow root `AGENTS.md` and the user's chat language. This Sages / Sygnity repository holds course materials for Codex and GitHub Copilot CLI. The original jFTP application is cloned separately from https://github.com/sai-pullabhotla/jftp; the Java exercises have no application code or build bridge here. The accepted Angular streaming-chat demo lives in `app/`; follow `app/AGENTS.md` for that scope. It uses Vercel AI Gateway with a server-only key and synthetic data, and is verified through build and real browser checks.
 
 `course-materials/` contains current lessons and optional historical examples. Do not infer an application stack, requirements or permission to enable provider, hook, MCP or agent configurations from those examples. During application work, access relevant course files only on explicit request. Participants record their own application requirements and decisions in the jFTP checkout.
 
