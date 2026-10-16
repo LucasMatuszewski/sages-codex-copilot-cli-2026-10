@@ -59,6 +59,12 @@ For every feature and bug fix:
 
 If the area has no suitable test infrastructure yet, add it as part of the task — do not silently skip tests.
 
+Before creating or refreshing an endpoint/database mock for unit or integration tests, make a fresh real request/query in an authorized local/test environment with synthetic data. Save the complete non-secret response verbatim (HTTP status, headers and body, or database rows and type/schema information), then derive the mock from that capture rather than potentially stale documentation. Record date, target, request/query and service version without credentials. If safe capture is unavailable, report the prerequisite; do not invent the response shape.
+
+### Manual QA (required for runtime changes)
+
+Start the real app with the verified command and local synthetic configuration. Exercise the complete changed flow, including success and relevant errors, and check state changes and persistence. Interact with the actual UI or CLI/API; automated tests alone do not establish that the app works. Capture screenshots of changed GUI screens and states, or representative CLI/API commands and results, and inspect runtime logs. Record build, test execution and startup as separate checks, plus manual steps and evidence. Fix failures before committing; missing display/service prerequisites leave runtime QA incomplete. Use no real credentials, participant data or external production services.
+
 ### Verification (required before every commit)
 
 Run the commands appropriate for the chosen stack. Typically for a TypeScript project:
@@ -91,7 +97,7 @@ Verify only the scope relevant to your change. If the change affects runtime beh
 A task is complete only when:
 - Implementation matches the relevant PRD, ADR, and design guidance
 - Tests were written first and pass honestly
-- Verification for the changed scope passed with no errors or warnings
+- Verification for the changed scope passed with no errors or warnings; runtime changes also passed startup and Manual QA with recorded evidence
 - The commit message is focused and the repository is in a consistent, reviewable state
 
 ---
