@@ -8,6 +8,21 @@ Add the existing repository to the desktop app using **Add new project** or **Ct
 
 Adding the folder establishes the app's project context; it is not a verified import of every CLI thread. To continue an existing local chat, the app must reach the store containing that chat and use compatible source, directory, and archive filters. The public server supports listing CLI-originated threads, so CLI origin alone does not make a thread inaccessible. **UNCONFIRMED:** whether adding a folder alone immediately lists all matching CLI threads in Windows app `26.1007.2314.0`; its exact frontend query was not inspected. [Thread-list contract][D2], [source filtering][D3].
 
+## Native Windows performance alternative: Dev Drive
+
+Added and checked 2026-10-16. For native Windows development, consider a trusted **Windows Dev Drive**, rather than treating WSL as the only filesystem-performance option. The inspected Codex main implements doctor check `git.worktree.dev_drive` and the same warning reported by the trainer from Windows CLI 0.162.1: moving a worktree to a trusted Dev Drive can significantly improve repository/filesystem performance. The Windows check was source-verified, not executed from this WSL session. [Doctor implementation](https://github.com/openai/codex/blob/6b991972c5b539198dcea9bac4fc14e57559c3af/codex-rs/cli/src/doctor/windows_dev_drive.rs).
+
+Microsoft's requirements and caveats:
+
+- Windows 11 22H2 build `22621.2338` or later; all SKUs. Minimum 8 GB RAM, 16 GB recommended.
+- ReFS-based volume, at least 50 GB, with local administrator permissions to create it. Existing volumes cannot be converted in place. Enterprise policy may require administrator enablement.
+- A trusted drive plus enabled Defender real-time protection allows Defender performance mode. Untrusted drives use ordinary real-time scanning. Do not disable antivirus to pursue performance.
+- Store source and development data there; keep installed developer tools on the system drive. A Dev Drive is storage, not a Linux runtime or a sandbox.
+
+Source: [Microsoft Dev Drive documentation](https://learn.microsoft.com/en-us/windows/dev-drive/), checked 2026-10-16.
+
+Course recommendation: keep the WSL agent with Linux-side storage when the project uses Linux tools or needs the Linux sandbox. For native Windows tools, evaluate Dev Drive first. UNVERIFIED: comparative timings on the workshop machines; no universal claim that WSL outperforms Dev Drive is justified. Runtime selection and thread-store separation described below still apply.
+
 ## What selects projects and threads
 
 The CLI uses its starting directory, or `-C` / `--cd`, as the chat's project context. The desktop app has saved local projects connected to folders; newer documentation also describes ChatGPT projects and multiple attached folders, with a primary folder controlling the default cwd. These concepts should not be treated as an identical project-registration mechanism in all surfaces. [Official projects documentation][D4].
