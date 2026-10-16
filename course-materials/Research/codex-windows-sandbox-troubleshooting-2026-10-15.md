@@ -82,13 +82,15 @@ You can confirm it by decoding the base64 argument shown in the UAC dialog ("Sho
 - `gh` stores its token in Windows Credential Manager under **your** account. Inside any Codex sandbox (`elevated` sandbox user, or MXC container) the token is not visible, so `gh auth status` reports "The token in default is invalid" and `gh pr list` returns HTTP 401.
 - GUI QA is blocked the same way. Under `elevated`, `Graphics.CopyFromScreen` fails with "The handle is invalid" and Java tests that need a desktop fail. Under MXC, `SetCursorPos` fails with error 5 and the token reports `TokenIsAppContainer = 1`.
 
-The intended path is escalation: the model sends `"sandbox_permissions":"require_escalated"`, the reviewer (`approvals_reviewer = "auto_review"` or you) approves, and the command runs outside the sandbox. An exec-policy rule can pre-approve it:
+The intended path is escalation: the model sends `"sandbox_permissions":"require_escalated"`, the reviewer (`approvals_reviewer = "auto_review"` or you) approves, and the command runs outside the sandbox. An exec-policy rule can pre-approve it (see the caveat below):
 
 ```
 # ~/.codex/rules/default.rules
 prefix_rule(pattern=["gh", "auth", "status"], decision="allow")
 prefix_rule(pattern=["gh", ["pr", "issue", "run", "repo"], ["view", "list", "diff", "checks", "status"]], decision="allow")
 ```
+
+**Caveat:** with a permission profile that contains deny-read entries (such as `.env*`/`secrets` blocks), 0.162.1 keeps filesystem enforcement even for approved or `allow`-matched commands, and rejects escalation when no suitable sandbox is available (see `agent-configs/codex/PERMISSIONS.md`). Approval or rules therefore cannot restore Credential Manager or desktop access for such a profile. When a tool needs your real account, use a profile without deny-read entries or the unrestricted workaround in section 6.
 
 Check a rule with `codex execpolicy check --rules ~/.codex/rules/default.rules -- gh pr view 1`. When several rules match, **the most restrictive decision wins**, so a catch-all `prompt` rule for `gh` overrides narrower `allow` rules.
 
