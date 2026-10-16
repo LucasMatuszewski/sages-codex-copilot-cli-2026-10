@@ -1,0 +1,30 @@
+<main class="shell">
+  <header>
+    <a class="brand" href="/" aria-label="Sygnity Chat - strona główna"><img src="/brand/sygnity-logo.svg" width="160" height="48" alt="Sygnity"><span class="brand-divider" aria-hidden="true"></span><span class="brand-label">Chat</span></a>
+    <span class="badge">DEMO SZKOLENIOWE</span>
+  </header>
+  <section class="conversation" aria-label="Rozmowa" aria-live="polite" aria-relevant="additions text">
+    @if (chat.messages.length === 0) {
+      <div class="welcome"><span class="eyebrow">ANGULAR + VERCEL AI SDK</span><h1>Od pytania<br>do rozmowy.</h1><p>Napisz wiadomość i zobacz odpowiedź pojawiającą się na żywo.</p></div>
+    }
+    @for (message of chat.messages; track message.id) {
+      <article class="message" [class.user]="message.role === 'user'">
+        <span class="role">{{ message.role === 'user' ? 'Ty' : 'Asystent' }}</span>
+        @for (part of message.parts; track $index) { @if (part.type === 'text') { <div class="text">{{ part.text }}</div> } }
+      </article>
+    }
+    @if (chat.status === 'submitted') { <p class="waiting" role="status">Asystent przygotowuje odpowiedź...</p> }
+    @if (chat.error) { <p class="error" role="alert">{{ chat.error.message }}</p> }
+    <div id="conversation-end"></div>
+  </section>
+  <footer>
+    @if (ready() === false) { <p class="notice" role="status">Połączenie z AI czeka na konfigurację klucza po stronie serwera.</p> }
+    <form (ngSubmit)="sendMessage()">
+      <label class="sr-only" for="prompt">Twoja wiadomość</label>
+      <textarea id="prompt" name="prompt" [(ngModel)]="input" (keydown.enter)="onEnter($event)" placeholder="O co chcesz zapytać?" rows="2" [disabled]="busy()"></textarea>
+      @if (busy()) { <button type="button" (click)="chat.stop()">Zatrzymaj</button> }
+      @else { <button type="submit" [disabled]="!input.trim()">Wyślij <span aria-hidden="true">↑</span></button> }
+    </form>
+    <div class="footnote"><span>Nemotron 3.5 Lightning Free · Tylko dane syntetyczne</span><span>Enter: wyślij · Shift+Enter: nowy wiersz</span></div>
+  </footer>
+</main>
