@@ -76,7 +76,11 @@ tool_output_token_limit = 4000
 # Feature toggles
 # ----------------
 [features]
-network_proxy = true # Enforce domain rules when a network-enabled permission profile is selected.
+# network_proxy stays OFF in a project config. Codex daemon background threads run from ~/.codex
+# and never load this file, so they want different sandbox firewall ports than project threads.
+# On the Windows elevated sandbox every flip re-runs the admin setup: one UAC prompt each, 7-15 per
+# resume (openai/codex#54441). Enable it in ~/.codex/config.toml instead so all threads agree.
+# network_proxy = true # Enforce domain rules when a network-enabled permission profile is selected.
 hooks = true      # Run hooks from hooks.json (see Codex hooks docs)
 apps = true
 multi_agent = true # Allow spawning/using multiple agents (if supported by your build).
@@ -385,4 +389,4 @@ enabled = true
 [permissions.course-jetbrains.network.domains]
 "blog.jetbrains.com" = "allow"
 "www.jetbrains.com" = "allow"
-# Domain rules require [features] network_proxy = true, provided in the sample config.
+# Domain rules require [features] network_proxy = true in the user config (see [features] above).

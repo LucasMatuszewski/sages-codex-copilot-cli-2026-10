@@ -1,5 +1,7 @@
 # Tiny and local models as agent workers
 
+Protocol update, checked 2026-10-16: [Messages vs Responses routing](local-llm-routing-messages-vs-responses-2026-10-16.md) explains native endpoints, translating proxies, private inference, and why `wire_api = "chat"` no longer works in Codex.
+
 > Moved from [Course Notes - AI in Programming](../Course%20Notes%20-%20AI%20in%20Programming.md) on 2026-10-02 to keep the notes short. Facts verified 2026-10-01; dates and sources are on each item.
 
 - **Tiny models (~200-400 MB) can do real agent work** (verified 2026-10-01):

@@ -24,7 +24,13 @@ echo '{"toolName":"bash","toolArgs":{"command":"cat .env"}}' | bash course-mater
 echo '{"toolName":"view","toolArgs":{"path":".env.example"}}' | bash course-materials/hooks-example/block-secrets.sh; echo "exit $?"
 ```
 
-Pierwsze polecenie kończy się kodem `2` (zablokowane), drugie kodem `0`. Potem poproś agenta o odczytanie `.env` w repozytorium testowym: odpowie, że hook zablokował wywołanie, i poda powód.
+Pierwsze polecenie kończy się kodem `2` (zablokowane), drugie kodem `0`. Sprawdź też odczyt katalogu `secrets/` poleceniem powłoki (oczekiwany kod `2`):
+
+```bash
+echo '{"toolName":"bash","toolArgs":{"command":"cat secrets/api.key"}}' | bash .github/hooks/block-secrets.sh; echo "exit $?"
+```
+
+Potem poproś agenta o odczytanie `.env` w repozytorium testowym: odpowie, że hook zablokował wywołanie, i poda powód.
 
 ## Czy hook reaguje tylko na zdarzenia?
 

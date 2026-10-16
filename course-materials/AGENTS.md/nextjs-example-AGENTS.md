@@ -65,6 +65,8 @@ The project follows a modern web architecture with:
 
 ## Development Workflow
 
+Before creating or refreshing a unit/integration endpoint or database mock, make a fresh real request/query in an authorized local/test environment with synthetic data. Save the complete non-secret response verbatim (HTTP status, headers and body, or database rows and type/schema information), and derive the mock from that capture instead of potentially stale docs. Record date, target, request/query and service version without credentials; report a missing safe-capture prerequisite rather than inventing a response shape.
+
 1. **Local Development**: Run with `pnpm dev`, install with `pnpm add`
 2. **Build**: Build with `pnpm build`
 3. **Deployment**: Automatic deployment via Coolify when pushing to main branches
