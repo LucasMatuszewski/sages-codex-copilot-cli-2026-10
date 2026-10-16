@@ -11,7 +11,7 @@ payload="$(cat)"
 
 # Drop allowed template names first, then look for protected paths.
 checked="$(printf '%s' "$payload" | sed -E 's/\.env\.(example|sample|template)//g')"
-pattern='(^|[^A-Za-z0-9_-])\.env([^A-Za-z0-9_-]|\.[A-Za-z0-9_-]+|$)|(^|[/"])secrets/|id_(rsa|ed25519|ecdsa)|\.pem([^A-Za-z0-9]|$)'
+pattern='(^|[^A-Za-z0-9_-])\.env([^A-Za-z0-9_-]|\.[A-Za-z0-9_-]+|$)|(^|[^A-Za-z0-9_.-])secrets(/|\\\\)|id_(rsa|ed25519|ecdsa)|\.pem([^A-Za-z0-9]|$)'
 
 if printf '%s' "$checked" | grep -Eq "$pattern"; then
   reason="Blocked by block-secrets hook: this call touches a secrets file (.env, secrets/, SSH key or .pem). Use .env.example or ask the user."

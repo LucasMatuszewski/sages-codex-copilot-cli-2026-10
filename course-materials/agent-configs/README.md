@@ -36,6 +36,8 @@ for the curated course policy.
 
 ## Codex profiles
 
+Before relying on any Codex network domain rule, put `[features] network_proxy = true` in `~/.codex/config.toml` (the example [codex/config.toml](codex/config.toml) does). The project config leaves it off on purpose; see [PERMISSIONS.md](codex/PERMISSIONS.md#network-and-hosted-tools).
+
 Codex reads profile files only from `~/.codex/`. Copy them there, then choose one:
 
 ```bash
@@ -47,6 +49,10 @@ codex --profile ollama-lfm
 ```
 
 Check the `model:` and `provider:` lines Codex prints at startup: a profile name without a file is not an error, Codex just runs the default model.
+
+Shell shortcuts: [Bash Codex section](../.bashrc) and [PowerShell functions and aliases](../codex-aliases.ps1). Dot-source the PowerShell file from `$PROFILE` using its installation comment. The same names cover all six shipped provider profiles: `cdxz` (also `codexz`), `cdxor`, `cdxoc`, `cdxlfm`, `cdxsql`, `cdxgemma`. Copy the profile files to `~/.codex/` first, including `models.zai.json` for Z.ai; the scripts contain no real keys.
+
+Mode aliases, checked against local `codex --help` and `codex resume --help` on 0.162.1 (2026-10-16): `cdxauto` (automatic approval review with workspace-write), `cdxro` (read-only), `cdxnd` (no shared daemon), `cdxwt` (new managed worktree), `cdxlast` (resume last). Combine a mode with `--profile <name>`. `cdxwt` requires worktree authorization under this repository's rules. `cdxyolo` disables both approvals and sandbox: use only inside external disposable isolation without secrets, never as a permissions workaround. [CLI reference](https://developers.openai.com/codex/cli/reference/).
 
 ## Sub-agents
 

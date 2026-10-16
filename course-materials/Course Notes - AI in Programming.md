@@ -27,6 +27,7 @@ Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
   - GLM-5.3 and GLM-5.3-Flash (z.ai), Kimi K3 (Moonshot), MiMo 1.6 (Xiaomi - great and very cheap), Minimax M3, DeepSeek v4 Pro - best OSS models are all from China (updated 02.10.2026)
   - Best OSS for consumer hardware: Google [Gemma 4](https://ollama.com/library/gemma4), [Qwen 3.6](https://ollama.com/library/qwen3.6)
   - could be used also with Claude Code: [Ollama](https://docs.ollama.com/integrations/claude-code), [vLLM](https://docs.vllm.ai/en/latest/serving/integrations/claude_code/) (good concurrency for scaling), [LocalAI](https://localai.io/integrations/index.html#claude-code)
+  - **Local backend protocols (checked 2026-10-16):** Claude Code uses Anthropic Messages; Codex requires OpenAI Responses (`wire_api = "chat"` was removed). Native endpoints and translation through Ollama, vLLM, LiteLLM, claude-code-router, OpenRouter or LM Studio, with private-inference caveats and agent configs: [routing research](Research/local-llm-routing-messages-vs-responses-2026-10-16.md).
   - **Tiny and local models as agent workers** (verified 2026-10-01): LFM2.5-350M (219 MB) handles extraction and simple tool calls; 8 GB laptop = `gemma4:e2b` or LFM2.5-350M, 16 GB = `gemma4:e4b` / `gemma4:12b` / `lfm2.5:8b`; run them as workers with `ollama launch claude` or `codex --oss` - sizes, benchmarks, configs: [local-models-as-agent-workers.md](Research/local-models-as-agent-workers.md)
   - **"Luna" as a subagent model = GPT-6 Luna (OpenAI)**: cheap high-volume tier (350-3,000 local messages per 5h on Plus), `codex -m gpt-6-luna` - details and Codex lineup: [token-optimization-limits-resets.md](Research/token-optimization-limits-resets.md#gpt-6-luna-as-a-subagent-model)
 - **Screenshots** as a better way to provide context for vision models (less tokens thanks to compression, more information thanks to formatting, colors, images, etc.)
@@ -300,11 +301,13 @@ How AI changes developer careers - key insights from the 2026 future-of-work res
   - Zed [Zed — Love your editor again](https://zed.dev/) (Open Source)
     - [Should You Use Zed In 2026? - YouTube](https://www.youtube.com/watch?v=lRrElGM23h4)
     - Windows users: [Zed in WSL](https://zed.dev/docs/remote-development#wsl-support)
+    - Native Windows alternative: keep source on a trusted [Windows Dev Drive](https://learn.microsoft.com/en-us/windows/dev-drive/) for filesystem performance. Prefer WSL with Linux-side storage for Linux toolchains and the Linux sandbox; do not assume one runtime is universally faster. [Requirements and Codex doctor finding](Research/codex-cli-desktop-projects-wsl-2026-10-14.md#native-windows-performance-alternative-dev-drive).
     - Offline / air-gapped env: [Agents/LLMs](https://zed.dev/docs/ai/use-a-local-model), [Zeta](https://zed.dev/docs/ai/edit-prediction#local-and-self-hosted-models) (edit prediction), [LSP](https://zed.dev/docs/configuring-languages#possible-configuration-options) (language servers from PATH)
   - Cursor [Cursor](https://cursor.com/)
   - GitHub Copilot: [GitHub Copilot · Plans & pricing · GitHub](https://github.com/features/copilot/plans)
     - Not only GPT, Claude Opus in all plans: [Claude Opus 4.5 is now generally available in GitHub Copilot - GitHub Changelog](https://github.blog/changelog/2025-12-18-claude-opus-4-5-is-now-generally-available-in-github-copilot/)
     - VS Code harnesses: **Local** (Extension Host, default chat) vs **Agent Host** (separate process running Copilot SDK, Claude and Codex harnesses; needed for Assisted permissions, shared sessions, remote hosts). Connected to WSL/SSH, the agent runs inside that environment: [Agent Host](https://code.visualstudio.com/docs/agents/concepts/agent-host), [Agent harnesses](https://code.visualstudio.com/docs/agents/run/agent-harnesses)
+    - For a Windows-native Agent Host, a trusted Dev Drive is the storage alternative to WSL; it improves the Windows filesystem path, while WSL provides a Linux runtime. [Dev Drive details](Research/codex-cli-desktop-projects-wsl-2026-10-14.md#native-windows-performance-alternative-dev-drive).
     - Session history synced to your GitHub account: enable from the Copilot status bar icon (bottom right) > `Session Sync: Enable`: [Session history](https://code.visualstudio.com/docs/agents/run/sessions/session-history)
     - Answers to participants' Copilot questions (rewind, permissions, Autopilot, skills in JetBrains, nested AGENTS.md, hooks, CI/CD): [Copilot Q&A page](https://devpowers.com/szkolenia/COURSE-SITE/pytania.html)
   - [Google Antigravity IDE](https://antigravity.google/product/antigravity-ide)
@@ -525,7 +528,7 @@ Custom project file (or many nested files) with instructions and description of 
 
 ### Custom Slash Commands / Prompts
 
-**Custom slash commands** (in Claude Code) or **Custom Prompts** (in Codex) are simple reusable prompts (Markdown files) you invoke manually via `/command-name` (optionally with an extra message/argument). They are the lightweight sibling of Skills — no metadata, no auto-triggering. You write the prompt once and reuse it on demand.
+**Claude Code custom slash commands** are reusable Markdown prompts invoked with `/command-name`. Codex's legacy **Custom Prompts** use `~/.codex/prompts/` and `/prompts:name`; they are deprecated in favor of skills invoked with `$name`. The inspected Codex main also has `/presets` for numbered saved inputs, not a `.codex/commands/` directory. Release availability and migration: [Codex commands vs Claude](Research/codex-custom-commands-vs-claude-2026-10-16.md).
 
 - **What they are:** Markdown files stored in `.claude/commands/` (Claude Code CLI, Claude Code Desktop app, or Agent SDK). Each file becomes a `/`-command. You can optionally pass `$ARGUMENTS` to inject a custom message at invocation time.
 - **When to use Commands vs Skills:**
@@ -698,6 +701,9 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
 - **Herdr vs Codex App**: vendor-neutral runtime on your own machines vs zero-ops, OpenAI-only app with cloud tasks - they combine well
 - **Remote agents**: `herdr --machine <label>` over SSH, Codex cloud tasks, `codex exec`, `codex agents` + `codex queue`
 - **Codex CLI <-> Codex app, Windows <-> WSL (verified 14.10.2026):** add the exact project folder in the app (**Add new project** / `Ctrl+O`; WSL repos via `\\wsl$\`), restart the app after switching the agent between Windows and WSL, find old sessions with `codex resume --all` in the environment that created them, and use `/app` (Windows/macOS) to move a CLI session to the app. Windows and WSL keep separate Codex state; never share one `.codex` across them. Checklist: [codex-cli-desktop-projects-wsl-2026-10-14.md](Research/codex-cli-desktop-projects-wsl-2026-10-14.md)
+- **Native Windows storage (checked 2026-10-16):** Codex doctor recommends a trusted Windows Dev Drive for repository performance. Requirements, Defender performance mode and when to prefer WSL: [Dev Drive](Research/codex-cli-desktop-projects-wsl-2026-10-14.md#native-windows-performance-alternative-dev-drive).
+- **Codex aliases and profiles (CLI 0.162.1):** copy the chosen profile files to `~/.codex/`, then use the documented [Bash shortcuts](.bashrc) or [PowerShell equivalents](codex-aliases.ps1), dot-sourced from `$PROFILE`. Provider/mode names and warnings: [Codex profiles](agent-configs/README.md#codex-profiles).
+- **Codex checkpoint refs (checked 2026-10-16):** `refs/codex/turn-diffs/checkpoints/` is also reported in the VS Code integration; it is not a verified CLI `/rewind` feature. Inspection, deletion risks, push behavior and comparison with Copilot/Claude: [checkpoint research](Research/codex-git-checkpoints-2026-10-16.md).
 - Details, comparison and remote setup: [agent-managers-and-remote-agents.md](Research/agent-managers-and-remote-agents.md)
 
 ### Claude Code Plugins vs MCP/Skills
@@ -709,6 +715,8 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
 - **Eclipse-only project not importing into IntelliJ (research 14.10.2026):** the working build is repository files plus workspace preferences, variables, user libraries and plugins - a checkout alone does not reproduce it. Causes, detection and a six-step agent-driven migration to a verified Maven build: [eclipse-to-intellij-migration-2026-10-14.md](Research/eclipse-to-intellij-migration-2026-10-14.md)
 
 ## Security
+
+- **Codex on Windows:** [sandbox setup, permissions and troubleshooting](Research/codex-windows-sandbox-troubleshooting-2026-10-15.md).
 
 - Validate skills, MCPs and any scripts before installing and using them.
 - Check the license for skills, hooks and agents you copy from internet (e.g. Anthropic skills are not permissive) - license can be found on GitHub repo or inside skill folder.

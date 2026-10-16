@@ -1,3 +1,56 @@
+# UPDATE 16.10.2026: jFTP repository, Codex on Windows, aliases, hooks and Agent Toolbox
+
+**jFTP application repository:** [LucasMatuszewski/jftp-gr2](https://github.com/LucasMatuszewski/jftp-gr2). Most of the course code was implemented there, and I continued it after the workshop:
+
+- `master`: Windows 11 startup protected by 26 characterization tests, RepoMaps, full and compressed Repomix packs, a source-checked code graph, architecture views with rendered diagrams, the current-functionality PRD, retrospective ADRs and a proposed modernization plan. It also has a Maven `pom.xml` security-review hook. The [README](https://github.com/LucasMatuszewski/jftp-gr2#readme) links all of these documents.
+- [PR #1, visual update](https://github.com/LucasMatuszewski/jftp-gr2/pull/1) (branch `codex/sygnity-ui-refresh`): a refreshed Swing UI with Sygnity branding, before/after screenshots, 29 passing tests and desktop QA evidence. Treat it as an example and a source of ideas, not a finished design.
+
+**Fixing Codex on Windows (CLI and desktop app):** [Codex Windows sandbox troubleshooting](course-materials/Research/codex-windows-sandbox-troubleshooting-2026-10-15.md). It covers:
+
+- updating the background daemon after a CLI update (`codex app-server daemon update --from-cli --yes`, and what to do when `install.lock` times out);
+- why you may get 7-15 UAC prompts in a row (`network_proxy` enabled only in the project config);
+- why `gh`, screenshots and GUI tests fail inside the sandbox;
+- why resumed sessions keep their old permissions.
+
+Upstream reports: [openai/codex#54440](https://github.com/openai/codex/issues/54440), [openai/codex#54441](https://github.com/openai/codex/issues/54441). Keep `[features] network_proxy = true` in `~/.codex/config.toml`, not in a project config.
+
+**Codex aliases:** [course-materials/.bashrc](course-materials/.bashrc) (bash, WSL, Git Bash) and [course-materials/codex-aliases.ps1](course-materials/codex-aliases.ps1) (PowerShell; dot-source it from `$PROFILE`). Copy the profile files from [agent-configs/codex](course-materials/agent-configs/codex/) to `~/.codex/` first.
+
+```bash
+cdxz                      # codex --profile zai (GLM via Z.ai Coding Plan)
+cdxor                     # codex --profile openrouter
+cdxoc / cdxlfm / cdxsql   # Ollama profiles: cloud model, small local model, text-to-SQL
+cdxauto                   # codex --approve-for-me (auto-review instead of manual approvals)
+cdxro "explain this repo" # read-only sandbox for safe exploration
+cdxwt                     # new session in a managed Git worktree
+cdxlast                   # codex resume --last
+cdxnd                     # run without the shared background daemon
+```
+
+`cdxyolo` (`--dangerously-bypass-approvals-and-sandbox`) disables both the sandbox and approvals. Use it only inside an isolated VM or container.
+
+**Hooks:** [course-materials/hooks-example](course-materials/hooks-example/README.md) contains one `block-secrets.sh` script that works unchanged as a pre-tool hook in Codex (`.codex/hooks.json`, approved once with `/hooks`), Claude Code and Copilot CLI. It blocks reads of `.env`, `secrets/`, SSH keys and `.pem` files. Test it without an agent:
+
+```bash
+echo '{"toolName":"bash","toolArgs":{"command":"cat .env"}}' | bash course-materials/hooks-example/block-secrets.sh; echo "exit $?"   # exit 2 = blocked
+```
+
+The jFTP repository also uses a hook that gates edits of `pom.xml` behind a security review. More realistic hook examples for Codex and Claude Code will follow in a separate update.
+
+**Agent Toolbox:** our public skill collection at [EdukeyTeam/agent-toolbox](https://github.com/EdukeyTeam/agent-toolbox), for example `write-agents-md`, `write-prd`, `write-adr`, `legacy-codebase-workflows` and `cloudflare-safe`. Open pull requests:
+
+- [#24 atlassian-onprem-safe](https://github.com/EdukeyTeam/agent-toolbox/pull/24): Bitbucket, Jira and Confluence Server / Data Center through safe wrapper scripts. The token and base URL stay in a local file, so the agent never sees them. Still being validated against real servers before merge.
+- [#23 write-agents-md](https://github.com/EdukeyTeam/agent-toolbox/pull/23): detailed Manual QA steps and the "mock only from a fresh real response" rule in the AGENTS.md templates.
+
+**More research from group 2:**
+
+- [Local LLM routing: Anthropic Messages vs OpenAI Responses](course-materials/Research/local-llm-routing-messages-vs-responses-2026-10-16.md)
+- [Codex Git checkpoint refs](course-materials/Research/codex-git-checkpoints-2026-10-16.md)
+- [Codex custom commands vs Claude Code](course-materials/Research/codex-custom-commands-vs-claude-2026-10-16.md)
+- Windows Dev Drive as a native alternative to WSL, in [Course Notes](course-materials/Course%20Notes%20-%20AI%20in%20Programming.md)
+
+**Matt Pocock videos with analysis:** "Why software factories fail" and "Fixing the pull request bottleneck". My [NotebookLM notebook](https://notebooklm.google.com/notebook/32cdb78a-bb6a-4934-98f8-a25057ebb605) holds both videos with notes and analysis.
+
 # UPDATE: Angular AI chat demo and jFTP implementation
 
 This example Angular chat app lives in the [Vercel AI SDK repository](https://github.com/vercel/ai/tree/e0fdae62c4ecb980c40e17d3fe87bacce7d14c1f/examples/angular). The demo setup was created 100% in ChatGPT Voice mode on 8 October 2026, by cloning, configuring, building and running the existing upstream example. The original application source was written by the Vercel AI SDK contributors.

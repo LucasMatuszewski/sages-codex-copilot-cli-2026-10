@@ -132,6 +132,36 @@ alias cco='claude-or'
 alias ccz='claude-zai'
 alias ccol='claude-ollama'
 
-# 
+# ============================================================
+# Codex CLI profiles and modes (verified: codex-cli 0.162.1)
+# ============================================================
+# Copy the chosen <name>.config.toml files from agent-configs/codex/
+# to ~/.codex/ first (or $CODEX_HOME/ when explicitly configured).
+# Z.ai also needs models.zai.json beside zai.config.toml.
+# Provider keys are environment variables; never put real keys here.
+# Confirm the model/provider at startup. These shortcuts forward extra args.
+
+# Providers: cloud routes send prompts to the selected external provider.
 alias codexz='codex --profile zai'
 alias cdxz='codex --profile zai'
+alias cdxor='codex --profile openrouter'
+alias cdxoc='codex --profile ollama-cloud'
+alias cdxlfm='codex --profile ollama-lfm'
+alias cdxsql='codex --profile ollama-sql'
+alias cdxgemma='codex --profile ollama-gemma'
+
+# Modes: automatic review retains workspace-write; it can still deny a request.
+alias cdxauto='codex --approve-for-me'
+alias cdxro='codex -s read-only'
+# A private foreground server instead of the shared background daemon.
+alias cdxnd='codex --no-daemon'
+# Creates a NEW managed Git worktree. Use only when explicitly authorized;
+# plan dependency storage and remove the worktree when finished.
+alias cdxwt='codex --worktree'
+# Resume the most recent session (cwd filtering applies; inspect before use).
+alias cdxlast='codex resume --last'
+# DANGER: disables BOTH approvals and sandbox. Only use in an externally
+# isolated disposable VM/container without secrets or access to host files.
+# This flag does not create isolation. Never use it to fix permission errors.
+alias cdxyolo='codex --dangerously-bypass-approvals-and-sandbox'
+# Examples: cdxro --profile zai; cdxauto --profile ollama-lfm

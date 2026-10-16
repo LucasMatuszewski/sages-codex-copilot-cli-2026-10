@@ -124,6 +124,8 @@ npx markdownlint-cli2 "**/*.md" "#node_modules"
 
 ### Sample Project Testing
 
+Before creating or refreshing an endpoint/database mock for unit or integration tests, make a fresh real request/query in an authorized local/test environment using synthetic data. Save the complete non-secret response verbatim (HTTP status, headers and body, or database rows and type/schema information) and derive the mock from it, not potentially stale documentation. Record date, target, request/query and service version without credentials. If safe capture is unavailable, report the prerequisite instead of inventing a response shape.
+
 Each language-specific sample includes its own testing approach:
 
 #### TypeScript/JavaScript
