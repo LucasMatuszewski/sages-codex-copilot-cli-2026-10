@@ -52,7 +52,10 @@ Quick checks:
 
 ```powershell
 codex -c windows.sandbox=mxc sandbox --include-managed-config --permission-profile :workspace -- cmd.exe /d /c echo MXC_OK
-codex sandbox --permission-profile <your-profile> -- cmd.exe /d /c type .env   # must fail with "access denied"
+# deny-read probe: use a throwaway folder with a dummy file, never a real .env
+mkdir sandbox-probe; Set-Content sandbox-probe\.env "DUMMY=not-a-secret"
+codex sandbox --permission-profile <your-profile> -- cmd.exe /d /c type sandbox-probe\.env   # must fail with "access denied"
+Remove-Item -Recurse sandbox-probe
 codex doctor                                                                   # look for "sandbox backend"
 ```
 
@@ -108,8 +111,9 @@ Select-String -Path <rollout.jsonl> -Pattern 'require_escalated' | Measure-Objec
 
 ```python
 # guardian reviews in the log DB (read-only)
-import sqlite3
-c = sqlite3.connect("file:logs_2.sqlite?mode=ro", uri=True)
+import os, pathlib, sqlite3
+home = pathlib.Path(os.environ.get("CODEX_HOME", pathlib.Path.home() / ".codex"))
+c = sqlite3.connect((home / "logs_2.sqlite").as_uri() + "?mode=ro", uri=True)
 c.execute("select ts, feedback_log_body from logs where target like '%guardian%'").fetchall()
 ```
 
@@ -124,7 +128,7 @@ default_permissions = ":danger-full-access"
 
 ### What `danger-full-access` still checks
 
-`[windows] sandbox` only selects the backend (`elevated`, `unelevated`, `mxc`). It has no "off" value, and removing it falls back to `unelevated`. The sandbox is turned off only through `sandbox_mode = "danger-full-access"` or the `:danger-full-access` permission profile. Approval is a separate setting (`codex-rs/core/src/exec_policy.rs`). With `approval_policy = "on-request"`:
+`[windows] sandbox` only selects the backend (`elevated`, `unelevated`, `mxc`); it has no "off" value. What happens when you remove it depends on legacy feature flags, managed requirements and MXC preference: on the machine in this report it fell back to `unelevated`, while a clean 0.162.1 install may resolve to no Windows backend at all. Check the effective backend with `codex doctor` (`sandbox backend`) instead of assuming. The sandbox is turned off only through `sandbox_mode = "danger-full-access"` or the `:danger-full-access` permission profile. Approval is a separate setting (`codex-rs/core/src/exec_policy.rs`). With `approval_policy = "on-request"`:
 
 | Command | Behavior without the sandbox |
 |---|---|
@@ -132,7 +136,7 @@ default_permissions = ":danger-full-access"
 | Flagged as dangerous (destructive deletes, hard resets) | Prompt, answered by the reviewer (auto-review or you) |
 | Matches a `prompt` / `forbidden` rule | Prompt / blocked |
 
-`approval_policy = "untrusted"` sends every command that no `allow` rule matches to the reviewer. `--yolo` (`--dangerously-bypass-approvals-and-sandbox`) disables both the sandbox and approvals.
+`approval_policy = "untrusted"` is retired in 0.162.1: the config loader rejects it with `approval_policy = "untrusted" is no longer supported; remove this setting`. To get a review for specific commands without the sandbox, add `prefix_rule(..., decision="prompt")` rules for them. `--yolo` (`--dangerously-bypass-approvals-and-sandbox`) disables both the sandbox and approvals.
 
 ### Resumed sessions keep their old permissions
 
