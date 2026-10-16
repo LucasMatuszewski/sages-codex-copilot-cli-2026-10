@@ -10,6 +10,10 @@ The workflow below governs Java programming exercises. Apply it in the checkout 
 
 Communicate in Polish in chat unless the user explicitly requests another language. Write technical repository documentation, PRDs and ADRs in English. Participant-facing lessons, slides and exercise prompts are Polish with diacritics. Preserve upstream text and line endings unless the task requires a change.
 
+## Current Angular chat spike
+
+`app/` is a user-authorized Angular + Vercel AI SDK training spike. Follow `app/AGENTS.md` for this scope. The Java workflow below still applies to Java exercises. This small demo needs build and browser verification, without a PRD, ADR or full TDD process. Do not commit or push unless requested.
+
 ## Repository layout and context
 
 - `AGENDA.md`: source agenda; confirmed workshop hours are 09:00-17:00 Europe/Warsaw.

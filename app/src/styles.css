@@ -1,0 +1,32 @@
+/* Palette and type scale: app/design/jftp-gr2-tokens.json. */
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/montserrat-variable.ttf') format('truetype');
+}
+:root {
+  --brand-primary: #00aeef;
+  --brand-logo: #009dde;
+  --brand-accent: #1e73be;
+  --text-primary: #3a3a3a;
+  --text-secondary: #666666;
+  --text-muted: #69727d;
+  --nav-text: #333333;
+  --surface: #ffffff;
+  --surface-light: #f9f9f9;
+  --surface-section: #f1f1f1;
+  --input-border: #dddddd;
+  --error: #d32f2f;
+  --radius-control: 2px;
+  --radius-card: 3px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--surface-light);
+  color: var(--text-primary);
+  font: 400 16px/1.5 Montserrat, Arial, sans-serif;
+}
+button, textarea { font-family: inherit; }
