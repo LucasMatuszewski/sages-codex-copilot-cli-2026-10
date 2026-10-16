@@ -14,6 +14,11 @@ case "${1:-}" in
     if printf '%s' "$cmd" | grep -Eq 'git[[:space:]]+push.*(--force|[[:space:]]-f([[:space:]]|$)|(^|[[:space:]:/])main([[:space:]]|$))'; then
       deny 'Push blocked: use a feature branch and a normal push; ask the owner about protected branches or rewritten history.'
     fi
+    # A bare `git push` on main pushes main (push.default=simple), so check the current branch too.
+    current=$(git -C "$cwd" symbolic-ref --short -q HEAD 2>/dev/null || true)
+    if printf '%s' "$cmd" | grep -Eq 'git[[:space:]]+push' && { [ "$current" = main ] || [ "$current" = master ]; }; then
+      deny "Push blocked: the current branch is $current. Create a feature branch and push that instead."
+    fi
     if printf '%s' "$cmd" | grep -Eq '(^|[[:space:];|&])rm[[:space:]].*(--recursive|-[[:alpha:]]*[rR])'; then
       deny 'Recursive rm blocked: inspect targets and remove specific files without recursive flags.'
     fi
@@ -42,7 +47,7 @@ case "${1:-}" in
     command -v timeout >/dev/null || deny 'Java gate requires GNU timeout.'
     cd "$cwd" || deny 'Java gate cannot enter cwd.'
     git rev-parse --show-toplevel >/dev/null 2>&1 || deny 'Java gate requires a Git checkout.'
-    changed=$(git diff --name-only; git diff --cached --name-only; git ls-files --others --exclude-standard)
+    changed=$(git diff --name-only; git diff --cached --name-only; git ls-files --others --exclude-standard -- ':/')
     printf '%s\n' "$changed" | grep -Eq '\.java$' || exit 0
     # Keep raw compiler output out of model context: it may contain source data.
     if timeout --kill-after=2s 15s bash -c "$HOOK_JAVA_CHECK" >/dev/null 2>&1; then
