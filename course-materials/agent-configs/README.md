@@ -36,6 +36,8 @@ for the curated course policy.
 
 ## Codex profiles
 
+Before relying on any Codex network domain rule, put `[features] network_proxy = true` in `~/.codex/config.toml` (the example [codex/config.toml](codex/config.toml) does). The project config leaves it off on purpose; see [PERMISSIONS.md](codex/PERMISSIONS.md#network-and-hosted-tools).
+
 Codex reads profile files only from `~/.codex/`. Copy them there, then choose one:
 
 ```bash
