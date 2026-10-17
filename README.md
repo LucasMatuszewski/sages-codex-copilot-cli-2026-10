@@ -83,3 +83,5 @@ Nie zakładaj, że projekt od razu się zbuduje lub uruchomi. Najpierw zbierz do
 ## Biblioteka dodatkowa
 
 `course-materials/` zawiera slajdy, prompty, konfiguracje narzędzi i archiwalne przykłady. Są pomocami do wyboru, nie wymaganiami aplikacji ani konfiguracją do automatycznego włączenia. Przykładowych PRD i ADR nie przenoś bez sprawdzenia do jFTP. Przed oddaniem pracy przejrzyj diff, wyniki poleceń i nierozstrzygnięte pytania.
+
+Trener: Łukasz Matuszewski · [LinkedIn](https://www.linkedin.com/in/lukaszmatuszewski/) · [X](https://x.com/mrLumatic)

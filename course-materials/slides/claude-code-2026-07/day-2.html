@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claude Code - od zera do zespołu agentów AI | Dzień 2</title>
+<title>Sages | Claude Code - od zera do zespołu agentów AI | Dzień 2</title>
 <style>
 :root{
   /* Slajdy tytulowe (granat/biel/zloto) - identyczne w obu motywach */
@@ -251,15 +251,23 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
 .demo-flow .df-step{display:flex;gap:1rem;align-items:center}
 .df-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
 .df-text{font-size:clamp(.85rem,1.4vw,1rem)}
+@media(max-width:700px){.slide-footer{max-width:45vw;text-align:right}}
 </style>
-</head>
-<body>
+<style>
+/* Compact trainer credit stays above slide navigation and remains keyboard accessible. */
+.course-trainer-credit{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.25rem .6rem;margin:1.25rem auto;padding:.6rem 1rem;max-width:72rem;color:var(--muted,#9dafc4);font:13px/1.5 system-ui,sans-serif;text-align:center}.course-trainer-credit a{color:var(--accent,#76c9de);text-decoration:underline;text-underline-offset:.18em}.course-trainer-credit a:focus-visible{outline:2px solid currentColor;outline-offset:4px}.course-trainer-credit .trainer-socials{white-space:nowrap}
+body[data-page-type="slides"] .course-trainer-credit{position:fixed;bottom:calc(55px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 100px);max-width:760px;margin:0;padding:.3rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg,#101827);z-index:210}
+body[data-page-type="slides"] .slide-body{padding-bottom:130px}
+@media(max-width:680px){body[data-page-type="slides"] .course-trainer-credit{bottom:calc(64px + env(safe-area-inset-bottom));width:calc(100% - 32px);font-size:11px;gap:.15rem .5rem}body[data-page-type="slides"] .slide-body{padding-bottom:160px}}
+@media print{body[data-page-type="slides"] .course-trainer-credit{display:none!important}}
+</style></head>
+<body data-page-type="slides">
 
 <div id="hud"><div id="bar"></div></div>
 <div id="num">1/44</div>
 <div id="clock">--:--</div>
 <div id="shortcut-hint">&larr; &rarr; nawigacja &nbsp;&middot;&nbsp; F pe&#322;ny ekran &nbsp;&middot;&nbsp; D motyw</div>
-<div id="trainer-credit">Trener: &#321;ukasz Matuszewski</div>
+
 <button id="theme-btn" title="Motyw jasny/ciemny (D)"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
 <button id="prev" class="nav-arrow nav-left">&lsaquo;</button>
 <button id="next" class="nav-arrow nav-right">&rsaquo;</button>
@@ -276,7 +284,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
 <!-- ============ SLIDE 1: TITLE ============ -->
 <section class="slide dark on">
   <div class="slide-body title-body">
-    <div class="kicker">Szkolenie otwarte</div>
+    <div class="kicker">Sages | Sygnity</div>
     <h1>Claude Code<br><span class="accent">od zera do zespołu agentów AI</span></h1>
     <div class="subtitle">Dzień 2 z 3: Narzędzia, sub-agenci i budowa funkcjonalności</div>
     <div class="title-meta">
@@ -308,7 +316,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Czy uczestnicy mają CLAUDE.md z dnia 1</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 2: AGENDA ============ -->
@@ -328,7 +336,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Cel dnia:</strong> agent z dokumentacją i przeglądarką, skonfigurowane narzędzia i workflows, zespół sub-agentów, wstępny kod aplikacji od wielu agentów</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 3: KONTRAKT ============ -->
@@ -362,7 +370,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 4: MAPA PROCESU ============ -->
@@ -386,7 +394,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       Design Guidelines, Plan (sub-agenci) oraz Implementację z TDD. To dzień, w którym powstaje <strong>wstępny kod aplikacji</strong>.
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 5: RECAP DNIA 1 ============ -->
@@ -415,7 +423,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Pytanie otwarcia:</strong> czy praca domowa D1 ujawniła problemy? Zbierz pytania i omów na szybko.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 6: CO DALEJ ============ -->
@@ -431,7 +439,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Wynik dnia:</strong> działający wstępny kod aplikacji demo od wielu agentów + skonfigurowane narzędzia i zespół.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 7: MODUŁ 2.1 OPENER ============ -->
@@ -461,7 +469,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Czy uczestnicy Java mogą podążać</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 8: MCP - CZYM JEST ============ -->
@@ -492,7 +500,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Idea:</strong> zamiast wklejać dokumentację w prompt, agent sam pobiera aktualną dokumentację przez MCP, gdy jej potrzebuje.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 9: DLACZEGO SKILLS ZAMIAST MCP ============ -->
@@ -522,7 +530,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Trend:</strong> agenty przechodzą od "stałych serwerów MCP" do "Skills + CLI wywoływane na żądanie". MCP zostaje dla trwałych integracji, Skills przejmują workflows.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 10: KONFIGURACJA MCP ============ -->
@@ -560,7 +568,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 11: CONTEXT7 ============ -->
@@ -588,7 +596,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 12: PLAYWRIGHT MCP ============ -->
@@ -612,7 +620,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:.8rem"><strong>W naszym procesie:</strong> Playwright MCP jest kluczowe na dwóch etapach - Design Guidelines (RAZEM 2.1) oraz testy manualne aplikacji (moduł 2.4 i dzień 3).</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 13: TREND CLI VS MCP ============ -->
@@ -641,7 +649,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Praktyczna konsekwencja:</strong> coraz więcej narzędzi dostępnych jako CLI wywoływane przez agenta, zamiast trwale skonfigurowanego serwera MCP. Wybieraj świadomie - MCP dla stałych integracji, CLI/Skills dla jednorazowych i workflow.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 14: INNE SERWERY MCP ============ -->
@@ -665,7 +673,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Na tym kursie</strong> skupiamy się na Context7 i Playwright MCP. Pozostałe jako przegląd - wiadomość, że MCP jest ekosystemem, nie pojedynczym narzędziem.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 15: RAZEM 2.1 ============ -->
@@ -716,7 +724,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Uczestnicy Java: to samo zadanie, design tokens uniwersalne</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 16: MODUŁ 2.2 OPENER ============ -->
@@ -745,7 +753,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Czy każdy potrafi zainstalować gotowy skill</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 17: SKILLS - REUSABLE ============ -->
@@ -775,7 +783,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Różnica vs MCP:</strong> MCP wystawia pojedyncze narzędzie. Skill to <strong>cały workflow</strong> - sekwencja kroków, instrukcji i narzędzi osiągających cel.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 18: INSTALOWANIE ISTNIEJĄCYCH ============ -->
@@ -803,7 +811,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 19: TWORZENIE WŁASNYCH ============ -->
@@ -833,7 +841,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>TIP:</strong> po zakończeniu powtarzalnej pracy warto poprosić agenta o zbudowanie z niej własnego skilla na przyszłość. Dziś inwestujesz 5 minut, jutro oszczędzasz 30.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 20: COMMANDS VS SKILLS ============ -->
@@ -868,7 +876,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:.8rem"><strong>Reguła:</strong> prosty, jednokrotny prompt = jeden plik Markdown wywoływany świadomie. Złożony workflow z auto-triggerem i skryptami = skill wielo-plikowy. Pod spodem to ten sam mechanizm - oba tworzą <span class="code-inline">/x</span>.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 20b: HOOKS - DETERMINISTYCZNE BRAMKI ============ -->
@@ -898,7 +906,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Kontrast:</strong> instrukcja prosi o lint; hook uruchamia lint po edycji wykonanej przez narzędzia agenta. Zmiany przez Bash wymagają dodatkowej obsługi. Hook działa niezależnie od tego, czy agent o nim pomyśli.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 20c: MAPA DECYYYJNA HARNESSU ============ -->
@@ -931,7 +939,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Handout:</strong> pełna checklist harnessu w <span class="code-inline">course-materials/references/harness-checklist.md</span> - materiał do powrotu po kursie.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 20d: SKILLE DLA JAVA ============ -->
@@ -958,7 +966,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 21: MODUŁ 2.3 OPENER ============ -->
@@ -987,7 +995,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Czy każdy zdefiniował min. jednego specjalistę</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 22: ARCHITEKTURA SUB-AGENTÓW ============ -->
@@ -1016,7 +1024,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 23: ORKISTRACJA ============ -->
@@ -1040,7 +1048,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:.8rem"><strong>Metafora:</strong> główny agent to tech lead. Sub-agenci to członkowie zespołu. Tech lead nie pisze całego kodu - deleguje i weryfikuje.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 24: TYPY SUB-AGENTÓW ============ -->
@@ -1068,7 +1076,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Konfiguracja:</strong> każdy custom sub-agent ma swój plik instrukcji (podobnie jak CLAUDE.md), określający jego rolę, stack, zasady i ograniczenia.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 25: KONFIGURACJA I ZASADY ============ -->
@@ -1101,7 +1109,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     </div>
     <div class="note-box" style="margin-top:.8rem"><strong>Klucz:</strong> jasny podział ról zapobiega konfliktom. Każdy sub-agent wie, co jest w jego zakresie, a co nie.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 25b: NESTED SUB-AGENTS ============ -->
@@ -1131,7 +1139,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 25c: CROSS-TOOL PORTABILITY ============ -->
@@ -1163,7 +1171,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 26: SPECJALIŚCI POD APLIKACJĘ DEMO ============ -->
@@ -1202,7 +1210,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 27: RAZEM 2.3 ============ -->
@@ -1253,7 +1261,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Uczestnicy Java: analogicznie (LangChain4j backend)</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 28: MODUŁ 2.4 OPENER ============ -->
@@ -1284,7 +1292,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <li>Czy commit został zrobiony PO zielonej fazie</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 29: TDD Z AGENTEM ============ -->
@@ -1317,7 +1325,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 30: API BACKEND ============ -->
@@ -1349,7 +1357,7 @@ const result = streamText({
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Zadanie dla be-dev:</strong> "Zbuduj endpoint API, który przyjmuje formularz (ścieżka + opis + zdjęcie), analizuje zdjęcie i zwraca decyzję przez streaming."</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 31: REACT USECHAT ============ -->
@@ -1384,7 +1392,7 @@ setInput('');</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 32: INTEGRACJA FE-BE ============ -->
@@ -1401,7 +1409,7 @@ setInput('');</div>
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>QA weryfikuje:</strong> czy cały flow działa end-to-end, czy decyzja się wyświetla, czy streaming poprawny. Testy manualne przez Playwright/Chrome DevTools.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 33: PODZIAŁ PRACY SUB-AGENTÓW ============ -->
@@ -1440,7 +1448,7 @@ setInput('');</div>
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Orkiestracja:</strong> główny agent koordynuje - deleguje, zbiera wyniki, zarządza zależnościami (FE czeka na endpoint BE).</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 34: GIT GRANULARNE COMMITY ============ -->
@@ -1473,7 +1481,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Dlaczego:</strong> granularne commity pozwalają cofnąć się do działającego stanu. Jeśli refactor zepsuje kod, wracasz o jeden commit. Wymóg &#321;ukasza.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 35: OPENROUTER API KEY ============ -->
@@ -1499,7 +1507,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 36: RAZEM 2.4 ============ -->
@@ -1555,7 +1563,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       <li>LLM na żywo, nie mockowany</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 37: MANUALNE TESTY AGENTA ============ -->
@@ -1581,7 +1589,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Bez mockowania:</strong> LLM testowany na żywo przez cały czas. Agent używa realnego modelu, realnego zdjęcia, realnej decyzji.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 38: PRACA DOMOWA D2 ============ -->
@@ -1608,7 +1616,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 39: PODSUMOWANIE DNIA ============ -->
@@ -1637,7 +1645,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 40: ZAPOWIEDŹ DNIA 3 ============ -->
@@ -1661,7 +1669,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Przygotuj:</strong> dokończ pracę domową D2. Jutro zaczynamy od równoległej pracy zespołu agentów (git worktrees).</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 41: WSKAZÓWKI ============ -->
@@ -1684,7 +1692,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 42: KONTAKT I ZASOBY ============ -->
@@ -1716,7 +1724,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 43: Q&A ============ -->
@@ -1738,7 +1746,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
     </div>
     <div class="note-box" style="margin-top:1rem"><strong>Trener:</strong> zapisz pytania, które nie mieszczą się w czasie. Omówimy je rano w dniu 3.</div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 <!-- ============ SLIDE 44: ZAKOŃCZENIE ============ -->
@@ -1794,7 +1802,7 @@ git commit -m "Backend: endpoint analizy zdjęcia"</div>
       <li>Zapisz pytania na dzień 3</li>
     </ul></div>
   </div>
-  <div class="slide-footer">Claude Code - od zera do zespołu agentów AI</div>
+  <div class="slide-footer">Sages | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
 </div><!-- /deck -->
@@ -1951,5 +1959,6 @@ function slideFromHash(){const n=parseInt((location.hash||'').slice(1),10);retur
 window.addEventListener('hashchange',()=>show(slideFromHash()));
 show(slideFromHash());
 </script>
+<footer class="course-trainer-credit" aria-label="Trener i profile"><span>Sages</span><span>Trener: Łukasz Matuszewski</span><span class="trainer-socials"><a href="https://www.linkedin.com/in/lukaszmatuszewski/" aria-label="Łukasz Matuszewski na LinkedIn">LinkedIn</a> · <a href="https://x.com/mrLumatic" aria-label="Łukasz Matuszewski na X">X</a></span></footer>
 </body>
 </html>

@@ -1,6 +1,6 @@
-# AI Project Guide for Edukey Payload
+# AI Project Guide for Content Website
 
-This document is designed to help AI assistants understand the structure, architecture, and key components of the Edukey Payload project.
+This document is designed to help AI assistants understand the structure, architecture, and key components of the Content Website project.
 **AI Contributor Instructions**
 
 - Review the project rules in `.cursor/rules/` for coding standards and overview.
@@ -8,7 +8,7 @@ This document is designed to help AI assistants understand the structure, archit
 
 ## Project Overview
 
-Edukey Payload is a website built with PayloadCMS v3, Next.js 15, React 19, and TypeScript. It serves as a platform for educational content, courses, and services.
+Content Website is a website built with PayloadCMS v3, Next.js 15, React 19, and TypeScript. It serves as a platform for educational content, courses, and services.
 
 ## Key Technologies
 

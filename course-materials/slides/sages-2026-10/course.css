@@ -1247,3 +1247,10 @@ body[data-course-audience="developer"] .course-tools .sages-course-brand{padding
 /* Keep organizer logos clear of the slide progress bar at every viewport width. */
 body[data-page-type="slides"] .sages-course-brand,
 body[data-page-type="slides"] .fsi-deck-brand{margin-top:10px}
+
+/* Compact trainer credit stays above slide navigation and remains keyboard accessible. */
+.course-trainer-credit{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.25rem .6rem;margin:1.25rem auto;padding:.6rem 1rem;max-width:72rem;color:var(--muted,#9dafc4);font:13px/1.5 system-ui,sans-serif;text-align:center}.course-trainer-credit a{color:var(--accent,#76c9de);text-decoration:underline;text-underline-offset:.18em}.course-trainer-credit a:focus-visible{outline:2px solid currentColor;outline-offset:4px}.course-trainer-credit .trainer-socials{white-space:nowrap}
+body[data-page-type="slides"] .course-trainer-credit{position:fixed;bottom:calc(55px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 100px);max-width:760px;margin:0;padding:.3rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg,#101827);z-index:210}
+body[data-page-type="slides"] .slide-body{padding-bottom:130px}
+@media(max-width:680px){body[data-page-type="slides"] .course-trainer-credit{bottom:calc(64px + env(safe-area-inset-bottom));width:calc(100% - 32px);font-size:11px;gap:.15rem .5rem}body[data-page-type="slides"] .slide-body{padding-bottom:160px}}
+@media print{body[data-page-type="slides"] .course-trainer-credit{display:none!important}}
