@@ -1,8 +1,8 @@
-# Program szkolenia
+# Przykładowy program szkolenia
 
 ## Claude Code – od zera do zespołu agentów AI
 
-> **Szkolenie otwarte JSystems** | 13–15.07.2026 | 3 dni | zdalnie
+> **Przykładowy program trzydniowy** | zdalnie
 >
 > **Prowadzący demonstruje:** TypeScript + Vercel AI SDK. **Uczestnicy mogą pracować we własnym stacku** (Java, Python, C#, Go, Rust itp.).
 >

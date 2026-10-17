@@ -1,6 +1,6 @@
 # AI in Programming - Course Notes
 
-Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
+Notes from course — AI dla programistów: od pomysłu do MVP
 
 ## PYTANIA NA START:
 - Jak do tej pory używasz AI w pracy? Jakich narzędzi i w jaki sposób? (poziom autonomii)

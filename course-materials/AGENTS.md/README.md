@@ -16,4 +16,4 @@ To są **materiały do skopiowania i dostosowania podczas zajęć**, nie instruk
 3. Zachowaj tylko reguły, które grupa akceptuje i może sprawdzić: gdzie są wymagania, jak uruchomić aplikację, jak testować, jak przeglądać zmiany i kiedy wolno commitować lub wysyłać kod.
 4. Poproś agenta o wskazanie, **które instrukcje faktycznie odczytał**. Po zmianie architektury lub poleceń aktualizuj `AGENTS.md` razem z kodem.
 
-Przykład z lipca zachowano jako materiał historyczny; 16.10.2026 uzupełniono go o regułę mocków opartych na rzeczywistej odpowiedzi i sekcję Manual QA. Jego opis JSystems, maszyn Windows Server, narzędzi Claude, biblioteki Context7 i skryptu publikacji slajdów **nie dotyczy automatycznie** obecnego kursu.
+Przykład z lipca zachowano jako materiał historyczny; 16.10.2026 uzupełniono go o regułę mocków opartych na rzeczywistej odpowiedzi i sekcję Manual QA. Jego opis środowiska Windows Server, narzędzi Claude, biblioteki Context7 i skryptu publikacji slajdów **nie dotyczy automatycznie** obecnego kursu.
