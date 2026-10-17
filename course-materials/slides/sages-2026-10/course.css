@@ -969,7 +969,7 @@ body[data-page-type="glossary"] .more::before{color:var(--accent);}
   }
   body[data-page-type="slides"] .slide-body{
     padding-top:76px!important;
-    padding-bottom:5.5rem!important;
+    padding-bottom:160px!important;
   }
   body[data-page-type="slides"] .nav-arrow{
     top:auto;
