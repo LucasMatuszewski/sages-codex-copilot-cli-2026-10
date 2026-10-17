@@ -1254,3 +1254,16 @@ body[data-page-type="slides"] .course-trainer-credit{position:fixed;bottom:calc(
 body[data-page-type="slides"] .slide-body{padding-bottom:130px}
 @media(max-width:680px){body[data-page-type="slides"] .course-trainer-credit{bottom:calc(64px + env(safe-area-inset-bottom));width:calc(100% - 32px);font-size:11px;gap:.15rem .5rem}body[data-page-type="slides"] .slide-body{padding-bottom:160px}}
 @media print{body[data-page-type="slides"] .course-trainer-credit{display:none!important}}
+
+/* Trainer profile in the course hub hero. */
+.hub-trainer{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;margin:26px 0;padding:20px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;background:var(--surface,var(--bg2));color:var(--text)}
+.hub-trainer-person{min-width:0}
+.hub-trainer-label{display:block;margin-bottom:5px;color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.hub-trainer-name{display:block;color:var(--heading);font-size:clamp(1.2rem,2.2vw,1.55rem);line-height:1.25;overflow-wrap:anywhere}
+.hub-trainer-links{display:flex;flex-wrap:wrap;gap:8px}
+.hub-trainer-links a,.hub-trainer-links a:visited{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2,var(--bg3));color:var(--accent);font-size:14px;font-weight:600;line-height:1.2;text-decoration:none}
+.hub-trainer-links a:hover{border-color:var(--accent);color:var(--heading)}
+.hub-trainer-links a:focus-visible,.hub-sec-head a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.hub-sec-head a,.hub-sec-head a:visited{color:var(--accent);text-underline-offset:.2em;text-decoration-thickness:1px}
+.hub-sec-head a:hover{color:var(--heading)}
+@media(max-width:600px){.hub-container.hub-hero-in{padding-left:18px;padding-right:18px}.hub-trainer{grid-template-columns:minmax(0,1fr);gap:14px;padding:16px}.hub-trainer-name{font-size:1.25rem}}
