@@ -26,7 +26,7 @@ Przed użyciem sprawdź bieżący katalog dla wybranego modelu. Jeśli nie obsł
 
 Codex wczytuje projektowy `.codex/config.toml` tylko dla zaufanego projektu. Nie ufaj repozytoriom, których pochodzenia nie znasz. Szczegóły zakresu i pierwszeństwa opisuje [oficjalny przewodnik konfiguracji Codex](https://learn.chatgpt.com/docs/config-file/config-basic).
 
-Planowany katalog projektu w WSL to `/home/lucas/DEV/COURSES/Sages/sages-codex-copilot-cli-2026-10`. Po przeniesieniu otwórz projekt z nowej lokalizacji i rozpocznij nowy czat lub sesję, aby Codex odczytał konfigurację z aktualnego katalogu. Nie łącz plików globalnej konfiguracji, profili ani stanu logowania podczas przenoszenia.
+Planowany katalog projektu w WSL to `/home/lucas/DEV/COURSES/Sages/sages-codex-copilot-cli-2026-10-cra-poc`. Po przeniesieniu otwórz projekt z nowej lokalizacji i rozpocznij nowy czat lub sesję, aby Codex odczytał konfigurację z aktualnego katalogu. Nie łącz plików globalnej konfiguracji, profili ani stanu logowania podczas przenoszenia.
 
 ## Cofnięcie przykładu
 
