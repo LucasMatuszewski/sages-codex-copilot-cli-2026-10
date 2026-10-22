@@ -1,12 +1,12 @@
 ---
 goal: "Deliver the human-requested fully working local CRA PoC specified in ../PRD.md"
-beads: sacs-80fg
-approval: draft
+beads: sacs-0nmk
+approval: approved
 ---
 
 # CRA vulnerability-register PoC — implementation plan
 
-Plan CRA PoC implementation and specialist-agent orchestration (`sacs-80fg`) owns this current planning deliverable. This is a static implementation specification, not an execution checklist: no task has started, and no implementation or runtime results are claimed. At future execution preflight, deduplicate or create a separate implementation parent and B/F/Q task records mapped to the source and phase dependencies; store live leases, status, commits and evidence there, not as shadow Markdown status or 44 notes under this planning issue. Execution begins only in an explicitly selected future turn. The human requested a fully working local CRA PoC; no separate personal-goal file is required.
+Plan CRA PoC implementation and specialist-agent orchestration (`sacs-80fg`) owns the planning deliverable. On 22 October 2026 the human explicitly authorised full execution through the active thread goal. Implement local CRA vulnerability-register PoC (`sacs-0nmk`) owns implementation and its B/F/Q task records. This remains a static implementation specification: live leases, status, commits and verification evidence belong in the implementation tracker, and this document does not itself establish runtime success. The human requested a fully working local CRA PoC; no separate personal-goal file is required.
 
 ## Goal, evidence and authority
 
