@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "name": "Sygnity website design reference",
+    "source": "https://www.sygnity.pl/",
+    "resolvedSource": "https://www.sygnity.pl/en/sygnity-en/",
+    "capturedAt": "2026-10-07",
+    "browser": "Chrome via Playwright CLI 0.1.22, headed",
+    "viewport": { "width": 1440, "height": 1000 },
+    "scope": "Desktop homepage; visible components after cookie dismissal",
+    "evidence": "design-observations.json",
+    "nullMeaning": "Not established by this capture; do not infer a brand contract",
+    "spacingScale": "Observed values grouped for reuse; no original base-unit system established"
+  },
+  "colors": {
+    "brand": { "primary": "#00AEEF", "accent": "#FFB251", "error": null, "success": null },
+    "background": { "default": "#FFFFFF", "light": "#F9F9F9", "footer": "#B5B5B5", "overlay": null },
+    "text": { "primary": "#3A3A3A", "secondary": "#54595F", "muted": "#666666", "utility": "#333333", "onDark": "#FFFFFF", "hero": "rgba(255, 255, 255, 0.8)", "footer": "#E9E9E9", "link": "#1E73BE" },
+    "border": { "input": "#CCCCCC", "accent": "#00AEEF" }
+  },
+  "typography": {
+    "fontFamily": { "primary": "Montserrat, sans-serif", "display": "Lora, sans-serif" },
+    "fontWeights": { "light": 300, "regular": 400, "medium": 500, "semibold": 600 },
+    "fontSize": { "sm": "12px", "control": "14px", "base": "16px", "nav": "17px", "cardTitle": "24px", "sectionTitle": "25px", "hero": "32px", "display": "38px" },
+    "lineHeight": { "tight": "1.2", "display": "1.4", "base": "1.5" },
+    "roles": {
+      "body": { "fontFamily": "Montserrat, sans-serif", "fontSize": "16px", "fontWeight": 400, "lineHeight": "24px" },
+      "hero": { "fontFamily": "Montserrat, sans-serif", "fontSize": "32px", "fontWeight": 500, "lineHeight": "38.4px", "color": "rgba(255, 255, 255, 0.8)" },
+      "intro": { "fontFamily": "Lora, sans-serif", "fontSize": "38px", "fontWeight": 400, "lineHeight": "53.2px", "color": "#00AEEF", "emphasis": "italic" },
+      "sectionTitle": { "fontFamily": "Montserrat, sans-serif", "fontSize": "25px", "fontWeight": 400, "lineHeight": "37.5px", "color": "#54595F" },
+      "offerCardTitle": { "fontFamily": "Montserrat, sans-serif", "fontSize": "24px", "fontWeight": 300, "lineHeight": "28.8px", "color": "#FFFFFF" }
+    },
+    "textFontDelivery": "Google Fonts; Montserrat and Lora were not downloaded"
+  },
+  "spacing": { "1": "6px", "2": "8px", "3": "10px", "4": "12px", "5": "15px", "6": "20px", "7": "24px", "8": "25px", "9": "30px", "10": "45px", "11": "50px", "12": "90px" },
+  "borderRadius": { "none": "0px", "sm": "2px", "md": "3px", "lg": "5px", "circle": "50%" },
+  "layout": { "contentMaxWidth": "1140px", "innerContentWidth": "1120px", "sectionPaddingY": "50px", "introPaddingY": "90px", "headerHeight": "100px", "headerPaddingY": "20px" },
+  "shadows": { "offerImage": "rgba(0, 0, 0, 0.5) 0px 0px 25px -2px", "newsCard": "rgba(0, 0, 0, 0.5) 0px 14px 6px -10px" },
+  "components": {
+    "button": {
+      "primary": { "backgroundColor": "#00AEEF", "color": "#FFFFFF", "padding": "8px 12px", "borderRadius": "3px", "fontFamily": "Montserrat, sans-serif", "fontSize": "14px", "fontWeight": 400, "lineHeight": "21px", "border": "none" },
+      "news": { "backgroundColor": "#00AEEF", "color": "#FFFFFF", "padding": "6px 12px", "borderRadius": "2px", "fontSize": "14px", "lineHeight": "20px" },
+      "submit": { "backgroundColor": "#00AEEF", "color": "#FFFFFF", "padding": "0px 15px", "borderRadius": "3px", "fontSize": "14px", "lineHeight": "40px", "observedState": "disabled" },
+      "hover": null,
+      "focus": null
+    },
+    "header": { "backgroundColor": "#FFFFFF", "padding": "20px 0px", "height": "100px", "fontSize": "16px", "logoWidth": "141.25px", "logoHeight": "42.375px" },
+    "nav": { "color": "#666666", "fontFamily": "Montserrat, sans-serif", "fontSize": "17px", "fontWeight": 400, "lineHeight": "40px", "padding": "0px 10px", "textTransform": "none" },
+    "languageSwitcher": { "fontSize": "14px", "color": "#333333", "activeColor": "#00AEEF", "activeFontWeight": 500 },
+    "input": { "backgroundColor": "#FFFFFF", "color": "#666666", "border": "1px solid #CCCCCC", "borderRadius": "3px", "padding": "10px 15px", "fontSize": "16px", "lineHeight": "24px", "boxShadow": "none" },
+    "offerCard": { "imageBorderRadius": "5px", "imageBoxShadow": "rgba(0, 0, 0, 0.5) 0px 0px 25px -2px", "titleColor": "#FFFFFF" },
+    "newsCard": { "backgroundColor": "#F9F9F9", "borderRadius": "0px", "padding": "10px 15px 15px", "boxShadow": "rgba(0, 0, 0, 0.5) 0px 14px 6px -10px" },
+    "sectionDivider": { "width": "50px", "height": "2px" },
+    "footer": { "backgroundColor": "#B5B5B5", "color": "#E9E9E9", "padding": "15px 15px 0px", "fontSize": "14px", "logoWidth": "116px", "logoHeight": "35px" }
+  }
+}
