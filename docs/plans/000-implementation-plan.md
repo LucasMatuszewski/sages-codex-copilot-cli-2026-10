@@ -10,7 +10,7 @@ Plan CRA PoC implementation and specialist-agent orchestration (`sacs-80fg`) own
 
 ## Goal, evidence and authority
 
-The local application does not exist yet (`app/` is absent in the inspected checkout). The accepted source documents are the product requirements, three ADRs, and the imported Sygnity visual reference. The authoritative PRD is [`docs/PRD.md`](../PRD.md); the long filename `docs/PRD-Product-Requirements-Document.md` is not present and must not be introduced as a duplicate. The plan creates no new architecture or product scope. Source baseline commits are requirements `4ffa908`, architecture `0688582`, selected assets `9c1cd76`, and design reference `72830d9`; dispatch must resolve the repository root and verify the actual committed predecessor instead of relying on an absolute machine path.
+At the planning baseline, the local application did not exist (`app/` was absent in the inspected checkout). The accepted source documents are the product requirements, three ADRs, and the imported Sygnity visual reference. The authoritative PRD is [`docs/PRD.md`](../PRD.md); the long filename `docs/PRD-Product-Requirements-Document.md` is not present and must not be introduced as a duplicate. The plan creates no new architecture or product scope. Source baseline commits are requirements `4ffa908`, architecture `0688582`, selected assets `9c1cd76`, and design reference `72830d9`; dispatch must resolve the repository root and verify the actual committed predecessor instead of relying on an absolute machine path.
 
 | Authority | Use in this plan |
 |---|---|
@@ -41,7 +41,7 @@ The first paragraph of every future delegate brief is copied verbatim from the d
 
 ## Ownership, scheduling and shared state
 
-Use the existing checkout; no new worktree. The manager records path leases in Beads (`sacs-80fg`), never in a committed live-status file. Default policy is **one task writing live source at a time**, and it reaches Red/Green, checks, real manual QA and manager review/commit before the next source task is promoted. Independent graph edges permit preparation only; they do not authorize concurrent implementation. Up to two read-only preparation/verification specialists may work alongside one active writer, subject to available slots; narrow to two delegates if capacity requires it. Preparation may inspect source, draft briefs or design test vectors in temporary files. In the single-writer task, the implementer writes the behavior test before production code, runs it and records a meaningful semantic Red, then implements the minimum change. No overlapping installs/dependency changes or shared-file writes.
+Use the existing checkout; no new worktree. The manager records path leases in Beads (`sacs-0nmk`), never in a committed live-status file. Default policy is **one task writing live source at a time**, and it reaches Red/Green, checks, real manual QA and manager review/commit before the next source task is promoted. Independent graph edges permit preparation only; they do not authorize concurrent implementation. Up to two read-only preparation/verification specialists may work alongside one active writer, subject to available slots; narrow to two delegates if capacity requires it. Preparation may inspect source, draft briefs or design test vectors in temporary files. In the single-writer task, the implementer writes the behavior test before production code, runs it and records a meaningful semantic Red, then implements the minimum change. No overlapping installs/dependency changes or shared-file writes.
 
 | Hotspot | Exclusive owner / lease | Other-agent rule |
 |---|---|---|
@@ -60,7 +60,7 @@ Every writer is told others share the repository and must not revert another tas
 
 For each implementation task: write a meaningful behavior test before production code; observe a valid semantic Red; implement minimum Green; refactor while green; run focused and affected regression suites/typecheck/build; start the actual runtime; manually exercise the real affected API/browser flow with synthetic local data; inspect logs; have manager review the frozen-source diff and QA evidence; stage explicit paths; commit one logical task. No failing-red commit, no combined cleanup commit, and no weakening/skipping required checks. A missing import, fixture, dependency or build is not Red. Harness tasks use positive and controlled assertion-failure/discovery controls, not a fake feature Red. Pure modules get reachable harness/API evidence, not invented GUI proof. B02 validates the real `db:migrate` CLI and file reopen before commit. API-only tasks use the real listener. UI tasks use Playwright CLI/manual browser after automation; business E2E requests are never mocked or intercepted. QA verifies delivered behavior and does not invent post-hoc Red; defects return to owner for test-first regression.
 
-Keep `pnpm typecheck`, `pnpm build`, `pnpm test:unit`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm db:migrate`, `pnpm dev`, and `pnpm install --frozen-lockfile` as distinct future command contracts. B01 verifies actual focused-selector syntax and records runbook commands; no task invents flags or claims these are presently executable. Report counts and skips separately; zero discovered or skipped required flow is not a pass. Fix newly introduced warnings and distinguish proven baseline warnings. Q01/Q07 capture dependency installation only after B01 verifies the lock. QA prepares `app/docs/verification/Qxx.md`; the orchestrator reviews and commits it. Raw output/screens stay ignored in `app/artifacts/`. No push.
+Keep `pnpm typecheck`, `pnpm build`, `pnpm test:unit`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm db:migrate`, `pnpm dev`, and `pnpm install --frozen-lockfile` as distinct future command contracts. B01 verifies actual focused-selector syntax and records runbook commands; no task invents flags or claims these are presently executable. Report counts and skips separately; zero discovered or skipped required flow is not a pass. Fix newly introduced warnings and distinguish proven baseline warnings. Q01/Q07 capture dependency installation only after B01 verifies the lock. QA prepares `app/docs/verification/Qxx.md`; the orchestrator reviews and commits it. Raw output/screens stay ignored in `app/artifacts/`. The orchestrator publishes verified granular commits under the human-authorised branch policy below; delegates never push.
 
 After a defect, only affected source owners and dependents are reblocked; rerun changed owner tests, impacted regression suites and relevant manual flow before recommitting. Re-evaluate any phase gate whose covered behavior changed. A failing prerequisite or missing service is blocked/unverified, never success.
 
@@ -70,7 +70,7 @@ The dependency matrix below is authoritative for direct edges. The phase entry g
 
 | Phase | Tasks | Entry gate for tasks in phase | Exit gate |
 |---|---|---|---|
-| Foundation | B01, B04, B02, F01, B03, Q01 | Plan draft accepted for execution; applies to every Foundation task. B01 pins base before dependent tasks; B04 precedes B02. | All six task commits are complete and Q01 passes shell/not-found, health, isolation and lifecycle harness checks. |
+| Foundation | B01, C01, B04, B02, F01, B03, Q01 | Plan draft accepted for execution; applies to every Foundation task. B01 pins base before dependent tasks; B04 precedes B02. | All seven task commits are complete, C01 has a successful online run for the committed revision, and Q01 passes shell/not-found, health, isolation and lifecycle harness checks. |
 | Intake, review and first register | B05, B07a, B06, B07b, B07c, B08a, F02, F03, F06, F07, F05, F08, Q02 | Foundation exit gate passed; applies to every Intake task. Follow task-level dependencies and route/page leases. | All phase task commits are complete, including F08, and Q02 passes intake/review/manual form acceptance. |
 | Contexts and timing | B09a, B09b, B10, B08b, B11, F09, F10, F11, Q04 | Intake exit gate passed; applies to every Context task. | All phase task commits are complete, including B08b, and Q04 passes context/scope/anchor acceptance. |
 | Reporting | B12, B13, B14a, B14b, B14c, F12, F13a, F13b, B15, F14, Q05 | Context exit gate passed; applies to every Reporting task. Contexts are usable. | All phase task commits are complete and Q05 passes draft, editor, copy and snapshot acceptance. |
@@ -80,11 +80,12 @@ Graph-independent pairs above are preparation opportunities only. Phase exit gat
 
 ## Authoritative dependency matrix
 
-Each row is one of the 44 planned tasks (22 backend, 15 frontend including F13a/F13b, and 7 QA). Role/model routes are explicit. “Preparation” is read-only; global one-writer policy governs all live source changes. Phase gates above are additional prerequisites. Commit titles are proposals.
+The matrix contains the original 44 product tasks (22 backend, 15 frontend including F13a/F13b, and 7 QA) plus the human-requested C01 online-CI task. Role/model routes are explicit. “Preparation” is read-only; global one-writer policy governs all live source changes. Phase gates above are additional prerequisites. Commit titles are proposals.
 
 | Task | Role | Model | Direct prerequisites | Owned scope | Preparation opportunity / promotion | Proposed commit |
 |---|---|---|---|---|---|---|
 | B01 — Pinned manifest, lock, server/shared harness | be-developer | gpt-6-luna (high) | Plan accepted | B01 scope; exact writable paths are in the [B01 card](#task-b01). | Read-only briefs/test-vector prep only; promotion waits on direct deps and the single-writer lane. | `App: establish pinned server test harness` |
+| C01 — Online foundation checks | qa-engineer | gpt-6-luna (high) | B01 | `.github/workflows/cra-poc.yml` and assigned CI evidence only; [C01 card](#task-c01). | Separate sequential config lease after B01; no app source/lock writes. | `CI: verify CRA PoC on branch pushes` |
 | B04 — Shared common/finding DTOs | be-developer | gpt-6-luna (high) | B01 | B04 scope; exact writable paths are in the [B04 card](#task-b04). | FE may prepare donor/test vectors read-only after B01; B04 owns live write. | `Contracts: define common and finding DTOs` |
 | B02 — SQLite adapter + initial migration | be-developer | gpt-6-luna (high) | B01, B04 | B02 scope; exact writable paths are in the [B02 card](#task-b02). | FE donor inspection only after B01; no simultaneous source writes. | `Persistence: add SQLite unit of work and findings schema` |
 | F01 — Ionic donor shell/assets | fe-developer | gpt-6-luna (high) | B01 | F01 scope; exact writable paths are in the [F01 card](#task-f01). | BE may prepare B04/B02 test vectors read-only; F01 owns live FE write. | `Frontend: adapt pinned Ionic donor shell` |
@@ -140,6 +141,7 @@ flowchart TD
   ExitP1[Foundation exit gate: all task commits and QA gate passed]
   subgraph P1[Foundation]
     B01
+    C01
     B04
     B02
     F01
@@ -147,6 +149,9 @@ flowchart TD
     Q01
   end
   EntryP1 --> B01
+  EntryP1 --> C01
+  B01 --> C01
+  C01 --> ExitP1
   EntryP1 --> B04
   EntryP1 --> B02
   EntryP1 --> F01
@@ -503,6 +508,12 @@ flowchart TD
 
 Read-only source review and brief/test-vector preparation can overlap the single active source writer. A source writer cannot promote until its direct dependencies, committed symbols and phase barrier are satisfied.
 
+## Branch publication and online checks
+
+On 22 October 2026 the human requested a new implementation branch, granular commits after each verified task, regular pushes, and online test results. The orchestrator uses `codex/cra-poc-implementation` and pushes each reviewed task commit after its applicable checks; this authorisation supersedes the earlier no-push instruction for the orchestrator only. Delegates still never commit or push. No deployment, merge or automatic external AI review is authorised by this CI request.
+
+C01 adds GitHub Actions after B01, running only commands already delivered. F01 receives an additional sequential workflow lease to add its real build/component checks; Q01 receives the same exclusive lease later to add its real isolated E2E command and diagnostic artifact handling. Each later task must keep online checks green for its exact published revision. Do not add placeholder/zero-test jobs or conceal a failing job with continue-on-error. A queued run or a green older SHA is not proof for a newer commit.
+
 ## Task cards by phase
 
 ### Foundation
@@ -523,6 +534,17 @@ Read-only source review and brief/test-vector preparation can overlap the single
 - **Future verification:** Only actual existing commands in package; `pnpm install --frozen-lockfile`, server/shared test commands, `pnpm typecheck` if genuinely wired. Do not run future ADR commands until implemented. Record focused selectors after verifying them.
 - **Manual QA:** Verify harness command output and temp-file cleanup; no production API exists yet, so no user-flow claim.
 - **Commit:** `App: establish pinned server test harness`.
+
+<a id="task-c01"></a>
+### C01 — Online foundation checks
+
+- **Goal / authority:** Implement the human-requested GitHub Actions verification on the implementation branch. Source command contracts remain [ADR-000 §7](../ADR/000-main-architecture.md#7-environment-variables-and-command-contract) and the committed B01 runbook; do not duplicate product requirements.
+- **Prerequisite:** B01 committed and verified. One sequential config writer; no overlapping dependency/app writes.
+- **Role / model:** qa-engineer, gpt-6-luna high. Manager owns action/version choices, review, commits, pushes and online-run acceptance.
+- **Owns:** Exactly `.github/workflows/cra-poc.yml`; ignored brief/log evidence. Concise durable CI instructions may be added to `app/docs/verification/C01.md` under an explicit lease. No app source, package/lock, other workflows, secrets, external review configuration or deployments.
+- **Behavior:** On relevant branch pushes and pull requests, install exact Node/pnpm baseline, reproduce frozen dependencies, and run delivered unit, integration and typecheck commands separately. Use read-only repository permissions and local synthetic fixtures. Add build and E2E only when F01/Q01 deliver executable commands; their later workflow edits are separate sequential leases.
+- **Verification:** Validate YAML/configuration and action inputs against current primary documentation, inspect the diff, and require a real successful GitHub Actions run matching the published commit SHA. Infrastructure validation uses successful execution plus actual failure propagation; do not fabricate a business-feature Red. Preserve exact run URL/conclusion and surfaced upstream warnings. A runner/service prerequisite failure remains unverified until resolved.
+- **Commit:** `CI: verify CRA PoC on branch pushes`.
 
 <a id="task-b04"></a>
 ### B04 — Common and finding contracts
@@ -1273,4 +1295,4 @@ Q07 is the final evidence gate. Starting from the committed lockfile in a clean 
 
 Capture real browser screenshots at 1440×1000 and 1024×768 for each changed screen and important success/error/fallback state. Check keyboard flow/focus, Polish text, feedback, overflow and selected tokens/logo/favicon; compare with the reference while acknowledging absent Montserrat/Lora files. Inspect browser and server logs. Preserve source snapshots, timing correction history and manual external snapshots; label preparation and unverified manual records accurately. No login, roles, approvals, sending, AI, external research, authority integration, production hosting, severe-incident flow or inspection report is included. Record unresolved limitations honestly.
 
-Finish with a clean Git status, owned processes stopped and only task-authorized evidence retained. Do not push. The only current-turn validation is static plan construction: task/card/matrix counts, direct dependency and phase-gate DAG, source links/anchors, and coverage-row uniqueness. No runtime result is implied.
+Finish with a clean Git status, owned processes stopped and only task-authorized evidence retained. Publish verified task commits under the branch policy above and verify online results for the published revision. Static plan validation covers task/card/matrix counts, the direct-dependency and phase-gate DAG, source links/anchors, and coverage-row uniqueness; it does not establish runtime success.
