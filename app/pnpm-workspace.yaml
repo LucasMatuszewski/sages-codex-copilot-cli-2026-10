@@ -1,0 +1,11 @@
+pmOnFail: download
+strictPeerDependencies: true
+allowBuilds:
+  '@parcel/watcher': true
+  better-sqlite3: true
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
+minimumReleaseAgeExclude:
+  - '@ionic/angular@9.0.9'
+  - '@ionic/core@9.0.9'
