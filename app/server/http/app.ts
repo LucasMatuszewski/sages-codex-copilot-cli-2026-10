@@ -4,6 +4,7 @@ import type { RequestHandler } from 'express'
 import type { FindingsUnitOfWork } from '../application/ports/findings-store.js'
 import { errorMiddleware, guardedJsonParser } from './error-middleware.js'
 import { healthRouter } from './health.js'
+import { findingsRouter } from './findings-routes.js'
 
 function jsonTransportGuards(): RequestHandler {
   return (req, res, next) => {
@@ -37,6 +38,7 @@ export function createHttpApp(unitOfWork: FindingsUnitOfWork, testRoutes?: Route
   app.use(jsonTransportGuards())
   app.use(guardedJsonParser(express.json({ limit: 1_048_576, strict: true })))
   app.use('/api/v1/health', healthRouter(unitOfWork))
+  app.use('/api/v1/findings', findingsRouter(unitOfWork))
   if (testRoutes) app.use(testRoutes)
   app.use('/api', (_req, res) => {
     res.status(404).json(transportError('NOT_FOUND', 'Nie znaleziono wskazanego zasobu.'))
