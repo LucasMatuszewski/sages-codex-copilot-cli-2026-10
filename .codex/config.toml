@@ -23,6 +23,12 @@
 # Model name and model_provider should be on top, to change them with my custom bash helpers.
 # default model_provider is "openai", built-in: "ollama", "lmstudio", + we can set custom
 
+# Context window for this project; this does not change the selected model or its service-side limit.
+model_context_window = 800000
+# Start automatic history compaction at 700k tokens across the full active context.
+model_auto_compact_token_limit = 700000
+model_auto_compact_token_limit_scope = "total"
+
 oss_provider = "ollama"          # works with `codex --oss` flag (uses GPT OSS models by default)
 # on Free Ollama Account cloud models may NOT work via API (only in Ollama CLI and App)
 
