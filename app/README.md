@@ -20,3 +20,12 @@ pnpm typecheck
 ```
 
 Unit tests cover server/shared `.spec.ts` files. Integration tests cover `server/**/*.integration.spec.ts` and use isolated processes for native SQLite. The SQLite smoke test uses only a synthetic table and a temporary database under the operating system temp directory. These scripts do not start an application server or browser.
+
+## Focused test files
+
+The `test:unit` and `test:integration` scripts run their entire Vitest projects. A multi-file check with the pinned pnpm 12.14.0 and Vitest 5.0.5 toolchain showed that `pnpm test:unit -- <file>` does not filter to that file. Use direct Vitest invocation to select one spec:
+
+```sh
+pnpm exec vitest run --project unit server/test-support/isolated-directory.spec.ts
+pnpm exec vitest run --project integration server/test-support/sqlite-smoke.integration.spec.ts
+```
