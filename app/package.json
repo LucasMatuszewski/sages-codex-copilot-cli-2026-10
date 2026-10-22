@@ -9,11 +9,17 @@
     "pnpm": "12.14.0"
   },
   "scripts": {
-    "test:unit": "vitest run --project unit",
-    "test:unit:server": "pnpm test:unit",
+    "test:unit": "pnpm test:unit:server && pnpm test:unit:web",
+    "test:unit:server": "vitest run --project unit",
     "test:integration": "vitest run --project integration",
     "db:migrate": "tsx server/persistence/migrate.ts",
-    "typecheck": "tsc -p tsconfig.server.json --noEmit"
+    "typecheck": "pnpm typecheck:server && pnpm typecheck:web",
+    "test:unit:web": "ng test web --watch=false",
+    "typecheck:server": "tsc -p tsconfig.server.json --noEmit",
+    "typecheck:web": "ngc -p web/tsconfig.app.json --noEmit",
+    "build:web": "ng build web",
+    "build": "pnpm typecheck:server && pnpm build:web",
+    "dev:web": "ng serve web --host 127.0.0.1 --port 4200"
   },
   "dependencies": {
     "@angular/animations": "22.2.3",

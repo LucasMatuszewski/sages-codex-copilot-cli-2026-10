@@ -70,3 +70,6 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
+
+      - name: Build frontend
+        run: pnpm build

@@ -1,0 +1,32 @@
+<ion-app>
+  <a class="skip-link" href="#page-main">Przejdź do treści</a>
+  <ion-split-pane contentId="main-content" when="(min-width: 992px)">
+    <ion-menu menuId="main-menu" contentId="main-content" type="overlay">
+      <ion-content>
+        <aside class="sidebar" aria-label="Menu aplikacji">
+          <div class="brand-lockup">
+            <img src="assets/brand/logo.svg" alt="Sygnity" width="141" height="42">
+            <p class="app-title">Rejestr podatności CRA</p>
+            <p class="app-meta">Wewnętrzny PoC</p>
+          </div>
+          <nav aria-label="Nawigacja główna">
+            <ion-menu-toggle auto-hide="false">
+              <a class="nav-link" routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">
+                <span aria-hidden="true" class="nav-mark"></span>
+                <span>Start</span>
+              </a>
+            </ion-menu-toggle>
+          </nav>
+        </aside>
+      </ion-content>
+    </ion-menu>
+    <div id="main-content" class="app-main">
+      <header class="mobile-toolbar">
+        <ion-menu-button aria-label="Otwórz menu" menu="main-menu"></ion-menu-button>
+      </header>
+      <main id="page-main" class="page-main" tabindex="-1">
+        <ion-router-outlet></ion-router-outlet>
+      </main>
+    </div>
+  </ion-split-pane>
+</ion-app>
