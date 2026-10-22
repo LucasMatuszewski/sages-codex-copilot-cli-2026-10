@@ -21,6 +21,10 @@ pnpm typecheck
 
 Unit tests cover server/shared `.spec.ts` files. Integration tests cover `server/**/*.integration.spec.ts` and use isolated processes for native SQLite. The SQLite smoke test uses only a synthetic table and a temporary database under the operating system temp directory. These scripts do not start an application server or browser.
 
+## Persistence foundation
+
+The persistence adapter stores findings in a file-backed SQLite database. From this directory, `pnpm db:migrate` creates the configured database directory, applies pending migrations, and prints a one-line JSON receipt. Set `DATABASE_PATH` to choose a database file; relative paths resolve from this directory. When unset, the path is `.data/cra.sqlite` under this directory. Empty paths and `:memory:` are rejected. Keep local database files out of source control.
+
 ## Focused test files
 
 The `test:unit` and `test:integration` scripts run their entire Vitest projects. A multi-file check with the pinned pnpm 12.14.0 and Vitest 5.0.5 toolchain showed that `pnpm test:unit -- <file>` does not filter to that file. Use direct Vitest invocation to select one spec:
