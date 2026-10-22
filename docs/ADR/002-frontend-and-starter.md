@@ -50,7 +50,15 @@ The menu needs only the register and manual-entry actions. Detail/preparation ro
 
 Use standalone feature components, small HttpClient services and Angular reactive forms. Keep query/view state in the register URL. Use component-level signals/observable HTTP results; do not add NgRx or a global client database/cache. Persisted records always come from the API. Unsaved values stay in the current form with navigation protection.
 
-### 3.3 Shared interaction rules
+### 3.3 Selected visual reference
+
+The user selected the existing jFTP [Sygnity design guidelines](../design-guidelines.md) and their [design tokens](../../assets/design-tokens.json), [source observations](../../assets/design-observations.json), logos, favicon and font assets. [Import provenance](../design-reference-provenance.md) identifies the source revision and file hashes. Use this local reference for the future application's brand colours, typography roles, modest corners and logo/favicon assets while retaining Ionic components and the functional screens in the PRD.
+
+Treat the homepage screenshot as a visual reference, not a requirement to reproduce its marketing-page layout in the register. The reference is an observed website extraction, not an official brand manual. Do not invent missing semantic feedback/focus tokens; define accessible application states when implementing them and document any deliberate deviation from the captured reference.
+
+The copied font files are icon fonts; Montserrat and Lora text-font files were not downloaded in the source package. Do not label those icon fonts as the text families or load every source-site plugin font. Retain the documented text fallbacks until text-font assets are deliberately supplied; this import does not add a font download or an external font-service dependency. Preserve source asset proportions and the usage/provenance notes in the imported guide.
+
+### 3.4 Shared interaction rules
 
 - Show explicit loading, empty, filtered-empty and failed-load states. Retry failed reads without discarding the selected query.
 - Form saves retain input until confirmed successful. Display server field errors at the corresponding controls and a form-level message for service failure.
@@ -243,7 +251,7 @@ Follow TDD and the layered verification in [ADR-000](000-main-architecture.md). 
 
 | Scenario | Type | Input | Expected output | Edge cases |
 |---|---|---|---|---|
-| Donor adaptation | Build + browser | Clean installation with chosen versions | Ionic shell and routes load | No demo/login routes, no missing assets, no console errors. |
+| Donor adaptation | Build + browser | Clean installation with chosen versions | Ionic shell and routes load with the selected local visual reference | No demo/login routes, missing assets or console errors; logo/favicon resolve, icon fonts are not substituted for missing text fonts. |
 | Manual form | Component + E2E | New no-CVE entry and event for existing vulnerability | Saved event and correct shared identity | Missing fields, invalid time, double click, retry and cancellation. |
 | Query/view state | Component + E2E | Combined product/client/date filters | Same result set and summary across table/Kanban | Empty results, returning from details, different events carrying separate predicates. |
 | Status update | Component + E2E | Drag and non-drag actions | Same server-validated transition | Missing-data rule, service failure and stale revision. |
@@ -263,3 +271,4 @@ After tests, manually operate the real register, manual form, details, Kanban an
 - **TAC-002-06:** Every required rich-text format survives save/reopen, and copy produces readable plain text without submitting a report.
 - **TAC-002-07:** A stale or failed save does not erase unsaved editor content or earlier external-submission snapshots.
 - **TAC-002-08:** Real browser flows use the real local API and SQLite file, with recorded manual QA evidence for each changed screen.
+- **TAC-002-09:** The application uses the selected local design tokens/logo/favicon, and manual screenshots are compared with the imported reference without claiming that absent text-font files were supplied.
