@@ -38,7 +38,7 @@ Context7 was consulted first. Official repository and registry reads filled gaps
 
 ### Architecture pattern
 
-Use a local SPA plus one Node API, in one application directory and one dependency manifest. The development command starts two processes: Angular on `127.0.0.1:4200` and Express on `127.0.0.1:3000`. Angular proxies `/api/**` to Express. The browser uses relative API URLs; scanner clients can call the API port directly.
+Use a local SPA plus one Node API, in one application directory and one dependency manifest. The development command starts two processes: Angular on `127.0.0.1:4200` and Express on `127.0.0.1:3001`. Angular proxies `/api/**` to Express. The browser uses relative API URLs; scanner clients can call the API port directly.
 
 Angular's normal development server is not the domain backend. SSR and a meta-framework are unnecessary for this internal register. No Docker, cloud service, Redis, worker, message broker, event-sourcing framework or microservice is included.
 
@@ -110,12 +110,12 @@ Browser traffic stays on the Angular development origin through its proxy. Do no
 | Variable | Purpose | Required / default | Example |
 |---|---|---|---|
 | `API_HOST` | API listener | Default `127.0.0.1`; loopback-only in this PoC | `127.0.0.1` |
-| `API_PORT` | API listener port | Default `3000` | `3000` |
+| `API_PORT` | API listener port | Default `3001` | `3001` |
 | `DATABASE_PATH` | SQLite file, resolved relative to `app/` | Default `.data/cra.sqlite` | `.data/cra.sqlite` |
 | `NODE_ENV` | Development/test behaviour | Set by scripts | `development` |
 | `CI` | Noninteractive test execution | Optional | `true` |
 
-The web dev server uses port 4200 and an explicit proxy target on port 3000. Changing the API port requires changing that local proxy configuration; no configuration generator is introduced. No secret or AI variable is required. Browser-facing code must not receive the database path.
+The web dev server uses port 4200 and an explicit proxy target on port 3001. Changing the API port requires changing that local proxy configuration; no configuration generator is introduced. No secret or AI variable is required. Browser-facing code must not receive the database path.
 
 The implementation must supply the following commands from `app/`. They are future command contracts, not commands executed during this documentation task.
 
@@ -278,9 +278,13 @@ Build/typecheck, test discovery/results, startup and manual QA are separate evid
 ### Technical acceptance criteria
 
 - **TAC-000-01:** One `pnpm dev` invocation starts the web and API processes and terminates both on interruption or sibling failure.
-- **TAC-000-02:** A browser request to `/api/v1/health` through port 4200 reaches the same API as a local direct request to port 3000.
+- **TAC-000-02:** A browser request to `/api/v1/health` through port 4200 reaches the same API as a local direct request to port 3001.
 - **TAC-000-03:** Restarting the application preserves records in the configured SQLite file.
 - **TAC-000-04:** Installation satisfies the selected peer ranges without force/legacy-peer overrides, and the lockfile pins the resulting graph.
 - **TAC-000-05:** Domain/shared modules have no dependency on browser-only UI or database-driver modules in the prohibited direction.
 - **TAC-000-06:** The required unit, integration and E2E suites each execute at least one discovered test and report counts/skips separately.
 - **TAC-000-07:** Manual QA records the environment, real steps, screenshots/API evidence and logs before any runtime-change commit.
+
+## Corrections log
+
+- **2026-10-22 — ENV-01 (human-approved):** Change the local API default and matching Angular proxy/test baseline from port `3000` to `3001`; keep the web listener on `4200`. Actual runtime on the mirrored WSL host failed with `EADDRINUSE` because the shared Windows Tailscale listener reserves port 3000. A temporary owned bind on `127.0.0.1:3001` succeeded and was immediately closed. This corrects a verified local-environment conflict without stopping shared networking services, changing business behavior or adding configuration infrastructure. The developer must update the configuration test first, observe Red for the new default, then align API/proxy and all runtime QA/harness references and rerun verification.
