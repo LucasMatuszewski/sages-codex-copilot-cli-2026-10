@@ -1,3 +1,10 @@
+# UPDATE 22.10.2026: Plan Mode, Codex cache, MiMo and Polish dictation
+
+- **Plan Mode may be removed from Claude Code:** [Thariq's post](https://x.com/trq212/status/2102813194196758746) says the team is considering removing the mode and using Shift+Tab to adjust effort. This is a proposal, not an announced removal date. In our workflow, planning instructions can live in Skills; the post does not cite Skills usage as the reason for this proposal.
+- **Codex cache no longer expires for logged-in users:** [Thibault Sottiaux's announcement](https://x.com/thsottiaux/status/2112712984644784534) says Codex and Work keep cache indefinitely, including when resuming old conversations. Reusing cached context may reduce usage charged against limits and costs; this does not mean the whole conversation is free. The same post describes a separate 12-hour API cache window, not indefinite API retention.
+- **Shell configs and MiMo:** the [agent-configs library](course-materials/agent-configs/README.md#shell-aliases-and-mimo) now contains `.bashrc-agents`, `claude-backends.ps1` and `codex-aliases.ps1`. Use `claude-mimo` / `ccm` for the MiMo Token Plan backend. Older copies directly under `course-materials/` have moved here.
+- **Polish and Polish-accented English dictation:** [reviewed Handy / Canary 1B v2 research](course-materials/Research/speech-to-text-models-polish-handy.md). Canary is the practical starting recommendation from local trials; the note separates observations from verified benchmarks and explains how to compare models on your own voice.
+
 # UPDATE 16.10.2026: jFTP repository, Codex on Windows, aliases, hooks and Agent Toolbox
 
 **jFTP application repository:** [LucasMatuszewski/jftp-gr2](https://github.com/LucasMatuszewski/jftp-gr2). Most of the course code was implemented there, and I continued it after the workshop:
@@ -14,7 +21,7 @@
 
 Upstream reports: [openai/codex#54440](https://github.com/openai/codex/issues/54440), [openai/codex#54441](https://github.com/openai/codex/issues/54441). Keep `[features] network_proxy = true` in `~/.codex/config.toml`, not in a project config.
 
-**Codex aliases:** [course-materials/.bashrc](course-materials/.bashrc) (bash, WSL, Git Bash) and [course-materials/codex-aliases.ps1](course-materials/codex-aliases.ps1) (PowerShell; dot-source it from `$PROFILE`). Copy the profile files from [agent-configs/codex](course-materials/agent-configs/codex/) to `~/.codex/` first.
+**Codex aliases:** [course-materials/agent-configs/.bashrc-agents](course-materials/agent-configs/.bashrc-agents) (bash, WSL, Git Bash) and [course-materials/agent-configs/codex-aliases.ps1](course-materials/agent-configs/codex-aliases.ps1) (PowerShell; dot-source it from `$PROFILE`). Copy the profile files from [agent-configs/codex](course-materials/agent-configs/codex/) to `~/.codex/` first.
 
 ```bash
 cdxz                      # codex --profile zai (GLM via Z.ai Coding Plan)
