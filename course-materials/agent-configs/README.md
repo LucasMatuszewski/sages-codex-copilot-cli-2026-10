@@ -11,6 +11,12 @@ Each folder has the shape of that tool's own config folder.
 | `copilot/` | start scripts with allowed and denied tools, a custom agent in `agents/` | run the script from the repository root; `.github/agents/` in your project for the agent |
 | `opencode/` | `opencode.jsonc` with a default model, MCP servers and Bash push permissions | `~/.config/opencode/` or your project root |
 
+## Shell aliases and MiMo
+
+The shell files live in this folder: [`.bashrc-agents`](.bashrc-agents), [claude-backends.ps1](claude-backends.ps1) and [codex-aliases.ps1](codex-aliases.ps1). The Bash file is a fragment: copy it to `~/.bashrc-agents` and source it from your existing `~/.bashrc`; do not replace the whole startup file. Dot-source the PowerShell files from `$PROFILE`. Each file includes an installation prompt you can give your agent.
+
+`claude-mimo` (alias `ccm`) selects Xiaomi's MiMo Token Plan backend using `MIMO_API_KEY` from the environment. The shipped mapping uses `mimo-v2.6-pro`, `mimo-v2.6-pro[1m]` for Opus and `mimo-v2.6-flash` for Haiku/subagents. Review the model overrides in the script before use. Other switchers cover native Anthropic, OpenRouter, Z.ai and Ollama; Codex shortcuts use the separate provider profiles below. Keep keys outside the repository and shell examples.
+
 ## Protected-branch push policy
 
 Participants may push their own branches and open PRs. The examples deny the covered pushes to `main`, `master` and `prod` and force-push forms; Claude, Copilot and OpenCode may still ask before ordinary pushes, while curated Codex rules leave them to sandbox permissions and `on-request` escalation. These patterns cover common spellings, not every Git invocation.
@@ -50,7 +56,7 @@ codex --profile ollama-lfm
 
 Check the `model:` and `provider:` lines Codex prints at startup: a profile name without a file is not an error, Codex just runs the default model.
 
-Shell shortcuts: [Bash Codex section](../.bashrc) and [PowerShell functions and aliases](../codex-aliases.ps1). Dot-source the PowerShell file from `$PROFILE` using its installation comment. The same names cover all six shipped provider profiles: `cdxz` (also `codexz`), `cdxor`, `cdxoc`, `cdxlfm`, `cdxsql`, `cdxgemma`. Copy the profile files to `~/.codex/` first, including `models.zai.json` for Z.ai; the scripts contain no real keys.
+Shell shortcuts: [Bash Codex section](.bashrc-agents) and [PowerShell functions and aliases](codex-aliases.ps1). Dot-source the PowerShell file from `$PROFILE` using its installation comment. The same names cover all six shipped provider profiles: `cdxz` (also `codexz`), `cdxor`, `cdxoc`, `cdxlfm`, `cdxsql`, `cdxgemma`. Copy the profile files to `~/.codex/` first, including `models.zai.json` for Z.ai; the scripts contain no real keys.
 
 Mode aliases, checked against local `codex --help` and `codex resume --help` on 0.162.1 (2026-10-16): `cdxauto` (automatic approval review with workspace-write), `cdxro` (read-only), `cdxnd` (no shared daemon), `cdxwt` (new managed worktree), `cdxlast` (resume last). Combine a mode with `--profile <name>`. `cdxwt` requires worktree authorization under this repository's rules. `cdxyolo` disables both approvals and sandbox: use only inside external disposable isolation without secrets, never as a permissions workaround. [CLI reference](https://developers.openai.com/codex/cli/reference/).
 
