@@ -19,7 +19,9 @@
     "typecheck:web": "ngc -p web/tsconfig.app.json --noEmit",
     "build:web": "ng build web",
     "build": "pnpm typecheck:server && pnpm build:web",
-    "dev:web": "ng serve web --host 127.0.0.1 --port 4200"
+    "dev:web": "ng serve web --host 127.0.0.1 --port 4200",
+    "dev:api": "NODE_ENV=development tsx server/main.ts",
+    "dev": "NODE_ENV=development concurrently --kill-others --names api,web \"pnpm dev:api\" \"pnpm dev:web\""
   },
   "dependencies": {
     "@angular/animations": "22.2.3",
