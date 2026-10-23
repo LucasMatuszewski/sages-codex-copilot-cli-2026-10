@@ -41,6 +41,7 @@ export interface DetectionEventRecord extends PersistedObservation {
 }
 
 export type VulnerabilityChanges = Partial<Omit<VulnerabilityRecord, 'id' | 'createdAt' | 'updatedAt' | 'revision'>>
+export type EventChanges = Partial<PersistedObservation & Pick<DetectionEventRecord, 'status' | 'closureNote' | 'tags' | 'gapResolutions' | 'reportingEvidence'>>
 
 export interface FindingsStore {
   findVulnerabilityById(id: UUID): Promise<VulnerabilityRecord | null>
@@ -54,6 +55,7 @@ export interface FindingsStore {
   findEventBySourceKey(source: string, sourceEventId: string): Promise<DetectionEventRecord | null>
   listEvents(vulnerabilityId?: UUID): Promise<DetectionEventRecord[]>
   insertEvent(record: DetectionEventRecord): Promise<void>
+  updateEvent(id: UUID, expectedRevision: Revision, changes: EventChanges, updatedAt: Instant): Promise<DetectionEventRecord | null>
 }
 
 export interface FindingsUnitOfWork {

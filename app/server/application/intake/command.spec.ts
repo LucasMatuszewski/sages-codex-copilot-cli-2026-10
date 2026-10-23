@@ -49,6 +49,7 @@ function fixture() {
     findEventBySourceKey: vi.fn<FindingsStore['findEventBySourceKey']>(async () => null),
     listEvents: vi.fn<FindingsStore['listEvents']>(async () => []),
     insertEvent: vi.fn<FindingsStore['insertEvent']>(async () => undefined),
+    updateEvent: vi.fn<FindingsStore['updateEvent']>(async () => null),
   }
   const run = vi.fn()
   const unit: FindingsUnitOfWork = {

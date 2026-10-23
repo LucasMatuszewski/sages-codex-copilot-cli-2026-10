@@ -1,6 +1,6 @@
 import type { EntityManager } from 'typeorm'
 import type { Identity, Revision, UUID } from '../../shared/common.js'
-import type { DetectionEventRecord, FindingsStore, VulnerabilityChanges, VulnerabilityIdentityRecord, VulnerabilityRecord } from '../application/ports/findings-store.js'
+import type { DetectionEventRecord, EventChanges, FindingsStore, VulnerabilityChanges, VulnerabilityIdentityRecord, VulnerabilityRecord } from '../application/ports/findings-store.js'
 import { PersistenceConstraintError, PersistenceUnavailableError } from '../application/ports/findings-store.js'
 import { DetectionEventEntity, VulnerabilityEntity, VulnerabilityIdentityEntity } from './entities.js'
 
@@ -73,6 +73,15 @@ export function createFindingsStore(manager: EntityManager, isActive: () => bool
     },
     async insertEvent(record: DetectionEventRecord) {
       await storage(async () => { await events.insert(record) })
+    },
+    async updateEvent(id, expectedRevision, changes: EventChanges, updatedAt) {
+      const result = await storage(() => events.createQueryBuilder()
+        .update(DetectionEventEntity)
+        .set({ ...changes, updatedAt, revision: expectedRevision + 1 })
+        .where('id = :id AND revision = :expectedRevision', { id, expectedRevision })
+        .execute())
+      if (result.affected === 0) return null
+      return await storage(() => events.findOneBy({ id }))
     },
   }
 }
