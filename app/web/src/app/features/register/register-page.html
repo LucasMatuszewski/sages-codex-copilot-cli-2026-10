@@ -1,0 +1,90 @@
+<ion-content role="presentation">
+  <div class="page-content register-page">
+    <header class="page-header">
+      <h1>Rejestr podatności CRA</h1>
+      <p class="page-description">Ewidencja podatności i wykryć oraz przygotowanie treści zgłoszeń.</p>
+    </header>
+
+    <form class="search-form" [formGroup]="searchForm" (ngSubmit)="submitSearch($event)">
+      <label for="register-search">Szukaj podatności</label>
+      <p id="register-search-help" class="field-help">
+        Szukaj po identyfikatorze, tytule, komponencie, produkcie, kliencie lub tagu.
+      </p>
+      <div class="search-controls">
+        <input id="register-search" name="q" formControlName="q" type="search" autocomplete="off" aria-describedby="register-search-help" />
+        <ion-button class="primary-action" type="submit">Szukaj</ion-button>
+        <ion-button class="secondary-action" type="button" aria-label="Wyczyść wyszukiwanie" (click)="clearSearch()">
+          Wyczyść
+        </ion-button>
+      </div>
+    </form>
+
+    @if (status() === 'loading') {
+      @if (showingPrevious()) {
+        <p class="previous-note" aria-live="polite">{{ previousScopeLabel(accepted()?.query) }}.</p>
+      }
+      <p class="status-message" role="status" aria-live="polite">
+        @if (pendingQuery()) {
+          Ładowanie rejestru dla „{{ pendingQuery() }}”.
+        } @else {
+          Ładowanie rejestru.
+        }
+      </p>
+    }
+
+    @if (status() === 'invalid') {
+      <section class="error-state" role="alert">
+        <h2>Nie można odczytać parametrów adresu</h2>
+        <p>Adres zawiera nieobsługiwane lub powtórzone parametry. Wyczyść wyszukiwanie, aby wrócić do rejestru.</p>
+        <ion-button class="secondary-action" type="button" aria-label="Wyczyść wyszukiwanie" (click)="clearSearch()">
+          Wyczyść wyszukiwanie
+        </ion-button>
+      </section>
+    }
+
+    @if (status() === 'error') {
+      <section class="error-state" role="alert">
+        <h2>Nie udało się wczytać rejestru</h2>
+        @if (accepted()) {
+          <p>Poprzednio wczytane wyniki pozostają dostępne. Sprawdź połączenie i spróbuj ponownie.</p>
+        } @else {
+          <p>Sprawdź połączenie i ponów odczyt rejestru.</p>
+        }
+        <ion-button class="primary-action" type="button" aria-label="Ponów wczytywanie" (click)="retry()">
+          Spróbuj ponownie
+        </ion-button>
+      </section>
+    }
+
+    @if (status() !== 'invalid' && accepted(); as displayed) {
+      <section class="results" aria-label="Wyniki rejestru">
+        @if (showingPrevious()) {
+          <p class="previous-note">{{ previousScopeLabel(displayed.query) }}. Wyświetlane wiersze i podsumowanie opisują ten zakres.</p>
+        }
+        <div class="summary" aria-label="Podsumowanie wyświetlanych wyników">
+          <span>{{ vulnerabilityCountLabel(displayed.result.counts.vulnerabilityCount) }}</span>
+          <span>{{ matchingEventCountLabel(displayed.result.counts.matchingEventCount) }}</span>
+        </div>
+
+        @if (displayed.result.rows.length === 0) {
+          @if (displayed.query) {
+            <div class="empty-state">
+              <h2>Brak wyników dla „{{ displayed.query }}”</h2>
+              <p>Spróbuj zmienić wyszukiwaną frazę albo wyczyść wyszukiwanie.</p>
+              <ion-button class="secondary-action" type="button" aria-label="Wyczyść wyszukiwanie" (click)="clearSearch()">
+                Wyczyść wyszukiwanie
+              </ion-button>
+            </div>
+          } @else {
+            <div class="empty-state">
+              <h2>Rejestr jest pusty</h2>
+              <p>Obserwacje podatności mogą pojawić się w rejestrze za pośrednictwem API.</p>
+            </div>
+          }
+        } @else {
+          <app-register-table [rows]="displayed.result.rows" [queryActive]="displayed.query !== undefined" />
+        }
+      </section>
+    }
+  </div>
+</ion-content>

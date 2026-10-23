@@ -1,0 +1,64 @@
+<div class="table-region" role="region" aria-label="Tabela rejestru podatności" tabindex="0">
+  <table cdk-table [dataSource]="rows()" [trackBy]="trackByVulnerabilityId">
+    <caption>Rejestr podatności</caption>
+
+    <ng-container cdkColumnDef="record">
+      <th cdk-header-cell *cdkHeaderCellDef scope="col">Identyfikatory i podatność</th>
+      <td cdk-cell *cdkCellDef="let row" class="record-cell">
+        @if (detailLinkPrefix()) {
+          <a class="record-content" [routerLink]="[detailLinkPrefix(), row.vulnerability.id]">
+            @for (identity of row.identities; track identityTrackKey(identity)) {
+              <span class="identity-pair">
+                <span class="identity-scheme">{{ identityScheme(identity.scheme) }}</span>
+                <span>{{ identity.value }}</span>
+              </span>
+            } @empty {
+              <span class="identity-pair">Brak identyfikatorów</span>
+            }
+            <span class="vulnerability-title">{{ title(row) }}</span>
+          </a>
+        } @else {
+          <div class="record-content">
+            @for (identity of row.identities; track identityTrackKey(identity)) {
+              <span class="identity-pair">
+                <span class="identity-scheme">{{ identityScheme(identity.scheme) }}</span>
+                <span>{{ identity.value }}</span>
+              </span>
+            } @empty {
+              <span class="identity-pair">Brak identyfikatorów</span>
+            }
+            <span class="vulnerability-title">{{ title(row) }}</span>
+          </div>
+        }
+      </td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="component">
+      <th cdk-header-cell *cdkHeaderCellDef scope="col">Komponent</th>
+      <td cdk-cell *cdkCellDef="let row">{{ componentName(row) }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="severity">
+      <th cdk-header-cell *cdkHeaderCellDef scope="col">Ważność</th>
+      <td cdk-cell *cdkCellDef="let row">{{ severity(row.vulnerability.severity) }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="status">
+      <th cdk-header-cell *cdkHeaderCellDef scope="col">Status obsługi</th>
+      <td cdk-cell *cdkCellDef="let row">{{ handlingStatus(row.vulnerability.status) }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="events">
+      <th cdk-header-cell *cdkHeaderCellDef scope="col">Zdarzenia</th>
+      <td cdk-cell *cdkCellDef="let row" class="event-count">
+        <span>Łącznie zdarzeń: {{ row.eventCount }}</span>
+        @if (queryActive()) {
+          <span class="matching-count">Liczba dopasowanych zdarzeń: {{ row.matchingEventIds.length }}</span>
+        }
+      </td>
+    </ng-container>
+
+    <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+    <tr cdk-row *cdkRowDef="let row; columns: displayedColumns" [attr.data-vulnerability-id]="row.vulnerability.id"></tr>
+  </table>
+</div>

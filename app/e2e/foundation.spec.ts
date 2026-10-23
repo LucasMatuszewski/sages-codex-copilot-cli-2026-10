@@ -1,5 +1,7 @@
 import { expect, test as base } from '@playwright/test'
-import { createIsolatedRuntime, ensureScreenshotDirectory, type IsolatedRuntime } from './support/runtime.js'
+import { mkdir } from 'node:fs/promises'
+import path from 'node:path'
+import { createIsolatedRuntime, type IsolatedRuntime } from './support/runtime.js'
 
 const test = base.extend<{ runtime: IsolatedRuntime }>({
   runtime: async ({}, use, testInfo) => {
@@ -13,9 +15,10 @@ const viewports = [
   { width: 1024, height: 768, name: '1024x768' },
 ]
 
-test('real browser renders the home and unknown-route return flow at desktop viewports', async ({ page, runtime }) => {
+test('real browser renders the default register and unknown-route return flow at desktop viewports', async ({ page, runtime }) => {
   await runtime.start()
-  await ensureScreenshotDirectory()
+  const screenshotsPath = path.resolve(process.cwd(), 'artifacts/screenshots/F03', process.env.F03_RUN_ID ?? `local-${process.pid}`)
+  await mkdir(screenshotsPath, { recursive: true })
   const pageErrors: string[] = []
   page.on('pageerror', (error) => pageErrors.push(error.message))
   page.on('console', (message) => { if (message.type() === 'error') pageErrors.push(message.text()) })
@@ -23,12 +26,16 @@ test('real browser renders the home and unknown-route return flow at desktop vie
   for (const viewport of viewports) {
     await page.setViewportSize(viewport)
     await page.goto('/')
+    await expect(page).toHaveURL(/\/register$/)
     await expect(page).toHaveTitle('Rejestr podatności CRA')
     await expect(page.getByRole('main')).toHaveAttribute('id', 'page-main')
     await expect(page.getByRole('heading', { level: 1, name: 'Rejestr podatności CRA' })).toBeVisible()
     await expect(page.getByText('Ewidencja podatności i wykryć oraz przygotowanie treści zgłoszeń.')).toBeVisible()
-    await expect(page.getByText('Wersja PoC — ekran startowy')).toBeVisible()
-    await expect(page.getByRole('navigation', { name: 'Nawigacja główna' }).getByRole('link', { name: 'Start' })).toBeVisible()
+    await expect(page.getByText('Rejestr jest pusty')).toBeVisible()
+    await expect(page.getByLabel('Szukaj podatności')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Szukaj' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Wyczyść wyszukiwanie' })).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Nawigacja główna' }).getByRole('link', { name: 'Rejestr' })).toBeVisible()
     const logo = page.getByRole('img', { name: 'Sygnity' })
     await expect(logo).toBeVisible()
     await expect(logo).toHaveAttribute('src', 'assets/brand/logo.svg')
@@ -36,14 +43,15 @@ test('real browser renders the home and unknown-route return flow at desktop vie
     const favicon = await page.request.get('/assets/brand/favicon.png')
     expect(favicon.status()).toBe(200)
     expect(favicon.headers()['content-type']).toContain('image/png')
-    await page.screenshot({ path: `${runtime.screenshotsPath}/home-${viewport.name}.png`, fullPage: true })
+    await page.screenshot({ path: `${screenshotsPath}/register-empty-${viewport.name}.png`, fullPage: true })
 
     await page.goto('/q01-unknown-route')
     await expect(page.getByRole('heading', { level: 1, name: 'Nie znaleziono strony' })).toBeVisible()
     const returnLink = page.getByRole('link', { name: 'Wróć na start' })
     await expect(returnLink).toHaveAttribute('href', '/')
-    await page.screenshot({ path: `${runtime.screenshotsPath}/not-found-${viewport.name}.png`, fullPage: true })
+    await page.screenshot({ path: `${screenshotsPath}/not-found-${viewport.name}.png`, fullPage: true })
     await returnLink.click()
+    await expect(page).toHaveURL(/\/register$/)
     await expect(page.getByRole('heading', { level: 1, name: 'Rejestr podatności CRA' })).toBeVisible()
   }
 
