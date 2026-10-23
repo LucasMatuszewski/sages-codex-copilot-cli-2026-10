@@ -6,6 +6,7 @@ import { errorMiddleware, guardedJsonParser } from './error-middleware.js'
 import { healthRouter } from './health.js'
 import { findingsRouter } from './findings-routes.js'
 import { vulnerabilityDetailRouter } from './vulnerability-detail-routes.js'
+import { registerRouter } from './register-route.js'
 import { eventRouter } from './event-routes.js'
 
 function jsonTransportGuards(): RequestHandler {
@@ -41,6 +42,7 @@ export function createHttpApp(unitOfWork: FindingsUnitOfWork, testRoutes?: Route
   app.use(guardedJsonParser(express.json({ limit: 1_048_576, strict: true })))
   app.use('/api/v1/health', healthRouter(unitOfWork))
   app.use('/api/v1/findings', findingsRouter(unitOfWork))
+  app.use('/api/v1/vulnerabilities', registerRouter(unitOfWork))
   app.use('/api/v1/vulnerabilities', vulnerabilityDetailRouter(unitOfWork))
   app.use('/api/v1/events', eventRouter(unitOfWork))
   if (testRoutes) app.use(testRoutes)
