@@ -1268,3 +1268,10 @@ body[data-page-type="slides"] .slide-body{padding-bottom:130px}
 .hub-sec-head a,.hub-sec-head a:visited{color:var(--accent);text-underline-offset:.2em;text-decoration-thickness:1px}
 .hub-sec-head a:hover{color:var(--heading)}
 @media(max-width:600px){.hub-container.hub-hero-in{padding-left:18px;padding-right:18px}.hub-trainer{flex-direction:column;align-items:flex-start;gap:6px;padding-left:12px}.hub-trainer-links a{min-height:32px;padding:6px 0}}
+
+/* The glossary has one clear action; native search decoration is suppressed in its page. */
+body[data-page-type="glossary"] .control-wrap .clear-search,
+body[data-page-type="glossary"][data-theme="dark"] .control-wrap .clear-search{
+  background:transparent;border:0;box-shadow:none;color:var(--text);padding:4px 8px;
+}
+body[data-page-type="glossary"] .clear-search[hidden]{display:none}
