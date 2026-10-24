@@ -21,3 +21,5 @@ Zapisz szkic planu w `docs/plans/<funkcja>-plan.md`, chyba że wskażę inne mie
 
 
 Po omówieniu planu przeprowadź ćwiczenie: wspólnie wydzielimy procedurę planowania do własnego `SKILL.md`, bez domeny aplikacji i nazw klienta. Skill ma zawierać wyzwalacz, wejścia, macierz zależności, granice plików, dobór modeli i zatrzymanie przed implementacją. Sprawdzimy go na drugiej małej funkcji. Opcjonalne porównanie: [publiczna propozycja write-implementation-plan, PR #28](https://github.com/EdukeyTeam/agent-toolbox/pull/28), oczekuje na przegląd; nie jest wymaganą zależnością.
+
+W jednym checkout tylko koordynator przełącza gałęzie, zmienia indeks Git, dodaje pliki do stage i tworzy commity. Wykonawcy edytują wyłącznie przydzielone pliki i oddają diff, bez operacji zapisu Git. Worktree nie usuwa konfliktów przy scalaniu tych samych plików.
