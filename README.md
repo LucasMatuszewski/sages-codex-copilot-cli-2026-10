@@ -1,3 +1,11 @@
+## Aktualizacja 24.10.2026
+
+- Poprawione odnośniki do sekcji checklist i działanie bez zapisu ustawień w przeglądarce.
+- Wyszukiwanie w słowniku rozwija pasujące pojęcia; karty mają niezależną wysokość.
+- Ściąga do pracy z agentem ma czytelniejsze odnośniki i wersję do druku.
+- Doprecyzowane planowanie, podział plików, dobór modeli i sprawdzanie zużycia.
+- [Materiały szkoleniowe i prezentacje](https://devpowers.com/szkolenia/sages/sygnity-05-10/).
+
 # UPDATE 22.10.2026: Plan Mode, Codex cache, MiMo and Polish dictation
 
 - **CRA application PoC:** implementation is on [`codex/cra-poc-implementation`](https://github.com/LucasMatuszewski/sages-codex-copilot-cli-2026-10/tree/codex/cra-poc-implementation). An internal web app for recording vulnerability findings, reviewing them in a table or Kanban, and preparing editable reporting drafts.

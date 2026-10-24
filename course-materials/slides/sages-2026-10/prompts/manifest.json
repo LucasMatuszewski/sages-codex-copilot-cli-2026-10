@@ -30,7 +30,7 @@
     },
     {
       "id": "P04-plan-podzial-pracy",
-      "version": "3",
+      "version": "4",
       "source": "P04-plan-podzial-pracy.md",
       "targets": [
         "prompty.html",
@@ -99,7 +99,7 @@
     },
     {
       "id": "P19-plan-matryca",
-      "version": "6",
+      "version": "7",
       "source": "P19-plan-matryca.md",
       "targets": [
         "prompty.html",
