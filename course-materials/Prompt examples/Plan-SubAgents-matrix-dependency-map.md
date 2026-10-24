@@ -1,37 +1,30 @@
-# Example prompt (dictated) to get detailed plan based on PRD and ADR
+# Implementation plan from the current PRD and ADRs
 
-I want you to create very detailed plan of work to create fully working proof of concept of our application.
-Implement both back end, front end, tests and follow all guidelines from your AGENTS.md files.
-I want you to follow instructions and detailed documentation from:
-- Product Requirements Document for functional description,
-- Architecture Decision Records for architecture and implementation technical decisions,
-- Design guidelines to follow the design of our brand
+Create a reviewable implementation plan for one demonstrable vertical slice of our application. Do not implement it or launch agents yet. Follow the applicable AGENTS.md and use the approved PRD, ADRs and design guidance in this application's repository. Ask for their paths only when they are missing or ambiguous; teaching examples in course-materials are not project requirements.
 
-You should provide exact context to specialized agents and orchestrate work of multiple subagents.
-You should not implement anything yourself. You are only orchestrator and manager.
-You should only delegate to specialized agents, and provides for each agent everything what is required for this agent to, do its work without asking questions.
-So every agent for every task should have very detailed instructions for this specific task.
+Inspect the current code, working-tree status, entry points and tests. Report what actually exists, the commands you verified and any baseline failure. Use the existing application scaffold or approved legacy checkout; do not replace it with a fresh application. Resolve consequential gaps with targeted questions, without a minimum question count. Keep unrelated work intact.
 
-You should not ask agents to implement everything at once.
-So your next task is to create detailed plan, make phases, and you should plan work of multiple agents in many small steps, with commits after every step and with full test driven development process for every step.
-You should, make matrix of dependencies between tasks and between agents, to coordinate their work in the way that will prevent one agent interrupt or make conflicts with other agents and to let them work together (partially in parallel when possible).
-Plan the tasks and every step in this process with information which task need to be finished first before we go to the next stage.
+Save the draft in docs/plans/<feature>-implementation-plan.md, unless I named another destination. In a read-only Plan mode, return the complete draft and destination first, then save it when writing is permitted. Mark it as draft awaiting my review. Link exact PRD criteria, ADR sections and design guidance instead of copying their contents. Missing architecture belongs in a proposed ADR, not an invented plan assumption.
 
-Agent you should always use to delegate work to based on specialization:
-"fe-developer"
-"be-developer"
-"qa-engineer"
+Use small verified phases and one authoritative dependency matrix:
 
-If these agents are not defined, you should create the definition files for these subagents. Make them very short and concise. Define only the role; don't make them too verbose. Example: .github\agents\CodeReview.agent.md
+| Task | Observable outcome | PRD/ADR links | Prerequisites | Owner/model | Editable files | Verification and handoff |
+|---|---|---|---|---|---|---|
 
-Files you should use to create detailed plan of implementation of our PoC application:
-- @docs/PRD-Product-Requirements-Document.md
-- @docs/ADR
-- @docs/design-guidelines.md
+Give each row a bounded deliverable, acceptance evidence and commit boundary. Plan a failing behavioral test before implementation, integration checks after dependent components, manual runtime verification, an independent review and a pull request for the finished slice. Use the application's actual commands. A green build alone does not prove startup or the user flow. State the critical path, shared-file hotspots, failure/rollback handling and a smaller fallback if time, tools or model access run out. Use the existing tracker for execution status.
 
-You should provide exact context needed to every task for every subagent.
-But provide only required information for this specific task.
-So don't blow the context window with everything about the application.
-You should only provide to the specialized subagents information needed to complete the task at hand.
+The strong orchestrator makes architectural decisions, resolves contradictions, prepares briefs and accepts results. Prefer cheap small workers for bounded implementation and test-writing: Claude Code Haiku; Codex Luna; Copilot the cheapest currently available suitable model allowed by the organization's policy and current plan pricing. Check the actual model picker and official pricing before choosing Copilot's model: access and charges vary, so do not assume an old 0x list still applies. Record the chosen model, provider and budget constraint; escalate when evidence shows the task exceeds the worker's ability. Review and final acceptance stay with a capable model and the human.
 
-If anything is unclear, you should ask minimum 5 questions to make sure that you understand everything correct and that you don't have any doubts about what you should do and how this process should work.
+Recommend ad hoc subagents by default for a one-off task: an exact brief matters more than a new role file. Use short custom definitions only for a recurring role with reusable tool restrictions or expertise. Existing named roles may be reused after inspecting them, without assuming their model or permissions suit this task. Verify the active harness supports the requested agent mechanism; otherwise execute the same matrix sequentially with one agent. Do not manufacture custom roles merely to match a tutorial.
+
+Parallelize only tasks with independent inputs and disjoint editable files. Tell every worker which other work is concurrent. Serialize shared contracts, lockfiles, migrations and integration. Do not create a worktree for every agent or session; request one only when separate branches/environments provide a concrete benefit under the repository's policy.
+
+After I authorize execution, compile each task's self-contained brief just before dispatch. Put it in a durable project path such as .agent-briefs/<task>.md, not a disposable temporary file. Include the relevant source excerpts, current contracts, predecessor outputs, exact editable files, ordered steps, test inputs and expected results. Link the authoritative documents for traceability, but do not make a small worker rediscover the whole architecture. The worker reports contradictions and observed results; it cannot change the agreed scope or accept its own work. The orchestrator reads the diff and reproduces the relevant checks before integrating and committing under the repository's policy.
+
+Finish with the saved plan link, unresolved decisions, the first bounded task and the review gate. Planning does not authorize execution, new agents, publication or merge.
+
+## Exercise: turn the session into your own planning skill
+
+After reviewing the plan, identify which planning steps would be useful in another project. With the group, write a small SKILL.md containing a precise trigger, required inputs, the dependency-matrix contract, source-link rules, model/ownership policy and the stop-for-review boundary. Remove this application's domain, client names and decisions. Test the skill on a second small feature: does it find the real sources, ask only missing questions, avoid overlapping files and stop before implementation? Refine it from the observed result.
+
+Optional external example for comparison: [write-implementation-plan, public PR #28](https://github.com/EdukeyTeam/agent-toolbox/pull/28). It is a pending proposal, not a required installation or an approved dependency of this exercise. Inspect its current state and compare its plan/brief separation with your own skill.

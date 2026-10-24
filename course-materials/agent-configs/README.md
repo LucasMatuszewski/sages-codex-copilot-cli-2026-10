@@ -17,6 +17,10 @@ The shell files live in this folder: [`.bashrc-agents`](.bashrc-agents), [claude
 
 `claude-mimo` (alias `ccm`) selects Xiaomi's MiMo Token Plan backend using `MIMO_API_KEY` from the environment. The shipped mapping uses `mimo-v2.6-pro`, `mimo-v2.6-pro[1m]` for Opus and `mimo-v2.6-flash` for Haiku/subagents. Review the model overrides in the script before use. Other switchers cover native Anthropic, OpenRouter, Z.ai and Ollama; Codex shortcuts use the separate provider profiles below. Keep keys outside the repository and shell examples.
 
+## Statusline and concise output
+
+The shipped [statusline.sh](claude/statusline.sh) already supports the main-conversation prompt-cache hit rate. Keep this version rather than replacing it with an older course copy. It requires Bash and jq; start with `jq --version`, then use `/statusline` to request a reviewed setup based on that script. Run the synthetic-JSON example in [token-budget exercises](../Research/agent-workflows-and-token-budget-2026-10-24.md) before enabling it. That note also covers `/config`, usage aliases, code-login limitations and optional analytics.
+
 ## Protected-branch push policy
 
 Participants may push their own branches and open PRs. The examples deny the covered pushes to `main`, `master` and `prod` and force-push forms; Claude, Copilot and OpenCode may still ask before ordinary pushes, while curated Codex rules leave them to sandbox permissions and `on-request` escalation. These patterns cover common spellings, not every Git invocation.
